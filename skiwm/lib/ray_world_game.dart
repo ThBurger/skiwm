@@ -59,7 +59,7 @@ class RayWorldGame extends FlameGame with HasCollidables, KeyboardEvents {
     } else if (event.logicalKey == LogicalKeyboardKey.keyD) {
       keyDirection = Direction.right;
     } else if (event.logicalKey == LogicalKeyboardKey.keyW) {
-      keyDirection = Direction.up;
+      // keyDirection = Direction.up;
     } else if (event.logicalKey == LogicalKeyboardKey.keyS) {
       keyDirection = Direction.down;
     }

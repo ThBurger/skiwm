@@ -105,7 +105,7 @@ class JoypadState extends State<Joypad> {
     } else if (offset.dy > 20) {
       return Direction.down;
     } else if (offset.dy < -20) {
-      return Direction.up;
+      //return Direction.up;
     }
     return Direction.none;
   }

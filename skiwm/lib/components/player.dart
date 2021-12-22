@@ -6,8 +6,9 @@ import 'package:flame/sprite.dart';
 
 class Player extends SpriteAnimationComponent
     with HasGameRef, Hitbox, Collidable {
-  final double _playerSpeedMax = 300.0;
+  final double _playerSpeedMax = 500.0;
   double _playerSpeed = 0.0;
+  bool isSkiing = false;
   final double _animationSpeed = 0.15;
 
   late final SpriteAnimation _runDownAnimation;
@@ -79,33 +80,25 @@ class Player extends SpriteAnimationComponent
   }
 
   void movePlayer(double delta) {
-    print('movePlayer');
-    print(_playerSpeed);
-
+    if (isSkiing) {
+      calcSpeed();
+    } else {
+      _playerSpeed = 0;
+    }
     switch (direction) {
-      case Direction.up:
-        calcSpeed();
-        if (canPlayerMoveUp()) {
-          animation = _runUpAnimation;
-          moveUp(delta);
-        }
-        break;
       case Direction.down:
-        calcSpeed();
         if (canPlayerMoveDown()) {
           animation = _runDownAnimation;
           moveDown(delta);
         }
         break;
       case Direction.left:
-        calcSpeed();
         if (canPlayerMoveLeft()) {
           animation = _runLeftAnimation;
           moveLeft(delta);
         }
         break;
       case Direction.right:
-        calcSpeed();
         if (canPlayerMoveRight()) {
           animation = _runRightAnimation;
           moveRight(delta);
@@ -115,6 +108,18 @@ class Player extends SpriteAnimationComponent
         animation = _standingAnimation;
         _playerSpeed = 0;
         break;
+      case Direction.lleft:
+        if (canPlayerMoveLeft()) {
+          animation = _runLeftAnimation;
+          moveLLeft(delta);
+        }
+        break;
+      case Direction.rright:
+        if (canPlayerMoveRight()) {
+          animation = _runRightAnimation;
+          moveRRight(delta);
+        }
+        break;
     }
   }
 
@@ -122,13 +127,6 @@ class Player extends SpriteAnimationComponent
     if (_playerSpeed <= _playerSpeedMax) {
       _playerSpeed += 30;
     }
-  }
-
-  bool canPlayerMoveUp() {
-    if (_hasCollided && _collisionDirection == Direction.up) {
-      return false;
-    }
-    return true;
   }
 
   bool canPlayerMoveDown() {
@@ -152,19 +150,27 @@ class Player extends SpriteAnimationComponent
     return true;
   }
 
-  void moveUp(double delta) {
-    position.add(Vector2(0, delta * -_playerSpeed));
-  }
-
   void moveDown(double delta) {
     position.add(Vector2(0, delta * _playerSpeed));
   }
 
   void moveLeft(double delta) {
-    position.add(Vector2(delta * -_playerSpeed, 0));
+    position
+        .add(Vector2((delta * -_playerSpeed) / 2, (delta * _playerSpeed) / 2));
+  }
+
+  void moveLLeft(double delta) {
+    position
+        .add(Vector2((delta * -_playerSpeed) / 4, (delta * _playerSpeed) / 4));
   }
 
   void moveRight(double delta) {
-    position.add(Vector2(delta * _playerSpeed, 0));
+    position
+        .add(Vector2((delta * _playerSpeed) / 2, (delta * _playerSpeed) / 2));
+  }
+
+  void moveRRight(double delta) {
+    position
+        .add(Vector2((delta * _playerSpeed) / 4, (delta * _playerSpeed) / 4));
   }
 }

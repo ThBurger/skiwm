@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:skiwm/components/stopwatch.dart';
 import 'package:skiwm/training_game.dart';
 import 'components/dialog.dart';
-import 'helpers/joypad.dart';
 
 enum GameState {
   init,
@@ -26,13 +25,23 @@ class MainTrainingPage extends StatefulWidget {
 class MainTrainingState extends State<MainTrainingPage> {
   GameState currentGameState = GameState.init;
   TrainingGame game = TrainingGame();
-  GlobalKey<StopWatchState> _stopwatch = GlobalKey();
+  final GlobalKey<StopWatchState> _stopwatch = GlobalKey();
+
+  void onTapDown(BuildContext context, TapDownDetails details) {
+    if (details.globalPosition.dx < MediaQuery.of(context).size.width / 2) {
+      game.playerLeft();
+    } else {
+      game.playerRight();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
-        body: Stack(
+      backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
+      body: GestureDetector(
+        onTapDown: (details) => onTapDown(context, details),
+        child: Stack(
           children: [
             GameWidget(game: game),
             Align(
@@ -44,6 +53,7 @@ class MainTrainingState extends State<MainTrainingPage> {
                   highlightColor: Colors.pink,
                   onPressed: () {
                     currentGameState = GameState.paused;
+                    game.onGameStateChanged(currentGameState);
                     _stopwatch.currentState?.stop();
                     showDialog(
                         context: context,
@@ -57,7 +67,7 @@ class MainTrainingState extends State<MainTrainingPage> {
               ),
             ),
             Align(
-              alignment: Alignment.center,
+              alignment: Alignment.topCenter,
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: StopWatchPage(key: _stopwatch),
@@ -72,20 +82,13 @@ class MainTrainingState extends State<MainTrainingPage> {
                     child: const Text('Start'),
                     onPressed: () {
                       currentGameState = GameState.playing;
+                      game.onGameStateChanged(currentGameState);
                       _stopwatch.currentState?.start();
                     },
                   ),
                 ),
               ),
               visible: currentGameState == GameState.init,
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child:
-                    Joypad(onDirectionChanged: game.onJoypadDirectionChanged),
-              ),
             ),
             Align(
               alignment: Alignment.bottomLeft,
@@ -100,6 +103,8 @@ class MainTrainingState extends State<MainTrainingPage> {
               ),
             )
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
