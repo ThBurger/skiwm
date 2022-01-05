@@ -4,17 +4,18 @@ import 'package:get/get.dart';
 import 'package:skiwm/pages/AccountPage.dart';
 import 'package:skiwm/pages/LoginPage.dart';
 import 'package:skiwm/pages/MenuPage.dart';
+import 'package:skiwm/pages/RacePage.dart';
 import 'package:skiwm/pages/SettingsPage.dart';
-import 'package:skiwm/pages/SplashPage.dart';
+import 'package:skiwm/utils/Theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Supabase.initialize(
-    url: 'https://xakuozmtkrvgebyvriiq.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MDcxMjM1NywiZXhwIjoxOTU2Mjg4MzU3fQ.WUFdHin4ASWB_6c-HXvolfEhW49mbX_JZaloBEwoIt0',
-  );
+  //await Supabase.initialize(
+  //  url: 'https://xakuozmtkrvgebyvriiq.supabase.co',
+  //  anonKey:
+  //      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MDcxMjM1NywiZXhwIjoxOTU2Mjg4MzU3fQ.WUFdHin4ASWB_6c-HXvolfEhW49mbX_JZaloBEwoIt0',
+  //);
   await Flame.device.fullScreen();
 
   runApp(const App());
@@ -27,19 +28,20 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Ski WM',
-      theme: ThemeData.dark().copyWith(
+      theme: ThemeData.light().copyWith(
         primaryColor: Colors.green,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            onPrimary: Colors.white,
-            primary: Colors.green,
+            onPrimary: SkiWmColors.info,
+            primary: SkiWmColors.primary,
           ),
         ),
       ),
-      initialRoute: '/',
+      initialRoute: '/menu',
       routes: <String, WidgetBuilder>{
-        '/': (_) => const SplashPage(),
+        //'/': (_) => const SplashPage(),
         '/menu': (_) => const MenuPage(),
+        '/race': (_) => const RacePage(),
         '/setting': (_) => const SettingsPage(),
         '/login': (_) => const LoginPage(),
         '/account': (_) => const AccountPage(),

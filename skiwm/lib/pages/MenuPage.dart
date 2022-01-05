@@ -26,7 +26,7 @@ class MenuPage extends StatelessWidget {
           ),
           actions: <Widget>[
             IconButton(
-              icon: FaIcon(FontAwesomeIcons.cog),
+              icon: const FaIcon(FontAwesomeIcons.cog),
               tooltip: 'Settings',
               color: SkiWmColors.primary,
               onPressed: () {
@@ -34,7 +34,7 @@ class MenuPage extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: FaIcon(FontAwesomeIcons.user),
+              icon: const FaIcon(FontAwesomeIcons.user),
               tooltip: 'Profile',
               color: SkiWmColors.primary,
               onPressed: () {
@@ -44,22 +44,23 @@ class MenuPage extends StatelessWidget {
           ]),
       backgroundColor: SkiWmColors.bgColorScreen,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/background.png"),
             fit: BoxFit.cover,
           ),
         ),
         child: Container(
-          padding: EdgeInsets.only(right: 24, left: 24, bottom: 36),
+          padding: const EdgeInsets.only(right: 24, left: 24, bottom: 36),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 CardSquare(
                     cta: "Race",
                     title: 'Start Racing...',
+                    img: "assets/images/Training_1.png",
                     tap: () {
-                      Navigator.pushNamed(context, '/pro');
+                      Navigator.pushNamed(context, '/race');
                     }),
                 const SizedBox(height: 8.0),
                 Row(

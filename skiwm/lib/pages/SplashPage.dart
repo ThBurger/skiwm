@@ -11,7 +11,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends AuthState<SplashPage> {
   @override
   void initState() {
-    recoverSupabaseSession();
+    //recoverSupabaseSession();
     super.initState();
   }
 
