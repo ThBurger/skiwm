@@ -40,7 +40,7 @@ class CardSmall extends StatelessWidget {
                                 topRight: Radius.circular(6.0)),
                             image: DecorationImage(
                               image: NetworkImage(img),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.scaleDown,
                             )))),
                 Flexible(
                     flex: 1,

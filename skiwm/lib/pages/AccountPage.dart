@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase/supabase.dart';
 import 'package:skiwm/components/auth_required_state.dart';
 import 'package:skiwm/utils/constants.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends AuthRequiredState<AccountPage> {
   final _usernameController = TextEditingController();
   final _websiteController = TextEditingController();
+  final _countryController = TextEditingController();
   var _loading = false;
 
   /// Called once a user id is received within `onAuthenticated()`
@@ -34,6 +36,7 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
     if (data != null) {
       _usernameController.text = (data['username'] ?? '') as String;
       _websiteController.text = (data['website'] ?? '') as String;
+      _countryController.text = (data['country'] ?? '') as String;
     }
     setState(() {
       _loading = false;
@@ -47,10 +50,12 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
     });
     final userName = _usernameController.text;
     final website = _websiteController.text;
+    final country = _countryController.text;
     final user = supabase.auth.currentUser;
     final updates = {
       'id': user!.id,
       'username': userName,
+      'country': country,
       'website': website,
       'updated_at': DateTime.now().toIso8601String(),
     };
@@ -104,6 +109,18 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
           TextFormField(
             controller: _websiteController,
             decoration: const InputDecoration(labelText: 'Website'),
+          ),
+          const SizedBox(height: 18),
+          const Text('Select Country'),
+          CountryCodePicker(
+            onChanged: (value) => {_countryController.text = value.code!},
+            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+            initialSelection: _countryController.text,
+            showCountryOnly: true,
+            // optional. Shows only country name and flag when popup is closed.
+            showOnlyCountryWhenClosed: true,
+            // optional. aligns the flag and the Text left
+            alignLeft: false,
           ),
           const SizedBox(height: 18),
           ElevatedButton(

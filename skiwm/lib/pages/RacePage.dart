@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/main_training_page.dart';
+import 'package:skiwm/utils/Theme.dart';
 import 'package:skiwm/widgets/leaderboard.dart';
 
 class RacePage extends StatelessWidget {
@@ -49,7 +50,7 @@ class RacePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 Container(
-                  padding: const EdgeInsets.all(32.0),
+                  padding: const EdgeInsets.all(16.0),
                   color: Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +95,10 @@ class RacePage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          _buildChip("100"),
                         ],
                       ),
-                      const SizedBox(height: 30.0),
+                      const SizedBox(height: 15.0),
                       Text(
                         "Leaderboard".toUpperCase(),
                         style: TextStyle(
@@ -109,17 +111,60 @@ class RacePage extends StatelessWidget {
               ],
             ),
           ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              _buildStartButton(),
+            ],
+          )
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 4.0,
-        icon: const FaIcon(FontAwesomeIcons.play),
-        label: const Text('Start racing...'),
-        onPressed: () {
-          Get.to(const MainTrainingPage());
-        },
-      ),
+    );
+  }
+
+  Widget _buildChip(String label) {
+    return Chip(
+        labelPadding: EdgeInsets.all(2.0),
+        avatar: CircleAvatar(
+          backgroundColor: Colors.white70,
+          child: Text("C"),
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: SkiWmColors.primary,
+          ),
+        ),
+        backgroundColor: SkiWmColors.bgColorScreen,
+        elevation: 6.0,
+        shadowColor: Colors.grey[60],
+        padding: EdgeInsets.all(8.0),
+        deleteIcon: Icon(
+          Icons.add,
+        ),
+        onDeleted: () {});
+  }
+
+  Widget _buildStartButton() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+            color: Colors.transparent,
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            child: RaisedButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40.0)),
+              onPressed: () {
+                Get.to(const MainTrainingPage());
+              },
+              child: Text("Start racing..."),
+              color: SkiWmColors.primary,
+              textColor: Colors.white,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

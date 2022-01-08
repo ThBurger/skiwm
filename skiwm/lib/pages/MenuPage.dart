@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/main_training_page.dart';
+import 'package:skiwm/pages/AccountPage.dart';
+import 'package:skiwm/pages/ShopPage.dart';
 import 'package:skiwm/utils/Theme.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/widgets/card-small.dart';
@@ -31,14 +33,6 @@ class MenuPage extends StatelessWidget {
               color: SkiWmColors.primary,
               onPressed: () {
                 Navigator.of(context).pushNamed('/setting');
-              },
-            ),
-            IconButton(
-              icon: const FaIcon(FontAwesomeIcons.user),
-              tooltip: 'Profile',
-              color: SkiWmColors.primary,
-              onPressed: () {
-                Navigator.of(context).pushNamed('/account');
               },
             ),
           ]),
@@ -74,13 +68,32 @@ class MenuPage extends StatelessWidget {
                     CardSmall(
                         cta: "Leaderboard",
                         title: 'check standings...',
+                        img: "assets/images/podium.png",
                         tap: () {
                           Navigator.pushNamed(context, '/pro');
                         })
                   ],
                 ),
-                const SizedBox(height: 8.0),
-                ProductCarousel(imgArray: articlesCards["Music"]!["products"]),
+                Row(
+                  children: [
+                    CardSmall(
+                        cta: "Profile",
+                        title: 'edit your profile...',
+                        img: "assets/images/user.png",
+                        tap: () {
+                          Get.to(const AccountPage());
+                        }),
+                    CardSmall(
+                        cta: "Shop",
+                        title: 'in app purchases...',
+                        img: "assets/images/shop.png",
+                        tap: () {
+                          Get.to(const ShopPage());
+                        })
+                  ],
+                ),
+                //const SizedBox(height: 8.0),
+                // ProductCarousel(imgArray: articlesCards["Music"]!["products"]),
               ],
             ),
           ),

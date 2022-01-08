@@ -6,16 +6,17 @@ import 'package:skiwm/pages/LoginPage.dart';
 import 'package:skiwm/pages/MenuPage.dart';
 import 'package:skiwm/pages/RacePage.dart';
 import 'package:skiwm/pages/SettingsPage.dart';
+import 'package:skiwm/pages/SplashPage.dart';
 import 'package:skiwm/utils/Theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await Supabase.initialize(
-  //  url: 'https://xakuozmtkrvgebyvriiq.supabase.co',
-  //  anonKey:
-  //      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MDcxMjM1NywiZXhwIjoxOTU2Mjg4MzU3fQ.WUFdHin4ASWB_6c-HXvolfEhW49mbX_JZaloBEwoIt0',
-  //);
+  await Supabase.initialize(
+    url: 'https://xakuozmtkrvgebyvriiq.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MDcxMjM1NywiZXhwIjoxOTU2Mjg4MzU3fQ.WUFdHin4ASWB_6c-HXvolfEhW49mbX_JZaloBEwoIt0',
+  );
   await Flame.device.fullScreen();
 
   runApp(const App());
@@ -37,9 +38,9 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/menu',
+      initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        //'/': (_) => const SplashPage(),
+        '/': (_) => const SplashPage(),
         '/menu': (_) => const MenuPage(),
         '/race': (_) => const RacePage(),
         '/setting': (_) => const SettingsPage(),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/utils/Theme.dart';
 
 final List<Friend> friends = [
-  Friend('1', 'John', 'Hello, how are you?', '1 hr.'),
-  Friend('2', 'RIna', 'Hello, how are you?', '1 hr.'),
+  Friend('1', 'John', 'Hello, how are you?', '😄'),
+  Friend('2', 'RIna', 'Hello, how are you?', '😄'),
   Friend('3', 'Brad', 'Hello, how are you?', '1 hr.'),
   Friend('4', 'Don', 'Hello, how are you?', '1 hr.'),
   Friend('5', 'Mukambo', 'Hello, how are you?', '1 hr.'),
   Friend('6', 'Sid', 'Hello, how are you?', '1 hr.'),
+  Friend('999', 'Sid', 'Hello, how are you?', '1 hr.'),
 ];
 
 class Friend {
@@ -23,46 +25,32 @@ class Leaderboard extends StatelessWidget {
     createTile(Friend friend) => Container(
           decoration: const BoxDecoration(
             border: Border(
-              bottom: BorderSide(color: Color(0xFF565973), width: 1.0),
+              bottom: BorderSide(color: SkiWmColors.border, width: 1.0),
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
             child: Row(
               children: <Widget>[
                 Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 6.0, 16.0, 6.0),
+                    padding: const EdgeInsets.fromLTRB(0.0, 6.0, 6.0, 0.0),
                     child:
-                        CircleAvatar(radius: 40.0, child: Text(friend.rank))),
+                        CircleAvatar(radius: 15.0, child: Text(friend.rank))),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            friend.name,
-                          ),
-                          SizedBox(width: 6.0),
-                          Text(
-                            friend.msgTime,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.0),
                       Text(
-                        friend.message,
+                        friend.name,
+                      ),
+                      SizedBox(width: 6.0),
+                      Text(
+                        friend.msgTime,
                       ),
                     ],
                   ),
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(width: 42.0, height: 42.0, child: Text("02:50")),
-                    SizedBox(width: 10.0),
-                  ],
-                ),
+                Container(width: 50.0, child: Text("02:50")),
               ],
             ),
           ),
