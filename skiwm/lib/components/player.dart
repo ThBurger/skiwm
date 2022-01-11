@@ -13,7 +13,6 @@ class Player extends SpriteAnimationComponent
 
   late final SpriteAnimation _runDownAnimation;
   late final SpriteAnimation _runLeftAnimation;
-  late final SpriteAnimation _runUpAnimation;
   late final SpriteAnimation _runRightAnimation;
   late final SpriteAnimation _standingAnimation;
 
@@ -69,8 +68,8 @@ class Player extends SpriteAnimationComponent
     _runLeftAnimation =
         spriteSheet.createAnimation(row: 1, stepTime: _animationSpeed, to: 4);
 
-    _runUpAnimation =
-        spriteSheet.createAnimation(row: 2, stepTime: _animationSpeed, to: 4);
+    //_runUpAnimation =
+    //  spriteSheet.createAnimation(row: 2, stepTime: _animationSpeed, to: 4);
 
     _runRightAnimation =
         spriteSheet.createAnimation(row: 3, stepTime: _animationSpeed, to: 4);

@@ -1,12 +1,12 @@
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skiwm/pages/AccountPage.dart';
-import 'package:skiwm/pages/LoginPage.dart';
-import 'package:skiwm/pages/MenuPage.dart';
-import 'package:skiwm/pages/RacePage.dart';
-import 'package:skiwm/pages/SettingsPage.dart';
-import 'package:skiwm/pages/SplashPage.dart';
+import 'package:skiwm/pages/account.dart';
+import 'package:skiwm/pages/login.dart';
+import 'package:skiwm/pages/menu.dart';
+import 'package:skiwm/pages/race.dart';
+import 'package:skiwm/pages/settings.dart';
+import 'package:skiwm/pages/splash.dart';
 import 'package:skiwm/utils/Theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -38,7 +38,7 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/',
+      initialRoute: '/menu',
       routes: <String, WidgetBuilder>{
         '/': (_) => const SplashPage(),
         '/menu': (_) => const MenuPage(),

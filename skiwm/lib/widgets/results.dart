@@ -17,8 +17,8 @@ class Friend {
   Friend(this.rank, this.name, this.message, this.msgTime);
 }
 
-class Leaderboard extends StatelessWidget {
-  const Leaderboard({Key? key}) : super(key: key);
+class Results extends StatelessWidget {
+  const Results({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

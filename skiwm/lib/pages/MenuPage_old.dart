@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/main_game_page.dart';
 import 'package:skiwm/main_training_page.dart';
-import 'package:skiwm/pages/SettingsPage.dart';
+import 'package:skiwm/pages/settings.dart';
 
 class MenuPage extends StatelessWidget {
   const MenuPage({Key? key}) : super(key: key);

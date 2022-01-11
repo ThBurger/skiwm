@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/main_training_page.dart';
 import 'package:skiwm/utils/Theme.dart';
-import 'package:skiwm/widgets/leaderboard.dart';
+import 'package:skiwm/widgets/credit.dart';
+import 'package:skiwm/widgets/results.dart';
 
 class RacePage extends StatelessWidget {
   const RacePage({Key? key}) : super(key: key);
@@ -95,7 +96,7 @@ class RacePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          _buildChip("100"),
+                          creditChip(),
                         ],
                       ),
                       const SizedBox(height: 15.0),
@@ -107,7 +108,7 @@ class RacePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Leaderboard(),
+                Results(),
               ],
             ),
           ),
@@ -120,29 +121,6 @@ class RacePage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildChip(String label) {
-    return Chip(
-        labelPadding: EdgeInsets.all(2.0),
-        avatar: CircleAvatar(
-          backgroundColor: Colors.white70,
-          child: Text("C"),
-        ),
-        label: Text(
-          label,
-          style: TextStyle(
-            color: SkiWmColors.primary,
-          ),
-        ),
-        backgroundColor: SkiWmColors.bgColorScreen,
-        elevation: 6.0,
-        shadowColor: Colors.grey[60],
-        padding: EdgeInsets.all(8.0),
-        deleteIcon: Icon(
-          Icons.add,
-        ),
-        onDeleted: () {});
   }
 
   Widget _buildStartButton() {
