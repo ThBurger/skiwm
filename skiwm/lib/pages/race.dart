@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/main_training_page.dart';
 import 'package:skiwm/utils/Theme.dart';
@@ -16,21 +15,20 @@ class RacePage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "Race",
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
         ),
       ),
       body: Stack(
         children: <Widget>[
           Container(
-              foregroundDecoration: BoxDecoration(color: Colors.black26),
+              foregroundDecoration: const BoxDecoration(color: Colors.black26),
               height: 400,
               child: Image.asset(image, fit: BoxFit.cover)),
           SingleChildScrollView(

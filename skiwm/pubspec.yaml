@@ -45,6 +45,7 @@ dependencies:
   in_app_purchase: ^2.0.1
   shared_preferences: ^2.0.11
   country_code_picker: ^2.0.2
+  dropdown_search: ^2.0.1
 
 dev_dependencies:
   flutter_test:

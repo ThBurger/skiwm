@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/models/race.dart';
+import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/Theme.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({Key? key}) : super(key: key);
@@ -10,79 +13,15 @@ class LeaderboardPage extends StatefulWidget {
 }
 
 class _LeaderboardPageState extends State<LeaderboardPage> {
-  bool enableList = false;
-  int _selectedIndex = 0;
-  _onhandleTap() {
-    setState(() {
-      enableList = !enableList;
-    });
-  }
-
-  _onChanged(int position) {
-    setState(() {
-      _selectedIndex = position;
-      enableList = !enableList;
-    });
-  }
-
-  List<Map> _testList = [
-    {'no': 1, 'keyword': 'North Dron'},
-    {'no': 2, 'keyword': 'Mabygo'},
-    {'no': 3, 'keyword': 'La Shdencoe-In-Hayya'},
-    {'no': 4, 'keyword': 'Manslodfield'},
-    {'no': 5, 'keyword': 'Bridsportsicast'},
-    {'no': 6, 'keyword': 'West Ston'},
-    {'no': 7, 'keyword': 'Telshamtwich'},
-    {'no': 8, 'keyword': 'Bingombmurington'},
-    {'no': 9, 'keyword': 'Port Marlta'},
-    {'no': 10, 'keyword': 'Leinecoffs'},
-  ];
-
-  Widget _buildSearchList() => Container(
-        height: 150.0,
-        decoration: BoxDecoration(
-          border: Border.all(color: SkiWmColors.black, width: 1),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: Colors.white,
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        margin: EdgeInsets.only(top: 5.0),
-        child: ListView.builder(
-            padding: const EdgeInsets.all(0),
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            physics:
-                BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-            itemCount: _testList.length,
-            itemBuilder: (context, position) {
-              return InkWell(
-                onTap: () {
-                  _onChanged(position);
-                },
-                child: Container(
-                    // padding: widget.padding,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                    decoration: BoxDecoration(
-                        color: position == _selectedIndex
-                            ? Colors.grey[100]
-                            : Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(4.0))),
-                    child: Text(
-                      _testList[position]['keyword'],
-                      style: TextStyle(color: Colors.black),
-                    )),
-              );
-            }),
-      );
   @override
   Widget build(BuildContext context) {
+    print(races);
     AppBar appBar = AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: const Text(
@@ -111,38 +50,29 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
             child: Column(
               children: [
                 const SizedBox(height: 50),
-                Text("Select Race"),
-                const SizedBox(height: 8.0),
-                InkWell(
-                  onTap: _onhandleTap,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          color: enableList ? Colors.black : Colors.grey,
-                          width: 1),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                      color: Colors.white,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    height: 48.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Expanded(
-                            child: Text(
-                          _selectedIndex != null
-                              ? _testList[_selectedIndex]['keyword']
-                              : "Select value",
-                          style: TextStyle(fontSize: 16.0),
-                        )),
-                        Icon(Icons.expand_more,
-                            size: 24.0, color: Color(0XFFbbbbbb)),
-                      ],
-                    ),
+                const Text(
+                  "Select Race",
+                  style: TextStyle(
+                    color: Colors.white,
                   ),
                 ),
-                enableList ? _buildSearchList() : Container(),
+                const SizedBox(height: 8.0),
+                DropdownSearch<Race>(
+                  showSelectedItems: true,
+                  compareFn: (i, s) => i?.isEqual(s) ?? false,
+                  validator: (v) => v == null ? "required field" : null,
+                  dropdownSearchDecoration: const InputDecoration(
+                    hintText: "Select a race",
+                    labelText: "Race",
+                    contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                    border: OutlineInputBorder(),
+                  ),
+                  mode: Mode.MENU,
+                  items: races,
+                  itemAsString: (Race? r) => r!.racename!,
+                  onChanged: (Race? data) => print(data),
+                ),
+                const Divider(),
                 const SizedBox(height: 8.0),
                 Results(),
                 SizedBox(height: 10.0),
@@ -159,4 +89,17 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
       ),
     );
   }
+}
+
+Widget _customDropDownExample(BuildContext context, Race? item) {
+  if (item == null) {
+    return Container();
+  }
+
+  return Container(
+    child: ListTile(
+      contentPadding: EdgeInsets.all(0),
+      title: Text(item.racename!),
+    ),
+  );
 }

@@ -38,7 +38,7 @@ class App extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/menu',
+      initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (_) => const SplashPage(),
         '/menu': (_) => const MenuPage(),
