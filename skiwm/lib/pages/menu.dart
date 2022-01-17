@@ -6,6 +6,7 @@ import 'package:skiwm/pages/account.dart';
 import 'package:skiwm/pages/leaderboard.dart';
 import 'package:skiwm/pages/shop.dart';
 import 'package:skiwm/utils/Theme.dart';
+import 'package:skiwm/widgets/daily_credits.dart';
 import 'package:skiwm/widgets/card-small.dart';
 import 'package:skiwm/widgets/card-square.dart';
 import 'package:skiwm/widgets/credit.dart';
@@ -33,13 +34,12 @@ class MenuPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        actions: <Widget>[
-          creditChip(),
+        actions: const <Widget>[
+          CreditChip(),
         ]);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: appBar,
-      backgroundColor: SkiWmColors.bgColorScreen,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -53,6 +53,8 @@ class MenuPage extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 50),
+                DailyCredit(),
+                const SizedBox(height: 18),
                 CardSquare(
                     cta: "Race",
                     title: 'Start Racing...',

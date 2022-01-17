@@ -1,61 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/models/leadboard_entry_response.dart';
+import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/utils/Theme.dart';
+import 'package:skiwm/network/leaderboard_bloc.dart';
 
-final List<Friend> friends = [
-  Friend('1', 'John', 'Hello, how are you?', '😄'),
-  Friend('2', 'RIna', 'Hello, how are you?', '😄'),
-  Friend('3', 'Brad', 'Hello, how are you?', '1 hr.'),
-  Friend('4', 'Don', 'Hello, how are you?', '1 hr.'),
-  Friend('5', 'Mukambo', 'Hello, how are you?', '1 hr.'),
-  Friend('6', 'Sid', 'Hello, how are you?', '1 hr.'),
-  Friend('999', 'Sid', 'Hello, how are you?', '1 hr.'),
-];
-
-class Friend {
-  String rank, name, message, msgTime;
-
-  Friend(this.rank, this.name, this.message, this.msgTime);
+class ResultPage extends StatefulWidget {
+  final String raceId;
+  const ResultPage({Key? key, required this.raceId}) : super(key: key);
+  @override
+  _ResultPageState createState() => _ResultPageState();
 }
 
-class Results extends StatelessWidget {
-  const Results({Key? key}) : super(key: key);
+class _ResultPageState extends State<ResultPage> {
+  @override
+  void initState() {
+    super.initState();
+    if (widget.raceId != '') {
+      leaderboardBloc.getResults(widget.raceId);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    createTile(Friend friend) => Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: SkiWmColors.border, width: 1.0),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Row(
-              children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 6.0, 6.0, 0.0),
-                    child:
-                        CircleAvatar(radius: 15.0, child: Text(friend.rank))),
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Text(
-                        friend.name,
-                      ),
-                      SizedBox(width: 6.0),
-                      Text(
-                        friend.msgTime,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(width: 50.0, child: Text("02:50")),
-              ],
-            ),
-          ),
-        );
+    return StreamBuilder<LeaderboardEntryResponse>(
+      stream: leaderboardBloc.subject.stream,
+      builder: (context, AsyncSnapshot<LeaderboardEntryResponse> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data!.error.isNotEmpty) {
+            return _buildErrorWidget(snapshot.data!.error);
+          }
+          return _buildUserWidget(snapshot.data!);
+        } else if (snapshot.hasError) {
+          //return _buildErrorWidget(snapshot.error);
+          return _buildLoadingWidget();
+        } else {
+          return _buildLoadingWidget();
+        }
+      },
+    );
+  }
 
+  Widget _buildLoadingWidget() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [Text("Loading data from API..."), CircularProgressIndicator()],
+    ));
+  }
+
+  Widget _buildErrorWidget(String error) {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Error occured: $error"),
+      ],
+    ));
+  }
+
+  Widget _buildUserWidget(LeaderboardEntryResponse data) {
     return Container(
       color: Colors.white,
       child: SingleChildScrollView(
@@ -65,8 +68,45 @@ class Results extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: friends.map((book) => createTile(book)).toList(),
+            children: data.results.map((entry) => createTile(entry)).toList(),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget createTile(LeaderboardEntry entry) {
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: SkiWmColors.border, width: 1.0),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5.0),
+        child: Row(
+          children: <Widget>[
+            Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 6.0, 6.0, 0.0),
+                child: CircleAvatar(
+                    radius: 15.0, child: Text(entry.username![0]))),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Text(
+                    entry.username!,
+                  ),
+                  SizedBox(width: 6.0),
+                ],
+              ),
+            ),
+            Container(
+                width: 100.0,
+                child: Text(
+                  entry.finishedTime!,
+                )),
+          ],
         ),
       ),
     );
