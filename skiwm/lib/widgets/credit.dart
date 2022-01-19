@@ -13,22 +13,22 @@ class CreditChip extends StatelessWidget {
       valueListenable: creditsValueNotifier,
       builder: (BuildContext context, int counterValue, Widget? child) {
         return Chip(
-          labelPadding: EdgeInsets.all(3.0),
-          avatar: CircleAvatar(
+          labelPadding: const EdgeInsets.all(3.0),
+          avatar: const CircleAvatar(
             backgroundColor: Colors.white70,
             child: Text("C"),
           ),
           label: Text(
             creditsValueNotifier.value.toString(),
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
             ),
           ),
           elevation: 6.0,
           shadowColor: Colors.grey[60],
-          deleteIcon: FaIcon(FontAwesomeIcons.plusCircle),
+          deleteIcon: const FaIcon(FontAwesomeIcons.plusCircle),
           onDeleted: () {
-            Get.to(ShopPage());
+            Get.to(const ShopPage());
           },
         );
       },

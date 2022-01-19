@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/components/auth_state.dart';
 import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/constants.dart';
+import 'package:skiwm/utils/value_notifiers.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -13,11 +15,20 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends AuthState<SplashPage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   @override
   void initState() {
+    _loadCredits();
     _loadLeaderboradData();
     _loadRaceData().then((value) => {recoverSupabaseSession()});
     super.initState();
+  }
+
+  Future<void> _loadCredits() async {
+    final SharedPreferences prefs = await _prefs;
+    final int credits = (prefs.getInt('credits') ?? 0);
+    creditsValueNotifier.value = creditsValueNotifier.value = credits;
   }
 
   @override

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 class DailyCredit extends StatefulWidget {
   const DailyCredit({Key? key}) : super(key: key);
@@ -19,8 +19,8 @@ class _DailyCreditState extends State<DailyCredit> {
   Future<void> _getCredits() async {
     final SharedPreferences prefs = await _prefs;
     final int credits = (prefs.getInt('credits') ?? 0) + 25;
-    _nextCredits = DateTime.now().add(const Duration(hours: 6));
     creditsValueNotifier.value = creditsValueNotifier.value = credits;
+    _nextCredits = DateTime.now().add(const Duration(hours: 6));
     setState(() {
       prefs.setInt('credits', credits);
       prefs.setInt('credits_next', _nextCredits.millisecondsSinceEpoch);
@@ -50,16 +50,16 @@ class _DailyCreditState extends State<DailyCredit> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: _redeemed ? null : _getCredits,
-      child: Text(_redeemed
-          ? 'Next Credits at ' + DateFormat('hh:mm').format(_nextCredits)
-          : 'Get 25 Credits'),
+      child: _redeemed
+          ? Row(
+              children: [
+                Text('Next Credits at '),
+                CountdownTimer(
+                  endTime: _nextCredits.millisecondsSinceEpoch,
+                ),
+              ],
+            )
+          : Text('Get 25 Credits'),
     );
-  }
-
-  String _printDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 }

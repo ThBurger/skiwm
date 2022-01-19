@@ -10,6 +10,7 @@ class LeaderboardBloc {
   getResults(String id) async {
     LeaderboardEntryResponse response =
         await _repository.getLeaderboardEntries(id);
+
     _subject.sink.add(response);
   }
 

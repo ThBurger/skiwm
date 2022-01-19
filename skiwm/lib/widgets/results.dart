@@ -31,10 +31,13 @@ class _ResultPageState extends State<ResultPage> {
           }
           return _buildUserWidget(snapshot.data!);
         } else if (snapshot.hasError) {
-          //return _buildErrorWidget(snapshot.error);
-          return _buildLoadingWidget();
+          return _buildErrorWidget(snapshot.data!.error);
         } else {
-          return _buildLoadingWidget();
+          if (widget.raceId != '') {
+            return _buildLoadingWidget();
+          } else {
+            return Text("Choose Race Id before Results were loaded");
+          }
         }
       },
     );
