@@ -53,7 +53,7 @@ class MenuPage extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 50),
-                DailyCredit(),
+                const DailyCredit(),
                 const SizedBox(height: 18),
                 CardSquare(
                     cta: "Race",
@@ -98,8 +98,8 @@ class MenuPage extends StatelessWidget {
                         })
                   ],
                 ),
-                SizedBox(height: 10.0),
-                Text(
+                const SizedBox(height: 10.0),
+                const Text(
                   "Made with ❤ by Toburg Labs.",
                   textAlign: TextAlign.center,
                 ),

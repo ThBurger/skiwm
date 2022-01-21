@@ -9,12 +9,12 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         elevation: 0.0,
         centerTitle: true,
-        title: Text("Settings"),
+        title: const Text("Settings"),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: SkiWmColors.primary,
@@ -23,7 +23,7 @@ class SettingsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("GAME", style: TextStyle(color: Colors.white)),
+            const Text("GAME", style: TextStyle(color: Colors.white)),
             Card(
               margin: const EdgeInsets.symmetric(
                 vertical: 8.0,
@@ -34,14 +34,14 @@ class SettingsPage extends StatelessWidget {
                   SwitchListTile(
                     activeColor: Colors.purple,
                     value: true,
-                    title: Text("Music On/Off"),
+                    title: const Text("Music On/Off"),
                     onChanged: (val) {},
                   ),
                   _buildDivider(),
                   SwitchListTile(
                     activeColor: Colors.purple,
                     value: false,
-                    title: Text("Receive Notification"),
+                    title: const Text("Receive Notification"),
                     onChanged: (val) {},
                   ),
                 ],

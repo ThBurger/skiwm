@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:skiwm/models/leadboard_entry_response.dart';
 import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/network/leaderboard_repository.dart';
@@ -33,7 +32,6 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     } else {
       id = const Uuid().v4();
     }
-    print(id);
     final user = supabase.auth.currentUser;
     final userId =
         user != null ? user.id : '7e4f7c5b-504d-4851-b25c-1553cb4d4dfc'; // TODO

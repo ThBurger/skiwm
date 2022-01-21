@@ -28,6 +28,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Ski WM',
       theme: ThemeData.light().copyWith(
         primaryColor: Colors.green,

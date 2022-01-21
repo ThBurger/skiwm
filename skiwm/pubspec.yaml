@@ -80,6 +80,8 @@ flutter:
       - assets/images/podium.png
       - assets/images/user.png
       - assets/images/shop.png
+      - assets/images/skier.png
+      - assets/images/placeholder.png
       - assets/rayworld_collision_map.json
       - assets/Training_1.json
 

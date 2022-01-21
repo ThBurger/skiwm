@@ -5,7 +5,7 @@ class CardSquare extends StatelessWidget {
   CardSquare(
       {this.title = "Placeholder Title",
       this.cta = "",
-      this.img = "https://via.placeholder.com/200",
+      this.img = "assets/images/placeholder.png",
       this.tap = defaultFunc});
 
   final String cta;
@@ -39,7 +39,7 @@ class CardSquare extends StatelessWidget {
                                   topLeft: Radius.circular(6.0),
                                   topRight: Radius.circular(6.0)),
                               image: DecorationImage(
-                                image: NetworkImage(img),
+                                image: AssetImage(img),
                                 fit: BoxFit.cover,
                               )))),
                   Flexible(
@@ -51,13 +51,10 @@ class CardSquare extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(title,
-                                style: const TextStyle(
-                                    color: SkiWmColors.header, fontSize: 13)),
                             Text(cta,
                                 style: const TextStyle(
                                     color: SkiWmColors.primary,
-                                    fontSize: 11,
+                                    fontSize: 24,
                                     fontWeight: FontWeight.w600))
                           ],
                         ),

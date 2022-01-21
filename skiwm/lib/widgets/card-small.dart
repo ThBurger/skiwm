@@ -5,7 +5,7 @@ class CardSmall extends StatelessWidget {
   CardSmall(
       {this.title = "Placeholder Title",
       this.cta = "",
-      this.img = "https://via.placeholder.com/200",
+      this.img = "assets/images/placeholder.png",
       this.tap = defaultFunc});
 
   final String cta;
@@ -20,26 +20,26 @@ class CardSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-        child: Container(
+        child: SizedBox(
       height: 235,
       child: GestureDetector(
         onTap: tap,
         child: Card(
             elevation: 0.4,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(8.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
-                    flex: 2,
+                    flex: 3,
                     child: Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(6.0),
                                 topRight: Radius.circular(6.0)),
                             image: DecorationImage(
-                              image: NetworkImage(img),
+                              image: AssetImage(img),
                               fit: BoxFit.scaleDown,
                             )))),
                 Flexible(
@@ -51,15 +51,12 @@ class CardSmall extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(title,
-                              style: TextStyle(
-                                  color: SkiWmColors.header, fontSize: 13)),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(cta,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: SkiWmColors.primary,
-                                    fontSize: 11,
+                                    fontSize: 24,
                                     fontWeight: FontWeight.w600)),
                           )
                         ],

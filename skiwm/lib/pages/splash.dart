@@ -34,15 +34,51 @@ class _SplashPageState extends AuthState<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.all(20),
-          child: const LinearProgressIndicator(
-            backgroundColor: Colors.grey,
-            color: Colors.green,
-            minHeight: 7,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.png"),
+            fit: BoxFit.cover,
           ),
         ),
+        child: Center(
+            child: Column(
+          children: [
+            const SizedBox(
+              height: 80,
+            ),
+            Expanded(
+              flex: 12,
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/skier.png"),
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+              ),
+            ),
+            const Expanded(
+              flex: 6,
+              child: Align(
+                child: Text("preparing slope..."),
+              ),
+            ),
+            Expanded(
+              flex: 4,
+              child: Align(
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  child: const LinearProgressIndicator(
+                    backgroundColor: Colors.grey,
+                    color: Colors.green,
+                    minHeight: 7,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )),
       ),
     );
   }
@@ -60,6 +96,7 @@ class _SplashPageState extends AuthState<SplashPage> {
         races.add(r);
       }
     }
+    await Future.delayed(const Duration(seconds: 2));
   }
 
   Future<void> _loadLeaderboradData() async {

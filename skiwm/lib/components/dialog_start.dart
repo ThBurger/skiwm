@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AdvanceCustomAlert extends StatelessWidget {
-  const AdvanceCustomAlert({Key? key}) : super(key: key);
+class StartDialog extends StatelessWidget {
+  const StartDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class AdvanceCustomAlert extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text(
-                      'PAUSED',
+                      'START GAME',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
@@ -28,15 +28,9 @@ class AdvanceCustomAlert extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop('continue');
+                        Navigator.of(context).pop('start');
                       },
-                      child: const Text('Continue'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Exit'),
+                      child: const Text('Start'),
                     ),
                   ],
                 ),

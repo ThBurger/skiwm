@@ -1,9 +1,10 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skiwm/components/dialog_start.dart';
 import 'package:skiwm/components/stopwatch.dart';
 import 'package:skiwm/training_game.dart';
-import 'components/dialog.dart';
+import 'components/dialog_pause.dart';
 
 enum GameState {
   init,
@@ -26,6 +27,18 @@ class MainTrainingState extends State<MainTrainingPage> {
   GameState currentGameState = GameState.init;
   TrainingGame game = TrainingGame();
   final GlobalKey<StopWatchState> _stopwatch = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const StartDialog();
+          });
+    });
+  }
 
   void onTapDown(BuildContext context, TapDownDetails details) {
     if (details.globalPosition.dx < MediaQuery.of(context).size.width / 2) {
@@ -58,7 +71,7 @@ class MainTrainingState extends State<MainTrainingPage> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return const AdvanceCustomAlert();
+                          return const PauseDialog();
                         }).then((value) => {
                           if (value == null) {Get.back()}
                         });

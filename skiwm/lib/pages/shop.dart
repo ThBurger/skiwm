@@ -150,10 +150,10 @@ class _ShopPageState extends State<ShopPage> {
     if (_purchasePending) {
       stack.add(
         Stack(
-          children: [
+          children: const [
             Opacity(
               opacity: 0.3,
-              child: const ModalBarrier(dismissible: false, color: Colors.grey),
+              child: ModalBarrier(dismissible: false, color: Colors.grey),
             ),
             Center(
               child: CircularProgressIndicator(),
@@ -177,7 +177,7 @@ class _ShopPageState extends State<ShopPage> {
 
   Card _buildConnectionCheckTile() {
     if (_loading) {
-      return Card(child: ListTile(title: const Text('Trying to connect...')));
+      return Card(child: const ListTile(title: Text('Trying to connect...')));
     }
     final Widget storeHeader = ListTile(
       leading: Icon(_isAvailable ? Icons.check : Icons.block,
@@ -189,7 +189,7 @@ class _ShopPageState extends State<ShopPage> {
 
     if (!_isAvailable) {
       children.addAll([
-        Divider(),
+        const Divider(),
         ListTile(
           title: Text('Not connected',
               style: TextStyle(color: ThemeData.light().errorColor)),
@@ -203,21 +203,21 @@ class _ShopPageState extends State<ShopPage> {
 
   Card _buildProductList() {
     if (_loading) {
-      return Card(
+      return const Card(
           child: (ListTile(
               leading: CircularProgressIndicator(),
               title: Text('Fetching products...'))));
     }
     if (!_isAvailable) {
-      return Card();
+      return const Card();
     }
-    final ListTile productHeader = ListTile(title: Text('Products for Sale'));
+    const ListTile productHeader = ListTile(title: Text('Products for Sale'));
     List<ListTile> productList = <ListTile>[];
     if (_notFoundIds.isNotEmpty) {
       productList.add(ListTile(
           title: Text('[${_notFoundIds.join(", ")}] not found',
               style: TextStyle(color: ThemeData.light().errorColor)),
-          subtitle: Text(
+          subtitle: const Text(
               'This app needs special configuration to run. Please see example/README.md for instructions.')));
     }
 
@@ -244,7 +244,7 @@ class _ShopPageState extends State<ShopPage> {
             trailing: previousPurchase != null
                 ? IconButton(
                     onPressed: () => confirmPriceChange(context),
-                    icon: Icon(Icons.upgrade))
+                    icon: const Icon(Icons.upgrade))
                 : TextButton(
                     child: Text(productDetails.price),
                     style: TextButton.styleFrom(
@@ -293,26 +293,26 @@ class _ShopPageState extends State<ShopPage> {
     ));
 
     return Card(
-        child:
-            Column(children: <Widget>[productHeader, Divider()] + productList));
+        child: Column(
+            children: <Widget>[productHeader, const Divider()] + productList));
   }
 
   Card _buildConsumableBox() {
     if (_loading) {
-      return Card(
+      return const Card(
           child: (ListTile(
-              leading: CircularProgressIndicator(),
-              title: Text('Fetching consumables...'))));
+              leading: const CircularProgressIndicator(),
+              title: const Text('Fetching consumables...'))));
     }
     if (!_isAvailable || _notFoundIds.contains(_kConsumableId)) {
-      return Card();
+      return const Card();
     }
     final ListTile consumableHeader =
-        ListTile(title: Text('Purchased consumables'));
+        const ListTile(title: Text('Purchased consumables'));
     final List<Widget> tokens = _consumables.map((String id) {
       return GridTile(
         child: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.stars,
             size: 42.0,
             color: Colors.orange,
@@ -325,12 +325,12 @@ class _ShopPageState extends State<ShopPage> {
     return Card(
         child: Column(children: <Widget>[
       consumableHeader,
-      Divider(),
+      const Divider(),
       GridView.count(
         crossAxisCount: 5,
         children: tokens,
         shrinkWrap: true,
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
       )
     ]));
   }
@@ -347,7 +347,7 @@ class _ShopPageState extends State<ShopPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           TextButton(
-            child: Text('Restore purchases'),
+            child: const Text('Restore purchases'),
             style: TextButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor,
               primary: Colors.white,
@@ -448,8 +448,8 @@ class _ShopPageState extends State<ShopPage> {
         sku: 'purchaseId',
       );
       if (priceChangeConfirmationResult.responseCode == BillingResponse.ok) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Price change accepted'),
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: const Text('Price change accepted'),
         ));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

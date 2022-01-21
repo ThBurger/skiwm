@@ -37,8 +37,8 @@ class RacePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 250),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     "Bormio",
                     style: TextStyle(
@@ -63,29 +63,29 @@ class RacePage extends StatelessWidget {
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
-                                    Icon(
+                                    const Icon(
                                       Icons.star,
                                       color: Colors.purple,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.star_border,
                                       color: Colors.purple,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.star_border,
                                       color: Colors.purple,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.star_border,
                                       color: Colors.purple,
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.star_border,
                                       color: Colors.purple,
                                     ),
                                   ],
                                 ),
-                                Text.rich(
+                                const Text.rich(
                                   TextSpan(
                                       children: [TextSpan(text: "Difficulty")]),
                                   style: TextStyle(
@@ -94,19 +94,19 @@ class RacePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          CreditChip(),
+                          const CreditChip(),
                         ],
                       ),
                       const SizedBox(height: 15.0),
                       Text(
                         "Leaderboard".toUpperCase(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 14.0),
                       ),
                     ],
                   ),
                 ),
-                ResultPage(
+                const ResultPage(
                   raceId: '',
                 ),
               ],
@@ -129,14 +129,15 @@ class RacePage extends StatelessWidget {
         Expanded(
           child: Container(
             color: Colors.transparent,
-            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40.0)),
               onPressed: () {
                 Get.to(const MainTrainingPage());
               },
-              child: Text("Start racing..."),
+              child: const Text("Start racing..."),
               color: SkiWmColors.primary,
               textColor: Colors.white,
             ),
