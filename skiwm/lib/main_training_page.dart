@@ -36,8 +36,81 @@ class MainTrainingState extends State<MainTrainingPage> {
           context: context,
           builder: (BuildContext context) {
             return const StartDialog();
-          });
+          }).then((value) => _showStartCountdown());
     });
+  }
+
+  void _showStartCountdown() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          Future.delayed(const Duration(seconds: 1), () {
+            Navigator.of(context).pop(true);
+          });
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            child: Container(
+                alignment: FractionalOffset.center,
+                height: 80.0,
+                padding: const EdgeInsets.all(20.0),
+                child: const Text(
+                  "3",
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontFamily: 'Helvetica',
+                      fontWeight: FontWeight.bold),
+                )),
+          );
+        }).then((value) => {
+          showDialog(
+              context: context,
+              builder: (context) {
+                Future.delayed(const Duration(seconds: 1), () {
+                  Navigator.of(context).pop(true);
+                });
+                return Dialog(
+                  backgroundColor: Colors.transparent,
+                  child: Container(
+                      alignment: FractionalOffset.center,
+                      height: 80.0,
+                      padding: const EdgeInsets.all(20.0),
+                      child: const Text(
+                        "2",
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold),
+                      )),
+                );
+              }).then((value) => {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      Future.delayed(const Duration(seconds: 1), () {
+                        Navigator.of(context).pop(true);
+                      });
+                      return Dialog(
+                        backgroundColor: Colors.transparent,
+                        child: Container(
+                            alignment: FractionalOffset.center,
+                            height: 80.0,
+                            padding: const EdgeInsets.all(20.0),
+                            child: const Text(
+                              "1",
+                              style: TextStyle(
+                                  fontSize: 40,
+                                  fontFamily: 'Helvetica',
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      );
+                    }).then((value) => {
+                      currentGameState = GameState.playing,
+                      game.onGameStateChanged(currentGameState),
+                      _stopwatch.currentState?.start(),
+                      playerStart()
+                    })
+              })
+        });
   }
 
   void onTapDown(BuildContext context, TapDownDetails details) {
@@ -46,6 +119,10 @@ class MainTrainingState extends State<MainTrainingPage> {
     } else {
       game.playerRight();
     }
+  }
+
+  void playerStart() {
+    game.playerStart();
   }
 
   @override
@@ -85,23 +162,6 @@ class MainTrainingState extends State<MainTrainingPage> {
                 padding: const EdgeInsets.all(32.0),
                 child: StopWatchPage(key: _stopwatch),
               ),
-            ),
-            Visibility(
-              child: Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: ElevatedButton(
-                    child: const Text('Start'),
-                    onPressed: () {
-                      currentGameState = GameState.playing;
-                      game.onGameStateChanged(currentGameState);
-                      _stopwatch.currentState?.start();
-                    },
-                  ),
-                ),
-              ),
-              visible: currentGameState == GameState.init,
             ),
             Align(
               alignment: Alignment.bottomLeft,

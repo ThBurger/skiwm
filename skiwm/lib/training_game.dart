@@ -97,6 +97,10 @@ class TrainingGame extends FlameGame with HasCollidables, KeyboardEvents {
     }
   }
 
+  void playerStart() {
+    _player.direction = Direction.down;
+  }
+
   WorldCollidable createWorldCollidable(Rect rect) {
     final collidable = WorldCollidable();
     collidable.position = Vector2(rect.left, rect.top);

@@ -13,7 +13,9 @@ class Player extends SpriteAnimationComponent
 
   late final SpriteAnimation _runDownAnimation;
   late final SpriteAnimation _runLeftAnimation;
+  late final SpriteAnimation _runLleftAnimation;
   late final SpriteAnimation _runRightAnimation;
+  late final SpriteAnimation _runRrightAnimation;
   late final SpriteAnimation _standingAnimation;
 
   Direction direction = Direction.none;
@@ -57,25 +59,45 @@ class Player extends SpriteAnimationComponent
   }
 
   Future<void> _loadAnimations() async {
-    final spriteSheet = SpriteSheet(
-      image: await gameRef.images.load('player_spritesheet.png'),
-      srcSize: Vector2(29.0, 32.0),
+    final spriteSheetDown = SpriteSheet(
+      image: await gameRef.images.load('spritesheet_down.png'),
+      srcSize: Vector2(62.0, 102.0),
     );
 
-    _runDownAnimation =
-        spriteSheet.createAnimation(row: 0, stepTime: _animationSpeed, to: 4);
+    _standingAnimation = spriteSheetDown.createAnimation(
+        row: 0, stepTime: _animationSpeed, to: 2);
 
-    _runLeftAnimation =
-        spriteSheet.createAnimation(row: 1, stepTime: _animationSpeed, to: 4);
+    final spriteSheetLeft = SpriteSheet(
+      image: await gameRef.images.load('spritesheet_left.png'),
+      srcSize: Vector2(92.0, 97.0),
+    );
+    final spriteSheetLleft = SpriteSheet(
+      image: await gameRef.images.load('spritesheet_lleft.png'),
+      srcSize: Vector2(91.0, 87.0),
+    );
+    final spriteSheetRight = SpriteSheet(
+      image: await gameRef.images.load('spritesheet_right.png'),
+      srcSize: Vector2(92.0, 97.0),
+    );
+    final spriteSheetRright = SpriteSheet(
+      image: await gameRef.images.load('spritesheet_rright.png'),
+      srcSize: Vector2(87.0, 87.0),
+    );
 
-    //_runUpAnimation =
-    //  spriteSheet.createAnimation(row: 2, stepTime: _animationSpeed, to: 4);
+    _runDownAnimation = spriteSheetDown.createAnimation(
+        row: 0, stepTime: _animationSpeed, to: 2);
 
-    _runRightAnimation =
-        spriteSheet.createAnimation(row: 3, stepTime: _animationSpeed, to: 4);
+    _runLeftAnimation = spriteSheetLeft.createAnimation(
+        row: 0, stepTime: _animationSpeed, to: 2);
 
-    _standingAnimation =
-        spriteSheet.createAnimation(row: 0, stepTime: _animationSpeed, to: 1);
+    _runLleftAnimation = spriteSheetLleft.createAnimation(
+        row: 0, stepTime: _animationSpeed, to: 2);
+
+    _runRightAnimation = spriteSheetRight.createAnimation(
+        row: 0, stepTime: _animationSpeed, to: 2);
+
+    _runRrightAnimation = spriteSheetRright.createAnimation(
+        row: 0, stepTime: _animationSpeed, to: 2);
   }
 
   void movePlayer(double delta) {
@@ -109,13 +131,13 @@ class Player extends SpriteAnimationComponent
         break;
       case Direction.lleft:
         if (canPlayerMoveLeft()) {
-          animation = _runLeftAnimation;
+          animation = _runLleftAnimation;
           moveLLeft(delta);
         }
         break;
       case Direction.rright:
         if (canPlayerMoveRight()) {
-          animation = _runRightAnimation;
+          animation = _runRrightAnimation;
           moveRRight(delta);
         }
         break;

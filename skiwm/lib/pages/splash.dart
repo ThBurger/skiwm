@@ -50,6 +50,8 @@ class _SplashPageState extends AuthState<SplashPage> {
             Expanded(
               flex: 12,
               child: Container(
+                height: 100,
+                width: 100,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/skier.png"),
