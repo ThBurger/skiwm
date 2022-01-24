@@ -77,13 +77,16 @@ flutter:
   assets:
       - assets/images/
       - assets/images/Training_1.png
+      - assets/Training_1.json
       - assets/images/podium.png
       - assets/images/user.png
       - assets/images/shop.png
       - assets/images/skier.png
       - assets/images/placeholder.png
       - assets/rayworld_collision_map.json
-      - assets/Training_1.json
+      - assets/images/Training_Easy.png
+      - assets/Training_Easy_Finish.json
+      - assets/Training_Easy_Collisions.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

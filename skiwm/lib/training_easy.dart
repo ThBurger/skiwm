@@ -1,19 +1,17 @@
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:flutter/services.dart';
-import 'package:skiwm/components/training_1.dart';
+import 'package:skiwm/components/training_easy.dart';
+import 'package:skiwm/components/world_finish.dart';
 import 'package:skiwm/utils/constants.dart';
-
 import 'components/player.dart';
 import 'components/world_collidable.dart';
 import 'helpers/direction.dart';
 import 'package:flutter/material.dart';
-
 import 'helpers/map_loader.dart';
 
-class TrainingGame extends FlameGame with HasCollidables, KeyboardEvents {
-  final Player _player = Player();
-  final TrainingWorld _world = TrainingWorld();
+class TrainingEasyGame extends FlameGame with HasCollidables, KeyboardEvents {
+  late final Player _player = Player();
+  final TrainingEasyWorld _world = TrainingEasyWorld();
   GameState _gameState = GameState.init;
 
   @override
@@ -22,16 +20,26 @@ class TrainingGame extends FlameGame with HasCollidables, KeyboardEvents {
     await add(_world);
     add(_player);
     addWorldCollision();
+    addWorldFinish();
 
-    _player.position = _world.size / 5; // TODO!!!!
+    _player.position = Vector2(250, 350);
     camera.followComponent(_player,
         worldBounds: Rect.fromLTRB(0, 0, _world.size.x, _world.size.y));
   }
 
   void addWorldCollision() async =>
-      (await MapLoader.readCollisionMap('assets/Training_1.json'))
+      (await MapLoader.readCollisionMap('assets/Training_Easy_Collisions.json'))
           .forEach((rect) {
         add(WorldCollidable()
+          ..position = Vector2(rect.left, rect.top)
+          ..width = rect.width
+          ..height = rect.height);
+      });
+
+  void addWorldFinish() async =>
+      (await MapLoader.readCollisionMap('assets/Training_Easy_Finish.json'))
+          .forEach((rect) {
+        add(WorldFinish()
           ..position = Vector2(rect.left, rect.top)
           ..width = rect.width
           ..height = rect.height);
@@ -108,14 +116,14 @@ class TrainingGame extends FlameGame with HasCollidables, KeyboardEvents {
     return collidable;
   }
 
-  @override
-  KeyEventResult onKeyEvent(
-      RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final isKeyDown = event is RawKeyDownEvent;
-
-    print(isKeyDown);
-    print(event);
-
-    return super.onKeyEvent(event, keysPressed);
-  }
+  //@override
+  //KeyEventResult onKeyEvent(
+  //    RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  //  final isKeyDown = event is RawKeyDownEvent;
+  //
+  //  print(isKeyDown);
+  //  print(event);
+  //
+  // return super.onKeyEvent(event, keysPressed);
+  //}
 }

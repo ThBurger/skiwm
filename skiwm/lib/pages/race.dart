@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skiwm/main_training_page.dart';
+import 'package:skiwm/training_game_main.dart';
 import 'package:skiwm/utils/Theme.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';

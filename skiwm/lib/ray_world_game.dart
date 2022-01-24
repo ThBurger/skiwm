@@ -29,7 +29,8 @@ class RayWorldGame extends FlameGame with HasCollidables, KeyboardEvents {
   }
 
   void addWorldCollision() async =>
-      (await MapLoader.readRayWorldCollisionMap()).forEach((rect) {
+      (await MapLoader.readCollisionMap('assets/rayworld_collision_map.json'))
+          .forEach((rect) {
         add(WorldCollidable()
           ..position = Vector2(rect.left, rect.top)
           ..width = rect.width

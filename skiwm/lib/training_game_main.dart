@@ -4,17 +4,8 @@ import 'package:get/get.dart';
 import 'package:skiwm/components/dialog_start.dart';
 import 'package:skiwm/components/stopwatch.dart';
 import 'package:skiwm/training_game.dart';
+import 'package:skiwm/utils/constants.dart';
 import 'components/dialog_pause.dart';
-
-enum GameState {
-  init,
-  start,
-  playing,
-  paused,
-  gameOver,
-  inFinish,
-  finish,
-}
 
 class MainTrainingPage extends StatefulWidget {
   const MainTrainingPage({Key? key}) : super(key: key);
