@@ -1,9 +1,10 @@
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:get/get.dart';
-import 'package:skiwm/components/dialog_crashed.dart';
+import 'package:skiwm/components/dialog_finished.dart';
 import 'package:skiwm/components/world_finish.dart';
 import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/utils/constants.dart';
 import 'world_collidable.dart';
 import '../helpers/direction.dart';
 import 'package:flame/sprite.dart';
@@ -52,17 +53,21 @@ class Player extends SpriteAnimationComponent
 
     if (other is WorldCollidable) {
       if (!_hasCollided) {
-        Get.dialog(const CrashedDialog());
         stopwatch.currentState?.stop();
+        gameState = GameState.gameOver;
         _hasCollided = true;
         _collisionDirection = direction;
+        Get.dialog(const FinishedDialog());
+        //Get.dialog(const CrashedDialog());
       }
     }
     if (other is WorldFinish) {
       if (!_hasFinished) {
-        Get.dialog(const CrashedDialog());
         stopwatch.currentState?.stop();
+        gameState = GameState.inFinish;
         _hasFinished = true;
+        //TODO
+        Get.dialog(const FinishedDialog());
       }
     }
   }

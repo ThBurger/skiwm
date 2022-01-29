@@ -33,6 +33,10 @@ class StopWatchState extends State<StopWatchPage> {
     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
   }
 
+  int getTime() {
+    return _stopWatchTimer.rawTime.value;
+  }
+
   @override
   void initState() {
     super.initState();

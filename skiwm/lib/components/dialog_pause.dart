@@ -34,7 +34,8 @@ class PauseDialog extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context)
+                            .popUntil(ModalRoute.withName('/menu'));
                       },
                       child: const Text('Exit'),
                     ),

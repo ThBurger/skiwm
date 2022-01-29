@@ -2,6 +2,7 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:skiwm/components/training_easy.dart';
 import 'package:skiwm/components/world_finish.dart';
+import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'components/player.dart';
 import 'components/world_collidable.dart';
@@ -12,7 +13,6 @@ import 'helpers/map_loader.dart';
 class TrainingEasyGame extends FlameGame with HasCollidables, KeyboardEvents {
   late final Player _player = Player();
   final TrainingEasyWorld _world = TrainingEasyWorld();
-  GameState _gameState = GameState.init;
 
   @override
   Future<void> onLoad() async {
@@ -45,9 +45,8 @@ class TrainingEasyGame extends FlameGame with HasCollidables, KeyboardEvents {
           ..height = rect.height);
       });
 
-  void onGameStateChanged(GameState gameState) {
-    _gameState = gameState;
-    if (_gameState == GameState.playing) {
+  void onGameStateChanged() {
+    if (gameState == GameState.playing) {
       _player.isSkiing = true;
     } else {
       _player.isSkiing = false;

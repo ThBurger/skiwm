@@ -154,18 +154,6 @@ class MainTrainingState extends State<MainTrainingPage> {
                 child: StopWatchPage(key: _stopwatch),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: ElevatedButton(
-                  child: const Text('Back'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            )
           ],
         ),
       ),

@@ -17,34 +17,35 @@ class TrainingEasyPage extends StatefulWidget {
 
 class TrainingEasyState extends State<TrainingEasyPage> {
   TrainingEasyGame game = TrainingEasyGame();
-  GameState currentGameState = GameState.init;
 
   @override
   void initState() {
     super.initState();
+    gameState = GameState.init;
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       await showDialog(
           context: context,
           builder: (BuildContext context) {
             return const StartDialog();
-          }).then((value) => {
-            //playerStart()
           });
     });
   }
 
   void onTapDown(BuildContext context, TapDownDetails details) {
-    if (currentGameState == GameState.init) {
-      currentGameState = GameState.playing;
-      game.onGameStateChanged(currentGameState);
+    if (gameState == GameState.init) {
+      gameState = GameState.playing;
+      game.onGameStateChanged();
       stopwatch.currentState?.start();
       game.playerStart();
-    } else {
+    } else if (gameState == GameState.playing) {
       if (details.globalPosition.dx < MediaQuery.of(context).size.width / 2) {
         game.playerLeft();
       } else {
         game.playerRight();
       }
+    } else {
+      //nothing
+      print('do nothing with tap down');
     }
   }
 
@@ -65,8 +66,8 @@ class TrainingEasyState extends State<TrainingEasyPage> {
                   icon: const Icon(Icons.pause),
                   highlightColor: Colors.pink,
                   onPressed: () {
-                    currentGameState = GameState.paused;
-                    game.onGameStateChanged(currentGameState);
+                    gameState = GameState.paused;
+                    game.onGameStateChanged();
                     stopwatch.currentState?.stop();
                     showDialog(
                         context: context,
@@ -84,18 +85,6 @@ class TrainingEasyState extends State<TrainingEasyPage> {
               child: Padding(
                 padding: const EdgeInsets.all(32.0),
                 child: StopWatchPage(key: stopwatch),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: ElevatedButton(
-                  child: const Text('Back'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
               ),
             )
           ],

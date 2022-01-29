@@ -301,14 +301,14 @@ class _ShopPageState extends State<ShopPage> {
     if (_loading) {
       return const Card(
           child: (ListTile(
-              leading: const CircularProgressIndicator(),
-              title: const Text('Fetching consumables...'))));
+              leading: CircularProgressIndicator(),
+              title: Text('Fetching consumables...'))));
     }
     if (!_isAvailable || _notFoundIds.contains(_kConsumableId)) {
       return const Card();
     }
-    final ListTile consumableHeader =
-        const ListTile(title: Text('Purchased consumables'));
+    const ListTile consumableHeader =
+        ListTile(title: Text('Purchased consumables'));
     final List<Widget> tokens = _consumables.map((String id) {
       return GridTile(
         child: IconButton(
@@ -449,7 +449,7 @@ class _ShopPageState extends State<ShopPage> {
       );
       if (priceChangeConfirmationResult.responseCode == BillingResponse.ok) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: const Text('Price change accepted'),
+          content: Text('Price change accepted'),
         ));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

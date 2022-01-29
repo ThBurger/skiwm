@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/training_game_main.dart';
-import 'package:skiwm/utils/Theme.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';
 
@@ -62,24 +61,24 @@ class RacePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
-                                  children: <Widget>[
-                                    const Icon(
+                                  children: const <Widget>[
+                                    Icon(
                                       Icons.star,
                                       color: Colors.purple,
                                     ),
-                                    const Icon(
+                                    Icon(
                                       Icons.star_border,
                                       color: Colors.purple,
                                     ),
-                                    const Icon(
+                                    Icon(
                                       Icons.star_border,
                                       color: Colors.purple,
                                     ),
-                                    const Icon(
+                                    Icon(
                                       Icons.star_border,
                                       color: Colors.purple,
                                     ),
-                                    const Icon(
+                                    Icon(
                                       Icons.star_border,
                                       color: Colors.purple,
                                     ),
@@ -131,15 +130,11 @@ class RacePage extends StatelessWidget {
             color: Colors.transparent,
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40.0)),
+            child: ElevatedButton(
               onPressed: () {
                 Get.to(const MainTrainingPage());
               },
-              child: const Text("Start racing..."),
-              color: SkiWmColors.primary,
-              textColor: Colors.white,
+              child: const Text('Start racing'),
             ),
           ),
         ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/resources/globals.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class FinishedDialog extends StatelessWidget {
   const FinishedDialog({Key? key}) : super(key: key);
@@ -19,18 +21,30 @@ class FinishedDialog extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text(
-                      'CRASHED',
+                      'FINISHED',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     const SizedBox(
                       height: 20,
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        StopWatchTimer.getDisplayTime(
+                            stopwatch.currentState!.getTime(),
+                            hours: false),
+                        style: const TextStyle(
+                            fontSize: 40,
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed('/afterrace');
                       },
-                      child: const Text('Save Highscore'),
+                      child: const Text('Continue'),
                     ),
                   ],
                 ),

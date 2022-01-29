@@ -26,18 +26,6 @@ class MainGameState extends State<MainGamePage> {
               padding: const EdgeInsets.all(32.0),
               child: Joypad(onDirectionChanged: game.onJoypadDirectionChanged),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: ElevatedButton(
-                child: const Text('Back'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
           )
         ],
       ),

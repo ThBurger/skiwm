@@ -63,7 +63,7 @@ class _SplashPageState extends AuthState<SplashPage> {
             const Expanded(
               flex: 6,
               child: Align(
-                child: Text("preparing slope..."),
+                child: Text("getting ready..."),
               ),
             ),
             Expanded(
