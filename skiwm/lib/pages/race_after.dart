@@ -56,10 +56,8 @@ class _AfterRaceState extends State<AfterRacePage> {
                     ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .popUntil(ModalRoute.withName('/loading'));
+                  Navigator.of(context).popUntil(ModalRoute.withName('/race'));
                 },
-                // TODO Unhandled Exception: setState() called after dispose(): LoadingState#7908b(lifecycle state: defunct, not mounted)
                 child: const Text('Retry'),
               ),
               ElevatedButton(

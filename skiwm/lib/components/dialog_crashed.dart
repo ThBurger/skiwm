@@ -29,7 +29,7 @@ class CrashedDialog extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         Navigator.of(context)
-                            .popUntil(ModalRoute.withName('/loading'));
+                            .popUntil(ModalRoute.withName('/race'));
                       },
                       child: const Text('Retry'),
                     ),

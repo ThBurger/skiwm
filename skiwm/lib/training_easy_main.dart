@@ -70,11 +70,17 @@ class TrainingEasyState extends State<TrainingEasyPage> {
                     game.onGameStateChanged();
                     stopwatch.currentState?.stop();
                     showDialog(
+                        barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) {
                           return const PauseDialog();
                         }).then((value) => {
-                          if (value == null) {Get.back()}
+                          if (value == 'continue')
+                            {
+                              gameState = GameState.playing,
+                              game.onGameStateChanged(),
+                              stopwatch.currentState?.start()
+                            }
                         });
                   },
                 ),

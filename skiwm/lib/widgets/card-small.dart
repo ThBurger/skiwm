@@ -56,7 +56,7 @@ class CardSmall extends StatelessWidget {
                             child: Text(cta,
                                 style: const TextStyle(
                                     color: SkiWmColors.primary,
-                                    fontSize: 24,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w600)),
                           )
                         ],

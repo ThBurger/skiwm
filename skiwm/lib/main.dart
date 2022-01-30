@@ -2,11 +2,10 @@ import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/pages/account.dart';
-import 'package:skiwm/pages/after_race.dart';
-import 'package:skiwm/pages/loading.dart';
+import 'package:skiwm/pages/race_after.dart';
 import 'package:skiwm/pages/login.dart';
 import 'package:skiwm/pages/menu.dart';
-import 'package:skiwm/pages/race.dart';
+import 'package:skiwm/pages/race_start.dart';
 import 'package:skiwm/pages/settings.dart';
 import 'package:skiwm/pages/splash.dart';
 import 'package:skiwm/training_easy_main.dart';
@@ -46,11 +45,10 @@ class App extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/': (_) => const SplashPage(),
         '/menu': (_) => const MenuPage(),
-        '/race': (_) => const RacePage(),
+        '/race': (_) => const RaceStartPage(),
         '/setting': (_) => const SettingsPage(),
         '/login': (_) => const LoginPage(),
         '/account': (_) => const AccountPage(),
-        '/loading': (_) => const LoadingPage(),
         '/trainig_easy': (_) => const TrainingEasyPage(),
         '/afterrace': (_) => const AfterRacePage(),
       },

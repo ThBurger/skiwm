@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skiwm/training_game_main.dart';
+import 'package:skiwm/models/race_arguments.dart';
+import 'package:skiwm/pages/loading.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';
 
-class RacePage extends StatelessWidget {
-  const RacePage({Key? key}) : super(key: key);
+class RaceStartPage extends StatelessWidget {
+  const RaceStartPage({Key? key}) : super(key: key);
 
-  final String image = "assets/images/Training_1.png";
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as RaceArguments;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
-          "Race",
+        title: Text(
+          args.title,
         ),
       ),
       body: Stack(
@@ -29,18 +30,18 @@ class RacePage extends StatelessWidget {
           Container(
               foregroundDecoration: const BoxDecoration(color: Colors.black26),
               height: 400,
-              child: Image.asset(image, fit: BoxFit.cover)),
+              child: Image.asset(args.image, fit: BoxFit.cover)),
           SingleChildScrollView(
             padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 250),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    "Bormio",
-                    style: TextStyle(
+                    args.title,
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 28.0,
                         fontWeight: FontWeight.bold),
@@ -114,7 +115,7 @@ class RacePage extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              _buildStartButton(),
+              _buildStartButton(args.title),
             ],
           )
         ],
@@ -122,7 +123,7 @@ class RacePage extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton() {
+  Widget _buildStartButton(String title) {
     return Row(
       children: <Widget>[
         Expanded(
@@ -132,7 +133,7 @@ class RacePage extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: ElevatedButton(
               onPressed: () {
-                Get.to(const MainTrainingPage());
+                Get.to(LoadingPage(title));
               },
               child: const Text('Start racing'),
             ),

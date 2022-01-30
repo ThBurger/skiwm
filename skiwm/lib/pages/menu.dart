@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:skiwm/models/race_arguments.dart';
 import 'package:skiwm/pages/account.dart';
 import 'package:skiwm/pages/leaderboard.dart';
 import 'package:skiwm/pages/shop.dart';
@@ -52,35 +53,84 @@ class MenuPage extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 50),
+                const Text(
+                  "Credits",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 23,
+                  ),
+                ),
                 const DailyCredit(),
                 const SizedBox(height: 18),
+                const Text(
+                  "Races",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 23,
+                  ),
+                ),
                 CardSquare(
-                    cta: "Race",
+                    cta: "Bormio",
                     title: 'Start Racing...',
                     img: "assets/images/Training_1.png",
                     tap: () {
-                      Navigator.pushNamed(context, '/race');
+                      Navigator.pushNamed(
+                        context,
+                        '/race',
+                        arguments: RaceArguments(
+                            'Bormio', 'assets/images/Training_1.png', 2),
+                      );
                     }),
                 const SizedBox(height: 8.0),
+                const Text(
+                  "Trainings",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 23,
+                  ),
+                ),
                 Row(
                   children: [
                     CardSmall(
-                        cta: "Training",
+                        cta: "Training Easy",
                         title: 'Start Training...',
                         tap: () {
-                          Get.toNamed('/loading');
+                          Navigator.pushNamed(
+                            context,
+                            '/race',
+                            arguments: RaceArguments('Training Easy',
+                                'assets/images/Training_1.png', 2),
+                          );
                         }),
+                    CardSmall(
+                        cta: "Training Medium",
+                        title: 'Start Training...',
+                        tap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/race',
+                            arguments: RaceArguments('Training Medium',
+                                'assets/images/Training_1.png', 2),
+                          );
+                        })
+                  ],
+                ),
+                const Text(
+                  "Other Stuff",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 23,
+                  ),
+                ),
+                Row(
+                  children: [
                     CardSmall(
                         cta: "Leaderboard",
                         title: 'check standings...',
                         img: "assets/images/podium.png",
                         tap: () {
                           Get.to(const LeaderboardPage());
-                        })
-                  ],
-                ),
-                Row(
-                  children: [
+                        }),
                     CardSmall(
                         cta: "Profile",
                         title: 'edit your profile...',
@@ -88,6 +138,10 @@ class MenuPage extends StatelessWidget {
                         tap: () {
                           Get.to(const AccountPage());
                         }),
+                  ],
+                ),
+                Row(
+                  children: [
                     CardSmall(
                         cta: "Shop",
                         title: 'in app purchases...',

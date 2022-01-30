@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoadingPage extends StatefulWidget {
-  const LoadingPage({UniqueKey? key}) : super(key: key);
+  final String title;
+  const LoadingPage(this.title, {UniqueKey? key}) : super(key: key);
 
   @override
   LoadingState createState() => LoadingState();
@@ -12,7 +13,14 @@ class LoadingState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Get.toNamed('/trainig_easy')?.then((_) => setState(() {}));
+      print(widget.title);
+      if (widget.title == 'Bormio') {
+        Get.toNamed('/trainig_easy');
+      } else if (widget.title == 'Bormio') {
+        Get.toNamed('/trainig_easy');
+      } else {
+        Get.toNamed('/trainig_easy');
+      }
     });
 
     return Scaffold(
