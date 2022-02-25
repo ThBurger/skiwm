@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:skiwm/utils/Theme.dart';
+import 'package:skiwm/utils/theme.dart';
 
 class ProductCarousel extends StatefulWidget {
   final List<Map<String, String>> imgArray;
@@ -26,7 +26,7 @@ class _ProductCarouselState extends State<ProductCarousel> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      decoration: BoxDecoration(boxShadow: [
+                      decoration: const BoxDecoration(boxShadow: [
                         BoxShadow(
                             color: Color.fromRGBO(0, 0, 0, 0.4),
                             blurRadius: 8,
@@ -49,7 +49,7 @@ class _ProductCarouselState extends State<ProductCarousel> {
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Column(
-                      children: [
+                      children: const [
                         Text("1.00",
                             style: TextStyle(
                                 fontSize: 16, color: SkiWmColors.header)),
@@ -57,8 +57,8 @@ class _ProductCarouselState extends State<ProductCarousel> {
                             style: TextStyle(
                                 fontSize: 32, color: SkiWmColors.text)),
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 16.0, right: 16.0, top: 8),
+                          padding:
+                              EdgeInsets.only(left: 16.0, right: 16.0, top: 8),
                           child: Text(
                             "TODO DESCRIPTION",
                             style: TextStyle(

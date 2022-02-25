@@ -5,11 +5,26 @@ import 'package:skiwm/models/race_arguments.dart';
 import 'package:skiwm/pages/account.dart';
 import 'package:skiwm/pages/leaderboard.dart';
 import 'package:skiwm/pages/shop.dart';
-import 'package:skiwm/utils/Theme.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/widgets/daily_credits.dart';
-import 'package:skiwm/widgets/card-small.dart';
-import 'package:skiwm/widgets/card-square.dart';
+import 'package:skiwm/widgets/card_small.dart';
 import 'package:skiwm/widgets/credit.dart';
+import 'package:skiwm/widgets/slide_item.dart';
+
+List trainings = [
+  {
+    "img": "assets/images/Training_1.png",
+    "title": "Sölden",
+    "text": "start easy training",
+    "rating": 1.2
+  },
+  {
+    "img": "assets/images/Training_1.png",
+    "title": "Saalbach",
+    "text": "start medium training",
+    "rating": 2.5
+  }
+];
 
 class MenuPage extends StatelessWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -48,7 +63,7 @@ class MenuPage extends StatelessWidget {
           ),
         ),
         child: Container(
-          padding: const EdgeInsets.only(right: 24, left: 24, bottom: 12),
+          padding: const EdgeInsets.only(right: 12, left: 12),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -69,10 +84,11 @@ class MenuPage extends StatelessWidget {
                     fontSize: 23,
                   ),
                 ),
-                CardSquare(
-                    cta: "Bormio",
-                    title: 'Start Racing...',
+                SlideItem(
+                    title: "Bormio",
+                    text: 'Start Racing...',
                     img: "assets/images/Training_1.png",
+                    rating: "3,4",
                     tap: () {
                       Navigator.pushNamed(
                         context,
@@ -89,32 +105,7 @@ class MenuPage extends StatelessWidget {
                     fontSize: 23,
                   ),
                 ),
-                Row(
-                  children: [
-                    CardSmall(
-                        cta: "Training Easy",
-                        title: 'Start Training...',
-                        tap: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/race',
-                            arguments: RaceArguments('Training Easy',
-                                'assets/images/Training_1.png', 2),
-                          );
-                        }),
-                    CardSmall(
-                        cta: "Training Medium",
-                        title: 'Start Training...',
-                        tap: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/race',
-                            arguments: RaceArguments('Training Medium',
-                                'assets/images/Training_1.png', 2),
-                          );
-                        })
-                  ],
-                ),
+                buildTrainingList(context),
                 const Text(
                   "Other Stuff",
                   style: TextStyle(
@@ -162,6 +153,38 @@ class MenuPage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  buildTrainingList(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 2.4,
+      width: MediaQuery.of(context).size.width,
+      child: ListView.builder(
+        primary: false,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: trainings.length,
+        itemBuilder: (BuildContext context, int index) {
+          Map training = trainings[index];
+          return Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: SlideItem(
+                img: training["img"],
+                title: training["title"],
+                text: training["text"],
+                rating: training["rating"].toString(),
+                tap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/race',
+                    arguments: RaceArguments(
+                        training["title"], training["img"], training["rating"]),
+                  );
+                }),
+          );
+        },
       ),
     );
   }

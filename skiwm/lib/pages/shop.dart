@@ -177,7 +177,7 @@ class _ShopPageState extends State<ShopPage> {
 
   Card _buildConnectionCheckTile() {
     if (_loading) {
-      return Card(child: const ListTile(title: Text('Trying to connect...')));
+      return const Card(child: ListTile(title: Text('Trying to connect...')));
     }
     final Widget storeHeader = ListTile(
       leading: Icon(_isAvailable ? Icons.check : Icons.block,

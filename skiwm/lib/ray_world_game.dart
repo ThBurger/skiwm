@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/services.dart';
@@ -53,7 +51,7 @@ class RayWorldGame extends FlameGame with HasCollidables, KeyboardEvents {
   KeyEventResult onKeyEvent(
       RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     final isKeyDown = event is RawKeyDownEvent;
-    Direction? keyDirection = null;
+    Direction? keyDirection;
 
     if (event.logicalKey == LogicalKeyboardKey.keyA) {
       keyDirection = Direction.left;

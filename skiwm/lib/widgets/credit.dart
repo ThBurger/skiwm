@@ -32,7 +32,7 @@ class CreditChip extends StatelessWidget {
           },
         );
       },
-      child: new SizedBox(),
+      child: const SizedBox(),
     );
   }
 }

@@ -11,7 +11,7 @@ import 'package:flame/sprite.dart';
 
 class Player extends SpriteAnimationComponent
     with HasGameRef, Hitbox, Collidable {
-  final double _playerSpeedMax = 500.0;
+  final double _playerSpeedMax = 400.0;
   double _playerSpeed = 0.0;
   bool isSkiing = false;
   final double _animationSpeed = 0.15;
@@ -30,7 +30,7 @@ class Player extends SpriteAnimationComponent
 
   Player()
       : super(
-          size: Vector2.all(40.0),
+          size: Vector2.all(30.0),
         ) {
     addHitbox(HitboxRectangle());
   }
@@ -51,25 +51,24 @@ class Player extends SpriteAnimationComponent
   void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
     super.onCollision(intersectionPoints, other);
 
-    if (other is WorldCollidable) {
-      if (!_hasCollided) {
-        stopwatch.currentState?.stop();
-        gameState = GameState.gameOver;
-        _hasCollided = true;
-        _collisionDirection = direction;
-        Get.dialog(const FinishedDialog());
-        //Get.dialog(const CrashedDialog());
-      }
-    }
-    if (other is WorldFinish) {
-      if (!_hasFinished) {
-        stopwatch.currentState?.stop();
-        gameState = GameState.inFinish;
-        _hasFinished = true;
-        //TODO
-        Get.dialog(const FinishedDialog());
-      }
-    }
+    // if (other is WorldCollidable) {
+    //   if (!_hasCollided) {
+    //     stopwatch.currentState?.stop();
+    //     gameState = GameState.gameOver;
+    //     _hasCollided = true;
+    //     _collisionDirection = direction;
+    //     //Get.dialog(const CrashedDialog());
+    //   }
+    // }
+    // if (other is WorldFinish) {
+    //   if (!_hasFinished) {
+    //     stopwatch.currentState?.stop();
+    //     gameState = GameState.inFinish;
+    //     _hasFinished = true;
+    //     //TODO
+    //     //Get.dialog(const FinishedDialog());
+    //   }
+    // }
   }
 
   @override
@@ -195,22 +194,22 @@ class Player extends SpriteAnimationComponent
   }
 
   void moveLeft(double delta) {
-    position
-        .add(Vector2((delta * -_playerSpeed) / 2, (delta * _playerSpeed) / 2));
+    position.add(
+        Vector2((delta * -_playerSpeed) / 2.5, (delta * _playerSpeed) / 2.5));
   }
 
   void moveLLeft(double delta) {
-    position
-        .add(Vector2((delta * -_playerSpeed) / 4, (delta * _playerSpeed) / 4));
+    position.add(
+        Vector2((delta * -_playerSpeed) / 1.5, (delta * _playerSpeed) / 8));
   }
 
   void moveRight(double delta) {
-    position
-        .add(Vector2((delta * _playerSpeed) / 2, (delta * _playerSpeed) / 2));
+    position.add(
+        Vector2((delta * _playerSpeed) / 2.5, (delta * _playerSpeed) / 2.5));
   }
 
   void moveRRight(double delta) {
     position
-        .add(Vector2((delta * _playerSpeed) / 4, (delta * _playerSpeed) / 4));
+        .add(Vector2((delta * _playerSpeed) / 1.5, (delta * _playerSpeed) / 8));
   }
 }

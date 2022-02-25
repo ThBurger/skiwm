@@ -13,7 +13,7 @@ class LoadingState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      print(widget.title);
+      //TODO
       if (widget.title == 'Bormio') {
         Get.toNamed('/trainig_easy');
       } else if (widget.title == 'Bormio') {

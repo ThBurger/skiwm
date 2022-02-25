@@ -1,9 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:flutter/services.dart';
 import 'package:skiwm/components/training_1.dart';
 import 'package:skiwm/utils/constants.dart';
-
 import 'components/player.dart';
 import 'components/world_collidable.dart';
 import 'helpers/direction.dart';
@@ -108,14 +106,14 @@ class TrainingGame extends FlameGame with HasCollidables, KeyboardEvents {
     return collidable;
   }
 
-  @override
-  KeyEventResult onKeyEvent(
-      RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    final isKeyDown = event is RawKeyDownEvent;
+  //@override
+  //KeyEventResult onKeyEvent(
+  //    RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  //  final isKeyDown = event is RawKeyDownEvent;
 
-    print(isKeyDown);
-    print(event);
+  //  print(isKeyDown);
+  //  print(event);
 
-    return super.onKeyEvent(event, keysPressed);
-  }
+  //  return super.onKeyEvent(event, keysPressed);
+  //}
 }

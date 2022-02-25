@@ -9,7 +9,7 @@ import 'package:skiwm/pages/race_start.dart';
 import 'package:skiwm/pages/settings.dart';
 import 'package:skiwm/pages/splash.dart';
 import 'package:skiwm/training_easy_main.dart';
-import 'package:skiwm/utils/Theme.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skiwm/utils/Theme.dart';
+import 'package:skiwm/utils/theme.dart';
 
 class CardSmall extends StatelessWidget {
   CardSmall(

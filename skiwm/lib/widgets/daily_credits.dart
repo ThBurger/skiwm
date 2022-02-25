@@ -53,13 +53,13 @@ class _DailyCreditState extends State<DailyCredit> {
       child: _redeemed
           ? Row(
               children: [
-                Text('Next Credits at '),
+                const Text('Next Credits at '),
                 CountdownTimer(
                   endTime: _nextCredits.millisecondsSinceEpoch,
                 ),
               ],
             )
-          : Text('Get 25 Credits'),
+          : const Text('Get 25 Credits'),
     );
   }
 }

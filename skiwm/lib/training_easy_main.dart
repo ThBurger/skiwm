@@ -1,6 +1,5 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:skiwm/components/dialog_start.dart';
 import 'package:skiwm/components/stopwatch.dart';
 import 'package:skiwm/resources/globals.dart';
@@ -43,9 +42,6 @@ class TrainingEasyState extends State<TrainingEasyPage> {
       } else {
         game.playerRight();
       }
-    } else {
-      //nothing
-      print('do nothing with tap down');
     }
   }
 

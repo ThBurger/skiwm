@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/models/leadboard_entry_response.dart';
 import 'package:skiwm/models/leaderboard_entry.dart';
-import 'package:skiwm/utils/Theme.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/network/leaderboard_bloc.dart';
 
 class ResultPage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _ResultPageState extends State<ResultPage> {
           if (widget.raceId != '') {
             return _buildLoadingWidget();
           } else {
-            return Text("Choose Race Id before Results were loaded");
+            return const Text("Choose Race Id before Results were loaded");
           }
         }
       },
@@ -47,7 +47,10 @@ class _ResultPageState extends State<ResultPage> {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [Text("Loading data from API..."), CircularProgressIndicator()],
+      children: const [
+        Text("Loading data from API..."),
+        CircularProgressIndicator()
+      ],
     ));
   }
 
@@ -100,7 +103,7 @@ class _ResultPageState extends State<ResultPage> {
                   Text(
                     entry.username!,
                   ),
-                  SizedBox(width: 6.0),
+                  const SizedBox(width: 6.0),
                 ],
               ),
             ),
