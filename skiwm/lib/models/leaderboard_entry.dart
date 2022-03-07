@@ -7,7 +7,7 @@ class LeaderboardEntry {
   final DateTime? updatedAt;
   final String? userId;
   final String? raceId;
-  final String? finishedTime;
+  final int? finishedTime;
   final String? username;
 
   const LeaderboardEntry({
@@ -32,7 +32,7 @@ class LeaderboardEntry {
             : DateTime.parse(data['updated_at'] as String),
         userId: data['user_id'] as String?,
         raceId: data['race_id'] as String?,
-        finishedTime: data['finished_time'] as String,
+        finishedTime: data['finished_time'] as int,
         username: data['profiles'] == null
             ? ''
             : data['profiles']['username'] as String,

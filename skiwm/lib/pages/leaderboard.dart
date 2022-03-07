@@ -23,7 +23,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     setState(() {
       _isLoading = true;
     });
-    String id = '';
+/*     String id = '';
     List<LeaderboardEntry> userEntries = userLeaderboard
         .where((element) => element.raceId == _chosenRaceId)
         .toList();
@@ -41,7 +41,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
         raceId: _chosenRaceId,
         updatedAt: DateTime.now(),
         finishedTime: '00:15:15');
-    await _repository.setLeaderboardEntry(entry);
+    await _repository.setLeaderboardEntry(entry); */
     setState(() {
       _isLoading = false;
     });

@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:get/get.dart';
 import 'package:skiwm/components/training_easy.dart';
 import 'package:skiwm/components/world_finish.dart';
 import 'package:skiwm/resources/globals.dart';
@@ -22,7 +23,7 @@ class TrainingEasyGame extends FlameGame with HasCollidables, KeyboardEvents {
     addWorldCollision();
     addWorldFinish();
 
-    _player.position = Vector2(250, 350);
+    _player.position = Vector2(300, 200); // TODO mitte
     camera.followComponent(_player,
         worldBounds: Rect.fromLTRB(0, 0, _world.size.x, _world.size.y));
   }

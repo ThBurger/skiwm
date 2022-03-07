@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:skiwm/models/race.dart';
 
 class SlideItem extends StatefulWidget {
-  final String img;
-  final String title;
-  final String text;
-  final String rating;
-  final VoidCallback tap;
+  final Race raceItem;
 
   const SlideItem({
     Key? key,
-    required this.img,
-    required this.title,
-    required this.text,
-    required this.rating,
-    required this.tap,
+    required this.raceItem,
   }) : super(key: key);
 
   @override
@@ -29,7 +23,13 @@ class _SlideItemState extends State<SlideItem> {
         height: 250,
         width: MediaQuery.of(context).size.width / 1.3,
         child: GestureDetector(
-          onTap: widget.tap,
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              '/race',
+              arguments: widget.raceItem,
+            );
+          },
           child: Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
@@ -47,7 +47,7 @@ class _SlideItemState extends State<SlideItem> {
                           topRight: Radius.circular(10.0),
                         ),
                         child: Image.asset(
-                          widget.img,
+                          widget.raceItem.img!,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -62,13 +62,12 @@ class _SlideItemState extends State<SlideItem> {
                           padding: const EdgeInsets.all(2.0),
                           child: Row(
                             children: <Widget>[
-                              Icon(
+                              const Icon(
                                 Icons.star,
-                                //color: Constants.ratingBG,
                                 size: 10,
                               ),
                               Text(
-                                " ${widget.rating} ",
+                                " ${widget.raceItem.difficulty!} ",
                                 style: const TextStyle(
                                   fontSize: 10.0,
                                 ),
@@ -78,25 +77,7 @@ class _SlideItemState extends State<SlideItem> {
                         ),
                       ),
                     ),
-                    Positioned(
-                      top: 6.0,
-                      left: 6.0,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(3.0)),
-                        child: const Padding(
-                          padding: EdgeInsets.all(4.0),
-                          child: Text(
-                            " OPEN ",
-                            style: TextStyle(
-                              fontSize: 10.0,
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    buildOpenClosedWidget(),
                   ],
                 ),
                 const SizedBox(height: 7.0),
@@ -105,7 +86,7 @@ class _SlideItemState extends State<SlideItem> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
-                      widget.title,
+                      widget.raceItem.racename!,
                       style: const TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.w800,
@@ -120,7 +101,8 @@ class _SlideItemState extends State<SlideItem> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
-                      widget.text,
+                      "Credits entry costs: " +
+                          widget.raceItem.credits!.toString(),
                       style: const TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w300,
@@ -135,5 +117,58 @@ class _SlideItemState extends State<SlideItem> {
         ),
       ),
     );
+  }
+
+  buildOpenClosedWidget() {
+    if (DateTime.now().isBefore(widget.raceItem.fromDate!)) {
+      return Positioned(
+        top: 6.0,
+        left: 6.0,
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0)),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
+              children: [
+                const Text('Starts in ',
+                    style: TextStyle(
+                      fontSize: 10.0,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    )),
+                CountdownTimer(
+                    endTime: (widget.raceItem.fromDate!.millisecondsSinceEpoch),
+                    textStyle: const TextStyle(
+                      fontSize: 10.0,
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ],
+            ),
+          ),
+        ),
+      );
+    } else {
+      return Positioned(
+        top: 6.0,
+        left: 6.0,
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0)),
+          child: const Padding(
+            padding: EdgeInsets.all(4.0),
+            child: Text(
+              " OPEN ",
+              style: TextStyle(
+                fontSize: 10.0,
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

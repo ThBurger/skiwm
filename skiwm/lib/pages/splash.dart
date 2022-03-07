@@ -5,6 +5,7 @@ import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/constants.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 
 class SplashPage extends StatefulWidget {
@@ -14,15 +15,27 @@ class SplashPage extends StatefulWidget {
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends AuthState<SplashPage> {
+class _SplashPageState extends AuthState<SplashPage>
+    with TickerProviderStateMixin {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  late AnimationController animationController;
 
   @override
   void initState() {
+    animationController =
+        AnimationController(duration: const Duration(seconds: 4), vsync: this);
+    animationController.repeat();
     _loadCredits();
     _loadLeaderboradData();
     _loadRaceData().then((value) => {recoverSupabaseSession()});
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadCredits() async {
@@ -71,10 +84,15 @@ class _SplashPageState extends AuthState<SplashPage> {
               child: Align(
                 child: Container(
                   margin: const EdgeInsets.all(20),
-                  child: const LinearProgressIndicator(
-                    backgroundColor: Colors.grey,
-                    color: Colors.green,
-                    minHeight: 7,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.white,
+                      color: Colors.green,
+                      valueColor: animationController.drive(ColorTween(
+                          begin: SkiWmColors.primary, end: SkiWmColors.label)),
+                      minHeight: 7,
+                    ),
                   ),
                 ),
               ),
@@ -95,7 +113,14 @@ class _SplashPageState extends AuthState<SplashPage> {
     if (data != null) {
       for (var race in data) {
         Race r = Race.fromMap(race);
-        races.add(r);
+        if (r.training!) {
+          trainings.add(r);
+        } else {
+          if (DateTime.now().isBefore(r.tillDate!)) {
+            racesPlayable.add(r);
+          }
+          races.add(r);
+        }
       }
     }
     await Future.delayed(const Duration(seconds: 2));
@@ -116,7 +141,7 @@ class _SplashPageState extends AuthState<SplashPage> {
     if (data != null) {
       for (var entry in data) {
         LeaderboardEntry r = LeaderboardEntry.fromMap(entry);
-        userLeaderboard.add(r);
+        userLeaderboardEntries.add(r);
       }
     }
   }

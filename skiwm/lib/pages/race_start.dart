@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skiwm/models/race_arguments.dart';
-import 'package:skiwm/pages/loading.dart';
+import 'package:skiwm/models/race.dart';
+import 'package:skiwm/pages/race_loading.dart';
+import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';
+import 'package:skiwm/utils/constants.dart';
 
 class RaceStartPage extends StatelessWidget {
   const RaceStartPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as RaceArguments;
+    final args = ModalRoute.of(context)!.settings.arguments as Race;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -22,7 +24,7 @@ class RaceStartPage extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          args.title,
+          args.racename!,
         ),
       ),
       body: Stack(
@@ -30,7 +32,7 @@ class RaceStartPage extends StatelessWidget {
           Container(
               foregroundDecoration: const BoxDecoration(color: Colors.black26),
               height: 400,
-              child: Image.asset(args.image, fit: BoxFit.cover)),
+              child: Image.asset(args.img!, fit: BoxFit.cover)),
           SingleChildScrollView(
             padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
             child: Column(
@@ -40,7 +42,7 @@ class RaceStartPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    args.title,
+                    args.racename!,
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 28.0,
@@ -106,16 +108,18 @@ class RaceStartPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const ResultPage(
-                  raceId: '',
+                ResultPage(
+                  raceId: args.id!,
                 ),
+                const SizedBox(height: 35.0),
               ],
             ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              _buildStartButton(args.title),
+              _buildStartButton(context, args.fromDate!, args.racename!,
+                  args.credits!, args.id!),
             ],
           )
         ],
@@ -123,7 +127,54 @@ class RaceStartPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton(String title) {
+  Widget _buildStartButton(BuildContext context, DateTime from, String title,
+      int credits, String raceId) {
+    if (DateTime.now().isBefore(from)) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              color: Colors.transparent,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.red[600]),
+                onPressed: () {
+                  context.showErrorSnackBar(message: 'Not yet started');
+                },
+                child: const Text(
+                  'Start racing',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    if (creditsValueNotifier.value < credits) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              color: Colors.transparent,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.red[600]),
+                onPressed: () {
+                  context.showErrorSnackBar(message: 'not enough credits');
+                },
+                child: const Text(
+                  'Start racing',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
     return Row(
       children: <Widget>[
         Expanded(
@@ -133,7 +184,7 @@ class RaceStartPage extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: ElevatedButton(
               onPressed: () {
-                Get.to(LoadingPage(title));
+                Get.to(LoadingPage(title, raceId));
               },
               child: const Text('Start racing'),
             ),

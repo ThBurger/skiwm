@@ -51,6 +51,7 @@ dependencies:
   uuid: ^3.0.5
   intl: ^0.17.0
   flutter_countdown_timer: ^4.1.0
+  animated_text_kit: ^4.2.1
 
 dev_dependencies:
   flutter_test:

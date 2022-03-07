@@ -27,6 +27,11 @@ Future<void> main() async {
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
+// TODO
+  // theme: ThemeData(
+  //   textTheme:
+  //        GoogleFonts.varelaRoundTextTheme(Theme.of(context).textTheme),
+  // ),
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -50,7 +55,9 @@ class App extends StatelessWidget {
         '/login': (_) => const LoginPage(),
         '/account': (_) => const AccountPage(),
         '/trainig_easy': (_) => const TrainingEasyPage(),
-        '/afterrace': (_) => const AfterRacePage(),
+        '/afterrace': (_) => const AfterRacePage(
+              timeRace: 0,
+            ),
       },
     );
   }

@@ -1,25 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/resources/shared_preferences_service.dart';
+import 'package:skiwm/utils/theme.dart';
 
 class LoadingPage extends StatefulWidget {
   final String title;
-  const LoadingPage(this.title, {UniqueKey? key}) : super(key: key);
+  final String raceId;
+  const LoadingPage(this.title, this.raceId, {UniqueKey? key})
+      : super(key: key);
 
   @override
   LoadingState createState() => LoadingState();
 }
 
-class LoadingState extends State<LoadingPage> {
+class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
+  late AnimationController animationController;
+  @override
+  void initState() {
+    selectedRace = widget.raceId;
+    animationController =
+        AnimationController(duration: const Duration(seconds: 4), vsync: this);
+    animationController.repeat();
+    SharedPreferencesService().increaseScore('races', 1);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('was here!!!!');
     Future.delayed(const Duration(seconds: 3), () {
-      //TODO
+      //TODO id better
       if (widget.title == 'Bormio') {
-        Get.toNamed('/trainig_easy');
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/trainig_easy', ModalRoute.withName('/race'));
       } else if (widget.title == 'Bormio') {
-        Get.toNamed('/trainig_easy');
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/trainig_easy', ModalRoute.withName('/race'));
       } else {
-        Get.toNamed('/trainig_easy');
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/trainig_easy', ModalRoute.withName('/race'));
       }
     });
 
@@ -61,10 +87,16 @@ class LoadingState extends State<LoadingPage> {
                 child: Align(
                   child: Container(
                     margin: const EdgeInsets.all(20),
-                    child: const LinearProgressIndicator(
-                      backgroundColor: Colors.grey,
-                      color: Colors.green,
-                      minHeight: 7,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: LinearProgressIndicator(
+                        backgroundColor: Colors.white,
+                        color: Colors.green,
+                        valueColor: animationController.drive(ColorTween(
+                            begin: SkiWmColors.primary,
+                            end: SkiWmColors.label)),
+                        minHeight: 7,
+                      ),
                     ),
                   ),
                 ),

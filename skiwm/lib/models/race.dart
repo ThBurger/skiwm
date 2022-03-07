@@ -10,6 +10,8 @@ class Race {
   final bool? training;
   final DateTime? fromDate;
   final DateTime? tillDate;
+  final String? img;
+  final int? credits;
 
   const Race({
     this.id,
@@ -19,11 +21,13 @@ class Race {
     this.training,
     this.fromDate,
     this.tillDate,
+    this.img,
+    this.credits,
   });
 
   @override
   String toString() {
-    return 'Race(id: $id, updatedAt: $updatedAt, racename: $racename, difficulty: $difficulty, training: $training, fromDate: $fromDate, tillDate: $tillDate)';
+    return 'Race(id: $id, updatedAt: $updatedAt, racename: $racename, difficulty: $difficulty, training: $training, fromDate: $fromDate, tillDate: $tillDate, img: $img, credits: $credits)';
   }
 
   factory Race.fromMap(Map<String, dynamic> data) => Race(
@@ -40,6 +44,12 @@ class Race {
         tillDate: data['till_date'] == null
             ? null
             : DateTime.parse(data['till_date'] as String),
+        img: data['img'] == null
+            ? 'assets/images/Training_Easy.png'
+            : data['img'] as String,
+        credits: data['credits'] == null
+            ? 20
+            : data['img'] as int, // TODO default credits
       );
 
   Map<String, dynamic> toMap() => {

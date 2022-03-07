@@ -1,11 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
-import 'package:get/get.dart';
-import 'package:skiwm/components/dialog_finished.dart';
-import 'package:skiwm/components/world_finish.dart';
-import 'package:skiwm/resources/globals.dart';
-import 'package:skiwm/utils/constants.dart';
-import 'world_collidable.dart';
 import '../helpers/direction.dart';
 import 'package:flame/sprite.dart';
 
@@ -56,6 +50,7 @@ class Player extends SpriteAnimationComponent
     //     stopwatch.currentState?.stop();
     //     gameState = GameState.gameOver;
     //     _hasCollided = true;
+    //      SharedPreferencesService().increaseScore('crashed', 1);
     //     _collisionDirection = direction;
     //     //Get.dialog(const CrashedDialog());
     //   }
@@ -65,6 +60,7 @@ class Player extends SpriteAnimationComponent
     //     stopwatch.currentState?.stop();
     //     gameState = GameState.inFinish;
     //     _hasFinished = true;
+    //      SharedPreferencesService().increaseScore('finished', 1);
     //     //TODO
     //     //Get.dialog(const FinishedDialog());
     //   }

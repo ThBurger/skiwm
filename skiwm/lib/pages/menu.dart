@@ -1,30 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:skiwm/models/race_arguments.dart';
+import 'package:skiwm/models/race.dart';
 import 'package:skiwm/pages/account.dart';
 import 'package:skiwm/pages/leaderboard.dart';
 import 'package:skiwm/pages/shop.dart';
+import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/widgets/daily_credits.dart';
 import 'package:skiwm/widgets/card_small.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/slide_item.dart';
-
-List trainings = [
-  {
-    "img": "assets/images/Training_1.png",
-    "title": "Sölden",
-    "text": "start easy training",
-    "rating": 1.2
-  },
-  {
-    "img": "assets/images/Training_1.png",
-    "title": "Saalbach",
-    "text": "start medium training",
-    "rating": 2.5
-  }
-];
 
 class MenuPage extends StatelessWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -84,19 +70,7 @@ class MenuPage extends StatelessWidget {
                     fontSize: 23,
                   ),
                 ),
-                SlideItem(
-                    title: "Bormio",
-                    text: 'Start Racing...',
-                    img: "assets/images/Training_1.png",
-                    rating: "3,4",
-                    tap: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/race',
-                        arguments: RaceArguments(
-                            'Bormio', 'assets/images/Training_1.png', 2),
-                      );
-                    }),
+                buildRaceList(context, racesPlayable),
                 const SizedBox(height: 8.0),
                 const Text(
                   "Trainings",
@@ -105,7 +79,7 @@ class MenuPage extends StatelessWidget {
                     fontSize: 23,
                   ),
                 ),
-                buildTrainingList(context),
+                buildRaceList(context, trainings),
                 const Text(
                   "Other Stuff",
                   style: TextStyle(
@@ -147,8 +121,7 @@ class MenuPage extends StatelessWidget {
                   "Made with ❤ by Toburg Labs.",
                   textAlign: TextAlign.center,
                 ),
-                //const SizedBox(height: 8.0),
-                // ProductCarousel(imgArray: articlesCards["Music"]!["products"]),
+                const SizedBox(height: 10.0),
               ],
             ),
           ),
@@ -157,7 +130,7 @@ class MenuPage extends StatelessWidget {
     );
   }
 
-  buildTrainingList(BuildContext context) {
+  buildRaceList(BuildContext context, List<Race> races) {
     return SizedBox(
       height: MediaQuery.of(context).size.height / 2.4,
       width: MediaQuery.of(context).size.width,
@@ -165,24 +138,11 @@ class MenuPage extends StatelessWidget {
         primary: false,
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: trainings.length,
+        itemCount: races.length,
         itemBuilder: (BuildContext context, int index) {
-          Map training = trainings[index];
           return Padding(
             padding: const EdgeInsets.only(right: 10.0),
-            child: SlideItem(
-                img: training["img"],
-                title: training["title"],
-                text: training["text"],
-                rating: training["rating"].toString(),
-                tap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/race',
-                    arguments: RaceArguments(
-                        training["title"], training["img"], training["rating"]),
-                  );
-                }),
+            child: SlideItem(raceItem: races[index]),
           );
         },
       ),

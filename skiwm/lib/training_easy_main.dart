@@ -1,7 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skiwm/components/dialog_start.dart';
 import 'package:skiwm/components/stopwatch.dart';
+import 'package:skiwm/pages/race_after.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/training_easy.dart';
 import 'package:skiwm/utils/constants.dart';
@@ -78,6 +80,24 @@ class TrainingEasyState extends State<TrainingEasyPage> {
                               stopwatch.currentState?.start()
                             }
                         });
+                  },
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: IconButton(
+                  icon: const Icon(Icons.exit_to_app),
+                  highlightColor: Colors.pink,
+                  onPressed: () {
+                    gameState = GameState.finish;
+                    game.onGameStateChanged();
+                    stopwatch.currentState?.stop();
+                    Get.to(AfterRacePage(
+                      timeRace: stopwatch.currentState!.getTime(),
+                    ));
                   },
                 ),
               ),

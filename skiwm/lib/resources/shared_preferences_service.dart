@@ -1,24 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
-  void setStampCountOld(int newCount) async {
+  Future<int> getScore(String scoreId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('stampCountOld', newCount);
+    return prefs.getInt('score_' + scoreId) ?? 0;
   }
 
-  void setInitScreen(int newInitScreen) async {
+  Future<void> increaseScore(String scoreId, int increaseBy) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('initScreen', newInitScreen);
-  }
-
-  Future<bool> setQuickstamp(bool value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.setBool('quickstampActive', value);
-  }
-
-  Future<bool> setSubIdCache(String subId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int timestamp = DateTime.now().millisecondsSinceEpoch;
-    return prefs.setInt('cache_' + subId, timestamp);
+    int score = prefs.getInt('score_' + scoreId) ?? 0;
+    int newScore = score + increaseBy;
+    prefs.setInt('score_' + scoreId, newScore);
   }
 }

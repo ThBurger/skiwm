@@ -3,6 +3,8 @@ import 'package:skiwm/models/leadboard_entry_response.dart';
 import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/network/leaderboard_bloc.dart';
+import 'package:collection/collection.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class ResultPage extends StatefulWidget {
   final String raceId;
@@ -28,6 +30,8 @@ class _ResultPageState extends State<ResultPage> {
         if (snapshot.hasData) {
           if (snapshot.data!.error.isNotEmpty) {
             return _buildErrorWidget(snapshot.data!.error);
+          } else if (snapshot.data!.results.isEmpty) {
+            return const Text("No results available yet");
           }
           return _buildUserWidget(snapshot.data!);
         } else if (snapshot.hasError) {
@@ -74,14 +78,16 @@ class _ResultPageState extends State<ResultPage> {
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: data.results.map((entry) => createTile(entry)).toList(),
+            children: data.results
+                .mapIndexed((index, entry) => createTile(index + 1, entry))
+                .toList(),
           ),
         ),
       ),
     );
   }
 
-  Widget createTile(LeaderboardEntry entry) {
+  Widget createTile(int index, LeaderboardEntry entry) {
     return Container(
       decoration: const BoxDecoration(
         border: Border(
@@ -94,8 +100,8 @@ class _ResultPageState extends State<ResultPage> {
           children: <Widget>[
             Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 6.0, 6.0, 0.0),
-                child: CircleAvatar(
-                    radius: 15.0, child: Text(entry.username![0]))),
+                child:
+                    CircleAvatar(radius: 15.0, child: Text(index.toString()))),
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -107,11 +113,10 @@ class _ResultPageState extends State<ResultPage> {
                 ],
               ),
             ),
-            Container(
-                width: 100.0,
-                child: Text(
-                  entry.finishedTime!,
-                )),
+            SizedBox(
+              width: 100.0,
+              child: Text(StopWatchTimer.getDisplayTime(entry.finishedTime!)),
+            ),
           ],
         ),
       ),
