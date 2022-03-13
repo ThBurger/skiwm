@@ -14,6 +14,13 @@ class LeaderboardBloc {
     _subject.sink.add(response);
   }
 
+  emptyResult() {
+    LeaderboardEntryResponse response =
+        LeaderboardEntryResponse(List.empty(), "");
+
+    _subject.sink.add(response);
+  }
+
   dispose() {
     _subject.close();
   }

@@ -24,84 +24,12 @@ class MainTrainingState extends State<MainTrainingPage> {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       await showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (BuildContext context) {
             return const StartDialog();
-          }).then((value) => _showStartCountdown());
-    });
-  }
-
-  void _showStartCountdown() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          Future.delayed(const Duration(seconds: 1), () {
-            Navigator.of(context).pop(true);
           });
-          return Dialog(
-            backgroundColor: Colors.transparent,
-            child: Container(
-                alignment: FractionalOffset.center,
-                height: 80.0,
-                padding: const EdgeInsets.all(20.0),
-                child: const Text(
-                  "3",
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontFamily: 'Helvetica',
-                      fontWeight: FontWeight.bold),
-                )),
-          );
-        }).then((value) => {
-          showDialog(
-              context: context,
-              builder: (context) {
-                Future.delayed(const Duration(seconds: 1), () {
-                  Navigator.of(context).pop(true);
-                });
-                return Dialog(
-                  backgroundColor: Colors.transparent,
-                  child: Container(
-                      alignment: FractionalOffset.center,
-                      height: 80.0,
-                      padding: const EdgeInsets.all(20.0),
-                      child: const Text(
-                        "2",
-                        style: TextStyle(
-                            fontSize: 40,
-                            fontFamily: 'Helvetica',
-                            fontWeight: FontWeight.bold),
-                      )),
-                );
-              }).then((value) => {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      Future.delayed(const Duration(seconds: 1), () {
-                        Navigator.of(context).pop(true);
-                      });
-                      return Dialog(
-                        backgroundColor: Colors.transparent,
-                        child: Container(
-                            alignment: FractionalOffset.center,
-                            height: 80.0,
-                            padding: const EdgeInsets.all(20.0),
-                            child: const Text(
-                              "1",
-                              style: TextStyle(
-                                  fontSize: 40,
-                                  fontFamily: 'Helvetica',
-                                  fontWeight: FontWeight.bold),
-                            )),
-                      );
-                    }).then((value) => {
-                      currentGameState = GameState.playing,
-                      game.onGameStateChanged(currentGameState),
-                      _stopwatch.currentState?.start(),
-                      playerStart()
-                    })
-              })
-        });
+    });
   }
 
   void onTapDown(BuildContext context, TapDownDetails details) {
@@ -137,6 +65,7 @@ class MainTrainingState extends State<MainTrainingPage> {
                     game.onGameStateChanged(currentGameState);
                     _stopwatch.currentState?.stop();
                     showDialog(
+                        barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) {
                           return const PauseDialog();

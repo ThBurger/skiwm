@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/models/leadboard_entry_response.dart';
 import 'package:skiwm/models/leaderboard_entry.dart';
+import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/network/leaderboard_bloc.dart';
 import 'package:collection/collection.dart';
@@ -20,6 +21,12 @@ class _ResultPageState extends State<ResultPage> {
     if (widget.raceId != '') {
       leaderboardBloc.getResults(widget.raceId);
     }
+  }
+
+  @override
+  void dispose() {
+    leaderboardBloc.emptyResult();
+    super.dispose();
   }
 
   @override
@@ -88,9 +95,13 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget createTile(int index, LeaderboardEntry entry) {
+    bool _isUsers = userLeaderboardEntries
+        .where((element) => element.id == entry.id)
+        .isNotEmpty;
     return Container(
-      decoration: const BoxDecoration(
-        border: Border(
+      decoration: BoxDecoration(
+        color: _isUsers ? SkiWmColors.success : SkiWmColors.white,
+        border: const Border(
           bottom: BorderSide(color: SkiWmColors.border, width: 1.0),
         ),
       ),

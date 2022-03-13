@@ -34,12 +34,10 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print('was here!!!!');
     Future.delayed(const Duration(seconds: 3), () {
-      //TODO id better
-      if (widget.title == 'Bormio') {
+      if (widget.raceId == '8816a988-7815-41da-b9f1-71fa78f7e977') {
         Navigator.of(context).pushNamedAndRemoveUntil(
-            '/trainig_easy', ModalRoute.withName('/race'));
+            '/trainig_soelden', ModalRoute.withName('/race'));
       } else if (widget.title == 'Bormio') {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/trainig_easy', ModalRoute.withName('/race'));

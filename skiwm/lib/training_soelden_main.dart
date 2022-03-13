@@ -5,19 +5,19 @@ import 'package:skiwm/components/dialog_start.dart';
 import 'package:skiwm/components/stopwatch.dart';
 import 'package:skiwm/pages/race_after.dart';
 import 'package:skiwm/resources/globals.dart';
-import 'package:skiwm/training_easy.dart';
+import 'package:skiwm/training_soelden.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'components/dialog_pause.dart';
 
-class TrainingEasyPage extends StatefulWidget {
-  const TrainingEasyPage({Key? key}) : super(key: key);
+class TrainingSoeldenPage extends StatefulWidget {
+  const TrainingSoeldenPage({Key? key}) : super(key: key);
 
   @override
-  TrainingEasyState createState() => TrainingEasyState();
+  TrainingSoeldenState createState() => TrainingSoeldenState();
 }
 
-class TrainingEasyState extends State<TrainingEasyPage> {
-  TrainingEasyGame game = TrainingEasyGame();
+class TrainingSoeldenState extends State<TrainingSoeldenPage> {
+  TrainingSoeldenGame game = TrainingSoeldenGame();
 
   @override
   void initState() {

@@ -49,7 +49,7 @@ class Race {
             : data['img'] as String,
         credits: data['credits'] == null
             ? 20
-            : data['img'] as int, // TODO default credits
+            : data['credits'] as int, // TODO default credits
       );
 
   Map<String, dynamic> toMap() => {

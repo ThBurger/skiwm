@@ -29,12 +29,6 @@ class MenuPage extends StatelessWidget {
             Navigator.of(context).pushNamed('/setting');
           },
         ),
-        title: const Text(
-          'SKI WM',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
         actions: const <Widget>[
           CreditChip(),
         ]);

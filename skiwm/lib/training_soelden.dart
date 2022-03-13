@@ -1,6 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:skiwm/components/training_easy.dart';
+import 'package:skiwm/components/training_soelden.dart';
 import 'package:skiwm/components/world_finish.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/constants.dart';
@@ -10,9 +10,10 @@ import 'helpers/direction.dart';
 import 'package:flutter/material.dart';
 import 'helpers/map_loader.dart';
 
-class TrainingEasyGame extends FlameGame with HasCollidables, KeyboardEvents {
+class TrainingSoeldenGame extends FlameGame
+    with HasCollidables, KeyboardEvents {
   late final Player _player = Player();
-  final TrainingEasyWorld _world = TrainingEasyWorld();
+  final TrainingSoeldenWorld _world = TrainingSoeldenWorld();
 
   @override
   Future<void> onLoad() async {
@@ -27,8 +28,8 @@ class TrainingEasyGame extends FlameGame with HasCollidables, KeyboardEvents {
         worldBounds: Rect.fromLTRB(0, 0, _world.size.x, _world.size.y));
   }
 
-  void addWorldCollision() async =>
-      (await MapLoader.readCollisionMap('assets/Training_Easy_Collisions.json'))
+  void addWorldCollision() async => (await MapLoader.readCollisionMap(
+              'assets/Sölden_Training_Collisions.json'))
           .forEach((rect) {
         add(WorldCollidable()
           ..position = Vector2(rect.left, rect.top)
@@ -37,7 +38,7 @@ class TrainingEasyGame extends FlameGame with HasCollidables, KeyboardEvents {
       });
 
   void addWorldFinish() async =>
-      (await MapLoader.readCollisionMap('assets/Training_Easy_Finish.json'))
+      (await MapLoader.readCollisionMap('assets/Sölden_Training_Finish.json'))
           .forEach((rect) {
         add(WorldFinish()
           ..position = Vector2(rect.left, rect.top)

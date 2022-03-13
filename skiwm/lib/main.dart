@@ -9,6 +9,8 @@ import 'package:skiwm/pages/race_start.dart';
 import 'package:skiwm/pages/settings.dart';
 import 'package:skiwm/pages/splash.dart';
 import 'package:skiwm/training_easy_main.dart';
+import 'package:skiwm/training_soelden.dart';
+import 'package:skiwm/training_soelden_main.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -55,6 +57,7 @@ class App extends StatelessWidget {
         '/login': (_) => const LoginPage(),
         '/account': (_) => const AccountPage(),
         '/trainig_easy': (_) => const TrainingEasyPage(),
+        '/trainig_soelden': (_) => const TrainingSoeldenPage(),
         '/afterrace': (_) => const AfterRacePage(
               timeRace: 0,
             ),

@@ -1,5 +1,13 @@
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
+import 'package:get/get.dart';
+import 'package:skiwm/components/dialog_crashed.dart';
+import 'package:skiwm/components/dialog_finished.dart';
+import 'package:skiwm/components/world_collidable.dart';
+import 'package:skiwm/components/world_finish.dart';
+import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/resources/shared_preferences_service.dart';
+import 'package:skiwm/utils/constants.dart';
 import '../helpers/direction.dart';
 import 'package:flame/sprite.dart';
 
@@ -45,26 +53,31 @@ class Player extends SpriteAnimationComponent
   void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
     super.onCollision(intersectionPoints, other);
 
-    // if (other is WorldCollidable) {
-    //   if (!_hasCollided) {
-    //     stopwatch.currentState?.stop();
-    //     gameState = GameState.gameOver;
-    //     _hasCollided = true;
-    //      SharedPreferencesService().increaseScore('crashed', 1);
-    //     _collisionDirection = direction;
-    //     //Get.dialog(const CrashedDialog());
-    //   }
-    // }
-    // if (other is WorldFinish) {
-    //   if (!_hasFinished) {
-    //     stopwatch.currentState?.stop();
-    //     gameState = GameState.inFinish;
-    //     _hasFinished = true;
-    //      SharedPreferencesService().increaseScore('finished', 1);
-    //     //TODO
-    //     //Get.dialog(const FinishedDialog());
-    //   }
-    // }
+    if (other is WorldCollidable) {
+      if (!_hasCollided) {
+        stopwatch.currentState?.stop();
+        gameState = GameState.gameOver;
+        _hasCollided = true;
+        SharedPreferencesService().increaseScore('crashed', 1);
+        _collisionDirection = direction;
+        Get.dialog(
+          const CrashedDialog(),
+          barrierDismissible: false,
+        );
+      }
+    }
+    if (other is WorldFinish) {
+      if (!_hasFinished) {
+        stopwatch.currentState?.stop();
+        gameState = GameState.inFinish;
+        _hasFinished = true;
+        SharedPreferencesService().increaseScore('finished', 1);
+        Get.dialog(
+          const FinishedDialog(),
+          barrierDismissible: false,
+        );
+      }
+    }
   }
 
   @override
