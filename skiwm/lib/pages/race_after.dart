@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/highscore_service.dart';
@@ -5,10 +6,9 @@ import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:uuid/uuid.dart';
-import 'package:uuid/uuid_util.dart';
 
 class AfterRacePage extends StatefulWidget {
-  final int timeRace; // doens
+  final int timeRace;
   const AfterRacePage({
     Key? key,
     required this.timeRace,
@@ -19,8 +19,18 @@ class AfterRacePage extends StatefulWidget {
 
 class _AfterRaceState extends State<AfterRacePage> {
   int _currentHighscore = 0;
-  bool _highscore = false;
+  bool _gotNewhighscore = false;
   var _loading = false;
+
+  final colorizeColors = [
+    Colors.purple,
+    Colors.blue,
+    Colors.yellow,
+    Colors.red,
+  ];
+
+  final colorizeTextStyle = const TextStyle(
+      fontSize: 40, fontFamily: 'Helvetica', fontWeight: FontWeight.bold);
 
   @override
   void initState() {
@@ -34,9 +44,9 @@ class _AfterRaceState extends State<AfterRacePage> {
         await HighscoreService().getCurrentHighscore(selectedRace);
     setState(() {
       _currentHighscore = __currentHighscore;
-      _highscore = _currentHighscore > widget.timeRace;
+      _gotNewhighscore = widget.timeRace < _currentHighscore;
     });
-    if (widget.timeRace < __currentHighscore) {
+    if (_gotNewhighscore) {
       _updateHighscore();
       HighscoreService().setCurrentHighscore(selectedRace, widget.timeRace);
     }
@@ -96,17 +106,7 @@ class _AfterRaceState extends State<AfterRacePage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  StopWatchTimer.getDisplayTime(_currentHighscore,
-                      hours: false),
-                  style: const TextStyle(
-                      fontSize: 40,
-                      fontFamily: 'Helvetica',
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
+              getSavedHighscoreTime(),
               const Padding(
                 padding: EdgeInsets.all(8),
                 child: Text(
@@ -117,17 +117,8 @@ class _AfterRaceState extends State<AfterRacePage> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Text(
-                  StopWatchTimer.getDisplayTime(widget.timeRace, hours: false),
-                  style: const TextStyle(
-                      fontSize: 40,
-                      fontFamily: 'Helvetica',
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              _highscore
+              getRaceTime(),
+              _gotNewhighscore
                   ? const Expanded(
                       flex: 6,
                       child: Align(
@@ -140,7 +131,7 @@ class _AfterRaceState extends State<AfterRacePage> {
                         child: Text("c'mon you can do better ⛷️ "),
                       ),
                     ),
-              _highscore
+              _gotNewhighscore
                   ? Text(_loading ? 'Saving Highscore' : 'Highscore saved!')
                   : const SizedBox(
                       height: 18.0,
@@ -160,6 +151,61 @@ class _AfterRaceState extends State<AfterRacePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget getSavedHighscoreTime() {
+    String textHighScore = '--:--:--';
+    if (_currentHighscore != maxTimeResult) {
+      textHighScore =
+          StopWatchTimer.getDisplayTime(_currentHighscore, hours: false);
+    }
+    if (_gotNewhighscore) {
+      return Padding(
+        padding: const EdgeInsets.all(8),
+        child: Text(
+          textHighScore,
+          style: const TextStyle(
+              fontSize: 40,
+              fontFamily: 'Helvetica',
+              fontWeight: FontWeight.bold),
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: AnimatedTextKit(animatedTexts: [
+        ColorizeAnimatedText(
+          textHighScore,
+          textStyle: colorizeTextStyle,
+          colors: colorizeColors,
+        ),
+      ]),
+    );
+  }
+
+  Widget getRaceTime() {
+    String textHighScore =
+        StopWatchTimer.getDisplayTime(widget.timeRace, hours: false);
+    if (_gotNewhighscore) {
+      return Padding(
+        padding: const EdgeInsets.all(8),
+        child: AnimatedTextKit(animatedTexts: [
+          ColorizeAnimatedText(
+            textHighScore,
+            textStyle: colorizeTextStyle,
+            colors: colorizeColors,
+          ),
+        ]),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        textHighScore,
+        style: const TextStyle(
+            fontSize: 40, fontFamily: 'Helvetica', fontWeight: FontWeight.bold),
       ),
     );
   }

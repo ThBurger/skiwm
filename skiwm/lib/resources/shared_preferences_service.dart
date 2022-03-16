@@ -12,4 +12,9 @@ class SharedPreferencesService {
     int newScore = score + increaseBy;
     prefs.setInt('score_' + scoreId, newScore);
   }
+
+  Future<void> deleteAllSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 }

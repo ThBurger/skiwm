@@ -115,6 +115,10 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
     });
   }
 
+  void deleteSharedPrefs() async {
+    await SharedPreferencesService().deleteAllSharedPreference();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,6 +168,9 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
               child: Text(_loading ? 'Saving...' : 'Update')),
           const SizedBox(height: 18),
           ElevatedButton(onPressed: _signOut, child: const Text('Sign Out')),
+          ElevatedButton(
+              onPressed: deleteSharedPrefs,
+              child: const Text('Delete Shared Prefs')),
         ],
       ),
     );

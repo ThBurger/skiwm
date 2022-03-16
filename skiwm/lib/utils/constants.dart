@@ -3,6 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final supabase = Supabase.instance.client;
 
+const maxTimeResult = 9999999999999;
+
 enum GameState {
   init,
   start,
