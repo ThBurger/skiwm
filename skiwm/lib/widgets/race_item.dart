@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:skiwm/models/race.dart';
 
-class SlideItem extends StatefulWidget {
+class RaceItemComponent extends StatefulWidget {
   final Race raceItem;
 
-  const SlideItem({
+  const RaceItemComponent({
     Key? key,
     required this.raceItem,
   }) : super(key: key);
 
   @override
-  _SlideItemState createState() => _SlideItemState();
+  _RaceItemComponentState createState() => _RaceItemComponentState();
 }
 
-class _SlideItemState extends State<SlideItem> {
+class _RaceItemComponentState extends State<RaceItemComponent> {
   @override
   Widget build(BuildContext context) {
     return Padding(

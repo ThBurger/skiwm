@@ -13,6 +13,7 @@ class AfterRacePage extends StatefulWidget {
     Key? key,
     required this.timeRace,
   }) : super(key: key);
+
   @override
   _AfterRaceState createState() => _AfterRaceState();
 }
@@ -35,7 +36,7 @@ class _AfterRaceState extends State<AfterRacePage> {
   @override
   void initState() {
     super.initState();
-    SharedPreferencesService().increaseScore('time', widget.timeRace);
+    SharedPreferencesService().increaseScore(PROFILE_TIME, widget.timeRace);
     getCurrentHighscore();
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
+import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/utils/theme.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -21,7 +23,8 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
     animationController =
         AnimationController(duration: const Duration(seconds: 4), vsync: this);
     animationController.repeat();
-    SharedPreferencesService().increaseScore('races', 1);
+    SharedPreferencesService().increaseScore(PROFILE_RACES, 1);
+    TaskService().increaseCurrentTaskScore(DAILY_RACE_STARTED);
     super.initState();
   }
 

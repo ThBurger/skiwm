@@ -5,6 +5,7 @@ import 'package:skiwm/components/dialog_crashed.dart';
 import 'package:skiwm/components/dialog_finished.dart';
 import 'package:skiwm/components/world_collidable.dart';
 import 'package:skiwm/components/world_finish.dart';
+import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
@@ -32,8 +33,9 @@ class Player extends SpriteAnimationComponent
 
   Player()
       : super(
-          size: Vector2.all(30.0),
+          size: Vector2.all(35.0),
         ) {
+    // TODO smaller hitbox?
     addHitbox(HitboxRectangle());
   }
 
@@ -58,7 +60,7 @@ class Player extends SpriteAnimationComponent
         stopwatch.currentState?.stop();
         gameState = GameState.gameOver;
         _hasCollided = true;
-        SharedPreferencesService().increaseScore('crashed', 1);
+        SharedPreferencesService().increaseScore(PROFILE_CRASHED, 1);
         _collisionDirection = direction;
         Get.dialog(
           const CrashedDialog(),
@@ -71,7 +73,8 @@ class Player extends SpriteAnimationComponent
         stopwatch.currentState?.stop();
         gameState = GameState.inFinish;
         _hasFinished = true;
-        SharedPreferencesService().increaseScore('finished', 1);
+        SharedPreferencesService().increaseScore(PROFILE_FINISHED, 1);
+        TaskService().increaseCurrentTaskScore(DAILY_RACE_FINISHED);
         Get.dialog(
           const FinishedDialog(),
           barrierDismissible: false,

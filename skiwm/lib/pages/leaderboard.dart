@@ -15,25 +15,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    AppBar appBar = AppBar(
-      centerTitle: true,
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      title: const Text(
-        'Leaderboards',
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
-    );
-
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: appBar,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -76,11 +58,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 ResultPage(
                     key: ValueKey<String>(_chosenRaceId),
                     raceId: _chosenRaceId),
-                const SizedBox(height: 10.0),
-                const Text(
-                  "Made with ❤ by Toburg Labs.",
-                  textAlign: TextAlign.center,
-                ),
+                const SizedBox(height: 20.0),
               ],
             )),
       ),

@@ -24,7 +24,6 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
   int _crashed = 0;
   int _time = 0;
 
-  /// Called once a user id is received within `onAuthenticated()`
   Future<void> _getProfile(String userId) async {
     setState(() {
       _loading = true;
@@ -50,7 +49,6 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
     });
   }
 
-  /// Called when user taps `Update` button
   Future<void> _updateProfile() async {
     setState(() {
       _loading = true;
@@ -103,10 +101,11 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
   }
 
   void loadCounter() async {
-    int __races = await SharedPreferencesService().getScore('races');
-    int __finished = await SharedPreferencesService().getScore('finished');
-    int __crashed = await SharedPreferencesService().getScore('crashed');
-    int __time = await SharedPreferencesService().getScore('time');
+    int __races = await SharedPreferencesService().getScore(PROFILE_RACES);
+    int __finished =
+        await SharedPreferencesService().getScore(PROFILE_FINISHED);
+    int __crashed = await SharedPreferencesService().getScore(PROFILE_CRASHED);
+    int __time = await SharedPreferencesService().getScore(PROFILE_TIME);
     setState(() {
       _races = __races;
       _finished = __finished;
@@ -122,56 +121,69 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-        children: [
-          TextFormField(
-            controller: _usernameController,
-            decoration: const InputDecoration(labelText: 'User Name'),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.png"),
+            fit: BoxFit.cover,
           ),
-          const SizedBox(height: 18),
-          TextFormField(
-            controller: _websiteController,
-            decoration: const InputDecoration(labelText: 'Website'),
-          ),
-          const SizedBox(height: 18),
-          const Text('Select Country'),
-          CountryCodePicker(
-            onChanged: (value) => {_countryController.text = value.code!},
-            initialSelection: _countryController.text,
-            showCountryOnly: true,
-            showOnlyCountryWhenClosed: true,
-            alignLeft: false,
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: <Widget>[
-                getTimeBoxUI(_races.toString(), 'Race started'),
-                getTimeBoxTime(_time, 'Time racing'),
+        ),
+        child: Container(
+          padding: const EdgeInsets.only(right: 12, left: 12),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                TextFormField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(labelText: 'User Name'),
+                ),
+                const SizedBox(height: 18),
+                TextFormField(
+                  controller: _websiteController,
+                  decoration: const InputDecoration(labelText: 'Website'),
+                ),
+                const SizedBox(height: 18),
+                const Text('Select Country'),
+                CountryCodePicker(
+                  onChanged: (value) => {_countryController.text = value.code!},
+                  initialSelection: _countryController.text,
+                  showCountryOnly: true,
+                  showOnlyCountryWhenClosed: true,
+                  alignLeft: false,
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: <Widget>[
+                      getTimeBoxUI(_races.toString(), 'Race started'),
+                      getTimeBoxTime(_time, 'Time racing'),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: <Widget>[
+                      getTimeBoxUI(_finished.toString(), 'Race finished'),
+                      getTimeBoxUI(_crashed.toString(), 'Crashed'),
+                    ],
+                  ),
+                ),
+                ElevatedButton(
+                    onPressed: _updateProfile,
+                    child: Text(_loading ? 'Saving...' : 'Update')),
+                const SizedBox(height: 18),
+                ElevatedButton(
+                    onPressed: _signOut, child: const Text('Sign Out')),
+                ElevatedButton(
+                    onPressed: deleteSharedPrefs,
+                    child: const Text('Delete Shared Prefs')),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: <Widget>[
-                getTimeBoxUI(_finished.toString(), 'Race finished'),
-                getTimeBoxUI(_crashed.toString(), 'Crashed'),
-              ],
-            ),
-          ),
-          ElevatedButton(
-              onPressed: _updateProfile,
-              child: Text(_loading ? 'Saving...' : 'Update')),
-          const SizedBox(height: 18),
-          ElevatedButton(onPressed: _signOut, child: const Text('Sign Out')),
-          ElevatedButton(
-              onPressed: deleteSharedPrefs,
-              child: const Text('Delete Shared Prefs')),
-        ],
+        ),
       ),
     );
   }
