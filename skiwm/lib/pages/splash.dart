@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/components/auth_state.dart';
 import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/models/race.dart';
+import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/utils/theme.dart';
@@ -27,6 +28,7 @@ class _SplashPageState extends AuthState<SplashPage>
         AnimationController(duration: const Duration(seconds: 4), vsync: this);
     animationController.repeat();
     _loadCredits();
+    _loadDailyTasks();
     _loadLeaderboradData();
     _loadRaceData().then((value) => {recoverSupabaseSession()});
     super.initState();
@@ -41,7 +43,14 @@ class _SplashPageState extends AuthState<SplashPage>
   Future<void> _loadCredits() async {
     final SharedPreferences prefs = await _prefs;
     final int credits = (prefs.getInt('credits') ?? 0);
-    creditsValueNotifier.value = creditsValueNotifier.value = credits;
+    creditsValueNotifier.value = credits;
+  }
+
+  Future<void> _loadDailyTasks() async {
+    dailyTaskStartedValueNotifier.value =
+        await TaskService().getCurrentTaskScore(DAILY_RACE_STARTED);
+    dailyTaskFinishedValueNotifier.value =
+        await TaskService().getCurrentTaskScore(DAILY_RACE_FINISHED);
   }
 
   @override

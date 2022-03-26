@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/resources/globals.dart';
-import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/widgets/daily_credits.dart';
-import 'package:skiwm/widgets/daily_task_item.dart';
+import 'package:skiwm/widgets/daily_task_finished.dart';
+import 'package:skiwm/widgets/daily_task_started.dart';
 import 'package:skiwm/widgets/race_item.dart';
 
 class RacePage extends StatelessWidget {
@@ -61,14 +61,8 @@ class RacePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
-                    DailyTaskComponent(
-                      task: DAILY_RACE_STARTED,
-                      count: 5,
-                    ),
-                    DailyTaskComponent(
-                      task: DAILY_RACE_FINISHED,
-                      count: 3,
-                    ),
+                    DailyTaskStartedComponent(),
+                    DailyTaskFinishedComponent(),
                   ],
                 ),
                 const SizedBox(height: 20.0),
