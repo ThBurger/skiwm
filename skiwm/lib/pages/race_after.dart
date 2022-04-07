@@ -19,7 +19,6 @@ class AfterRacePage extends StatefulWidget {
 }
 
 class _AfterRaceState extends State<AfterRacePage> {
-  int _currentHighscore = 0;
   bool _gotNewhighscore = false;
   var _loading = false;
 
@@ -41,11 +40,8 @@ class _AfterRaceState extends State<AfterRacePage> {
   }
 
   Future<void> getCurrentHighscore() async {
-    int __currentHighscore =
-        await HighscoreService().getCurrentHighscore(selectedRace);
     setState(() {
-      _currentHighscore = __currentHighscore;
-      _gotNewhighscore = widget.timeRace < _currentHighscore;
+      _gotNewhighscore = widget.timeRace < selectedRaceCurrentHighscore;
     });
     if (_gotNewhighscore) {
       _updateHighscore();
@@ -137,17 +133,22 @@ class _AfterRaceState extends State<AfterRacePage> {
                   : const SizedBox(
                       height: 18.0,
                     ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).popUntil(ModalRoute.withName('/race'));
-                },
-                child: const Text('Back To Race'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).popUntil(ModalRoute.withName('/menu'));
-                },
-                child: const Text('Back To Menu'),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .popUntil(ModalRoute.withName('/race'));
+                          },
+                          child: const Text('Continue'),
+                        )),
+                  ),
+                ],
               ),
             ],
           ),
@@ -158,9 +159,10 @@ class _AfterRaceState extends State<AfterRacePage> {
 
   Widget getSavedHighscoreTime() {
     String textHighScore = '--:--:--';
-    if (_currentHighscore != maxTimeResult) {
-      textHighScore =
-          StopWatchTimer.getDisplayTime(_currentHighscore, hours: false);
+    if (selectedRaceCurrentHighscore != maxTimeResult) {
+      textHighScore = StopWatchTimer.getDisplayTime(
+          selectedRaceCurrentHighscore,
+          hours: false);
     }
     if (_gotNewhighscore) {
       return Padding(

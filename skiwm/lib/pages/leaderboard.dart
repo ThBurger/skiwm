@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/widgets/results.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
@@ -24,43 +25,41 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
           ),
         ),
         child: Container(
-            padding: const EdgeInsets.only(right: 24, left: 24, bottom: 12),
-            child: Column(
-              children: [
-                const SizedBox(height: 50),
-                const Text(
-                  "Select Race",
-                  style: TextStyle(
-                    color: Colors.white,
+          padding: const EdgeInsets.only(right: 24, left: 24, bottom: 12),
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              const SizedBox(height: 8.0),
+              DropdownSearch<Race>(
+                  showSelectedItems: true,
+                  compareFn: (i, s) => i?.isEqual(s) ?? false,
+                  validator: (v) => v == null ? "required field" : null,
+                  dropdownSearchDecoration: const InputDecoration(
+                    hintText: 'Select a race',
+                    labelText: 'Select a race',
+                    labelStyle: TextStyle(color: SkiWmColors.white),
+                    hintStyle: TextStyle(color: SkiWmColors.white),
+                    contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: SkiWmColors.white)), // TODO white
                   ),
-                ),
-                const SizedBox(height: 8.0),
-                DropdownSearch<Race>(
-                    showSelectedItems: true,
-                    compareFn: (i, s) => i?.isEqual(s) ?? false,
-                    validator: (v) => v == null ? "required field" : null,
-                    dropdownSearchDecoration: const InputDecoration(
-                      hintText: "Select a race",
-                      labelText: "Race",
-                      contentPadding: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                      border: OutlineInputBorder(),
-                    ),
-                    mode: Mode.MENU,
-                    items: races,
-                    itemAsString: (Race? r) => r!.racename!,
-                    onChanged: (Race? data) => {
-                          setState(() {
-                            _chosenRaceId = data!.id!;
-                          })
-                        }),
-                const Divider(),
-                const SizedBox(height: 8.0),
-                ResultPage(
-                    key: ValueKey<String>(_chosenRaceId),
-                    raceId: _chosenRaceId),
-                const SizedBox(height: 20.0),
-              ],
-            )),
+                  mode: Mode.BOTTOM_SHEET,
+                  items: races,
+                  itemAsString: (Race? r) => r!.racename!,
+                  onChanged: (Race? data) => {
+                        setState(() {
+                          _chosenRaceId = data!.id!;
+                        })
+                      }),
+              const Divider(),
+              const SizedBox(height: 8.0),
+              ResultPage(
+                  key: ValueKey<String>(_chosenRaceId), raceId: _chosenRaceId),
+              const SizedBox(height: 20.0),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -14,15 +14,18 @@ class AccountPage extends StatefulWidget {
   _AccountPageState createState() => _AccountPageState();
 }
 
-class _AccountPageState extends AuthRequiredState<AccountPage> {
+class _AccountPageState extends AuthRequiredState<AccountPage>
+    with TickerProviderStateMixin {
   final _usernameController = TextEditingController();
   final _websiteController = TextEditingController();
   final _countryController = TextEditingController();
   var _loading = false;
+  var _unAuthenticated = false;
   int _races = 0;
   int _finished = 0;
   int _crashed = 0;
   int _time = 0;
+  late AnimationController animationController;
 
   Future<void> _getProfile(String userId) async {
     setState(() {
@@ -94,9 +97,27 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
   }
 
   @override
+  void onUnauthenticated() {
+    setState(() {
+      _unAuthenticated = true;
+    });
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/login', ModalRoute.withName('/menu'));
+  }
+
+  @override
+  void initState() {
+    animationController =
+        AnimationController(duration: const Duration(seconds: 4), vsync: this);
+    animationController.repeat();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _usernameController.dispose();
     _websiteController.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -120,6 +141,13 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_unAuthenticated) {
+      return _unAuthenticatedWidget();
+    }
+    if (_loading) {
+      return _loadingWidget();
+    }
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -182,6 +210,104 @@ class _AccountPageState extends AuthRequiredState<AccountPage> {
                     child: const Text('Delete Shared Prefs')),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _unAuthenticatedWidget() {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 80,
+              ),
+              const Expanded(
+                flex: 6,
+                child: Align(
+                  child: Text("you are not logged in ..."),
+                ),
+              ),
+              const Expanded(
+                flex: 6,
+                child: Align(
+                  child: Text("please login to see your stats"),
+                ),
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                '/login', ModalRoute.withName('/menu'));
+                          },
+                          child: const Text('Go to Login'),
+                        )),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _loadingWidget() {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 80,
+              ),
+              const Expanded(
+                flex: 6,
+                child: Align(
+                  child: Text("loading Profile..."),
+                ),
+              ),
+              Expanded(
+                flex: 4,
+                child: Align(
+                  child: Container(
+                    margin: const EdgeInsets.all(20),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: LinearProgressIndicator(
+                        backgroundColor: Colors.white,
+                        color: Colors.green,
+                        valueColor: animationController.drive(ColorTween(
+                            begin: SkiWmColors.primary,
+                            end: SkiWmColors.label)),
+                        minHeight: 7,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

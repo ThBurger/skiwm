@@ -131,7 +131,7 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
             padding: const EdgeInsets.all(4.0),
             child: Row(
               children: [
-                const Text('Starts in ',
+                const Text(' CLOSED - Starts in ',
                     style: TextStyle(
                       fontSize: 10.0,
                       color: Colors.red,
@@ -156,15 +156,26 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
         child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0)),
-          child: const Padding(
-            padding: EdgeInsets.all(4.0),
-            child: Text(
-              " OPEN ",
-              style: TextStyle(
-                fontSize: 10.0,
-                color: Colors.green,
-                fontWeight: FontWeight.bold,
-              ),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
+              children: [
+                const Text(
+                  ' OPEN - Ends in ',
+                  style: TextStyle(
+                    fontSize: 10.0,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                CountdownTimer(
+                    endTime: (widget.raceItem.tillDate!.millisecondsSinceEpoch),
+                    textStyle: const TextStyle(
+                      fontSize: 10.0,
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ],
             ),
           ),
         ),

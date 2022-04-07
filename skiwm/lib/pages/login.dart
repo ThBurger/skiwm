@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:supabase/supabase.dart';
 import 'package:skiwm/components/auth_state.dart';
 import 'package:skiwm/utils/constants.dart';
@@ -55,29 +56,50 @@ class _LoginPageState extends AuthState<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back, color: SkiWmColors.white),
+          onPressed: () =>
+              Navigator.of(context).popUntil(ModalRoute.withName('/menu')),
         ),
         elevation: 0.0,
         centerTitle: true,
         title: const Text('Sign In'),
         backgroundColor: Colors.transparent,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-        children: [
-          const Text('Sign in via the magic link with your email below'),
-          const SizedBox(height: 18),
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.png"),
+            fit: BoxFit.cover,
           ),
-          const SizedBox(height: 18),
-          ElevatedButton(
-            onPressed: _isLoading ? null : _signIn,
-            child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
-          ),
-        ],
+        ),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+          children: [
+            const SizedBox(
+              height: 80,
+            ),
+            const Text(
+              'Sign in via your email below',
+              style: TextStyle(color: SkiWmColors.white),
+            ),
+            const Text(
+              'After receiving the email click on the link in the email',
+              style: TextStyle(color: SkiWmColors.white),
+            ),
+            const SizedBox(height: 18),
+            TextFormField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+              style: const TextStyle(color: SkiWmColors.white),
+            ),
+            const SizedBox(height: 18),
+            ElevatedButton(
+              onPressed: _isLoading ? null : _signIn,
+              child: Text(_isLoading ? 'Loading' : 'Send E.Mail Link'),
+            ),
+          ],
+        ),
       ),
     );
   }

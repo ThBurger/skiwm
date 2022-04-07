@@ -24,8 +24,9 @@ class TaskService {
       }
       if (_currentScore == 3) {
         //daily task completed
-        int credits = (prefs.getInt('credits') ?? 0);
-        prefs.setInt('credits', credits + 30);
+        int credits = (prefs.getInt('credits') ?? 0) + 30;
+        creditsValueNotifier.value = credits;
+        prefs.setInt('credits', credits);
       }
     } else if (task == DAILY_RACE_STARTED) {
       if (_currentScore == 5) {
@@ -37,8 +38,9 @@ class TaskService {
       }
       if (_currentScore == 5) {
         //daily task completed
-        int credits = (prefs.getInt('credits') ?? 0);
-        prefs.setInt('credits', credits + 30);
+        int credits = (prefs.getInt('credits') ?? 0) + 30;
+        creditsValueNotifier.value = credits;
+        prefs.setInt('credits', credits);
       }
     }
     return prefs.setInt('task_' + date.toString() + '_' + task, _currentScore);

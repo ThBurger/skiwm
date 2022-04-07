@@ -19,7 +19,7 @@ class _DailyCreditState extends State<DailyCredit> {
   Future<void> _getCredits() async {
     final SharedPreferences prefs = await _prefs;
     final int credits = (prefs.getInt('credits') ?? 0) + 25;
-    creditsValueNotifier.value = creditsValueNotifier.value = credits;
+    creditsValueNotifier.value = credits;
     _nextCredits = DateTime.now().add(const Duration(hours: 6));
     setState(() {
       prefs.setInt('credits', credits);

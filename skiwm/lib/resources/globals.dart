@@ -16,6 +16,9 @@ List<LeaderboardEntry> userLeaderboardEntries = List.empty(growable: true);
 
 // race id which is played
 String selectedRace = '';
+// current Highscore of race played...is loaded in splash before game to have it
+// in race after
+int selectedRaceCurrentHighscore = maxTimeResult;
 
 GameState gameState = GameState.init;
 

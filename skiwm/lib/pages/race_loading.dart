@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/resources/highscore_service.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/utils/theme.dart';
@@ -25,7 +26,13 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
     animationController.repeat();
     SharedPreferencesService().increaseScore(PROFILE_RACES, 1);
     TaskService().increaseCurrentTaskScore(DAILY_RACE_STARTED);
+    _loadCurrentHighscore();
     super.initState();
+  }
+
+  Future<void> _loadCurrentHighscore() async {
+    selectedRaceCurrentHighscore =
+        await HighscoreService().getCurrentHighscore(selectedRace);
   }
 
   @override

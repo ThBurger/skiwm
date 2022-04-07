@@ -1,11 +1,10 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:skiwm/pages/account.dart';
 import 'package:skiwm/pages/leaderboard.dart';
 import 'package:skiwm/pages/race.dart';
+import 'package:skiwm/pages/settings.dart';
 import 'package:skiwm/pages/shop.dart';
-import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/widgets/credit.dart';
 
 class MenuPage extends StatefulWidget {
@@ -21,7 +20,8 @@ class MenuState extends State<MenuPage> {
     const RacePage(),
     const LeaderboardPage(),
     const ShopPage(),
-    const AccountPage()
+    const AccountPage(),
+    const SettingsPage()
   ];
 
   @override
@@ -30,14 +30,6 @@ class MenuState extends State<MenuPage> {
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const FaIcon(FontAwesomeIcons.cog),
-          tooltip: 'Settings',
-          color: SkiWmColors.white,
-          onPressed: () {
-            Navigator.of(context).pushNamed('/setting');
-          },
-        ),
         actions: const <Widget>[
           CreditChip(),
         ]);
@@ -48,9 +40,10 @@ class MenuState extends State<MenuPage> {
       bottomNavigationBar: ConvexAppBar(
         items: const [
           TabItem(icon: Icons.sports_score, title: 'Races'),
-          TabItem(icon: Icons.leaderboard, title: 'Leaderboard'),
+          TabItem(icon: Icons.leaderboard, title: 'Score'),
           TabItem(icon: Icons.shopping_cart, title: 'Shop'),
           TabItem(icon: Icons.account_circle, title: 'Profile'),
+          TabItem(icon: Icons.settings, title: 'Options'),
         ],
         initialActiveIndex: selectedpage,
         onTap: (int index) {
@@ -59,13 +52,6 @@ class MenuState extends State<MenuPage> {
           });
         },
       ),
-      // body: Container(
-      //   decoration: const BoxDecoration(
-      //     image: DecorationImage(
-      //       image: AssetImage("assets/images/background.png"),
-      //       fit: BoxFit.cover,
-      //     ),
-      //   ),
       //   child: Container(
       //     padding: const EdgeInsets.only(right: 12, left: 12),
       //     child: SingleChildScrollView(

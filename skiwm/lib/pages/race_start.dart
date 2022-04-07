@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/pages/race_loading.dart';
+import 'package:skiwm/resources/shared_preferences_service.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';
@@ -27,102 +29,114 @@ class RaceStartPage extends StatelessWidget {
           args.racename!,
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-              foregroundDecoration: const BoxDecoration(color: Colors.black26),
-              height: 400,
-              child: Image.asset(args.img!, fit: BoxFit.cover)),
-          SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const SizedBox(height: 250),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    args.racename!,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 28.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  color: Colors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  children: const <Widget>[
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.purple,
-                                    ),
-                                    Icon(
-                                      Icons.star_border,
-                                      color: Colors.purple,
-                                    ),
-                                    Icon(
-                                      Icons.star_border,
-                                      color: Colors.purple,
-                                    ),
-                                    Icon(
-                                      Icons.star_border,
-                                      color: Colors.purple,
-                                    ),
-                                    Icon(
-                                      Icons.star_border,
-                                      color: Colors.purple,
-                                    ),
-                                  ],
-                                ),
-                                const Text.rich(
-                                  TextSpan(
-                                      children: [TextSpan(text: "Difficulty")]),
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12.0),
-                                )
-                              ],
-                            ),
-                          ),
-                          const CreditChip(),
-                        ],
-                      ),
-                      const SizedBox(height: 15.0),
-                      Text(
-                        "Leaderboard".toUpperCase(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 14.0),
-                      ),
-                    ],
-                  ),
-                ),
-                ResultPage(
-                  raceId: args.id!,
-                ),
-                const SizedBox(height: 35.0),
-              ],
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/background.png"),
+            fit: BoxFit.cover,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              _buildStartButton(context, args.fromDate!, args.racename!,
-                  args.credits!, args.id!),
-            ],
-          )
-        ],
+        ),
+        child: Stack(
+          children: <Widget>[
+            Container(
+                foregroundDecoration:
+                    const BoxDecoration(color: Colors.black26),
+                height: 330, // TODO
+                child: Image.asset(args.img!, fit: BoxFit.cover)),
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const SizedBox(height: 250),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      args.racename!,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 28.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
+                                    children: const <Widget>[
+                                      Icon(
+                                        Icons.star,
+                                        color: Colors.purple,
+                                      ),
+                                      Icon(
+                                        Icons.star_border,
+                                        color: Colors.purple,
+                                      ),
+                                      Icon(
+                                        Icons.star_border,
+                                        color: Colors.purple,
+                                      ),
+                                      Icon(
+                                        Icons.star_border,
+                                        color: Colors.purple,
+                                      ),
+                                      Icon(
+                                        Icons.star_border,
+                                        color: Colors.purple,
+                                      ),
+                                    ],
+                                  ),
+                                  const Text.rich(
+                                    TextSpan(children: [
+                                      TextSpan(text: "Difficulty")
+                                    ]),
+                                    style: TextStyle(
+                                        color: SkiWmColors.white,
+                                        fontSize: 12.0),
+                                  )
+                                ],
+                              ),
+                            ),
+                            const CreditChip(),
+                          ],
+                        ),
+                        const SizedBox(height: 15.0),
+                        Text(
+                          "Leaderboard".toUpperCase(),
+                          style: const TextStyle(
+                              color: SkiWmColors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ResultPage(
+                    raceId: args.id!,
+                  ),
+                  const SizedBox(height: 35.0),
+                ],
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                _buildStartButton(context, args.fromDate!, args.racename!,
+                    args.credits!, args.id!),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -142,9 +156,9 @@ class RaceStartPage extends StatelessWidget {
                 onPressed: () {
                   context.showErrorSnackBar(message: 'Not yet started');
                 },
-                child: const Text(
-                  'Start racing',
-                  style: TextStyle(color: Colors.grey),
+                child: Text(
+                  'Start racing -' + credits.toString(),
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ),
             ),
@@ -165,9 +179,9 @@ class RaceStartPage extends StatelessWidget {
                 onPressed: () {
                   context.showErrorSnackBar(message: 'not enough credits');
                 },
-                child: const Text(
-                  'Start racing',
-                  style: TextStyle(color: Colors.grey),
+                child: Text(
+                  'Start racing -' + credits.toString(),
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ),
             ),
@@ -184,9 +198,12 @@ class RaceStartPage extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: ElevatedButton(
               onPressed: () {
+                SharedPreferencesService().decreaseCredits(credits);
                 Get.to(LoadingPage(title, raceId));
               },
-              child: const Text('Start racing'),
+              child: Text(
+                'Start racing -' + credits.toString(),
+              ),
             ),
           ),
         ),

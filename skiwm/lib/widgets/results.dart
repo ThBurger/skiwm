@@ -76,20 +76,14 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget _buildUserWidget(LeaderboardEntryResponse data) {
-    return Container(
-      color: Colors.white,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: data.results
-                .mapIndexed((index, entry) => createTile(index + 1, entry))
-                .toList(),
-          ),
-        ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: data.results
+            .mapIndexed((index, entry) => createTile(index + 1, entry))
+            .toList(),
       ),
     );
   }
@@ -100,11 +94,11 @@ class _ResultPageState extends State<ResultPage> {
         .isNotEmpty;
     return Container(
       decoration: BoxDecoration(
-        color: _isUsers ? SkiWmColors.success : SkiWmColors.white,
-        border: const Border(
-          bottom: BorderSide(color: SkiWmColors.border, width: 1.0),
-        ),
-      ),
+          border: Border.all(
+            color: _isUsers ? SkiWmColors.success : SkiWmColors.white,
+            width: _isUsers ? 3.0 : 1.0,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(20))),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: Row(
@@ -112,13 +106,14 @@ class _ResultPageState extends State<ResultPage> {
             Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 6.0, 6.0, 0.0),
                 child:
-                    CircleAvatar(radius: 15.0, child: Text(index.toString()))),
+                    CircleAvatar(radius: 18.0, child: Text(index.toString()))),
             Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Text(
                     entry.username!,
+                    style: const TextStyle(color: SkiWmColors.white),
                   ),
                   const SizedBox(width: 6.0),
                 ],
@@ -126,7 +121,8 @@ class _ResultPageState extends State<ResultPage> {
             ),
             SizedBox(
               width: 100.0,
-              child: Text(StopWatchTimer.getDisplayTime(entry.finishedTime!)),
+              child: Text(StopWatchTimer.getDisplayTime(entry.finishedTime!),
+                  style: const TextStyle(color: SkiWmColors.white)),
             ),
           ],
         ),
