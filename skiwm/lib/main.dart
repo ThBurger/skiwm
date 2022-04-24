@@ -8,6 +8,7 @@ import 'package:skiwm/pages/menu.dart';
 import 'package:skiwm/pages/race_start.dart';
 import 'package:skiwm/pages/settings.dart';
 import 'package:skiwm/pages/splash.dart';
+import 'package:skiwm/race_wengen_main.dart';
 import 'package:skiwm/training_easy_main.dart';
 import 'package:skiwm/training_soelden_main.dart';
 import 'package:skiwm/utils/theme.dart';
@@ -57,6 +58,7 @@ class App extends StatelessWidget {
         '/account': (_) => const AccountPage(),
         '/trainig_easy': (_) => const TrainingEasyPage(),
         '/trainig_soelden': (_) => const TrainingSoeldenPage(),
+        '/race_wengen': (_) => const RaceWengenPage(),
         '/afterrace': (_) => const AfterRacePage(
               timeRace: 0,
             ),

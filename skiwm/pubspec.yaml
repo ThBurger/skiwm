@@ -92,6 +92,8 @@ flutter:
       - assets/images/Training_Soelden.png
       - assets/Sölden_Training_Finish.json
       - assets/Sölden_Training_Collisions.json
+      - assets/images/Race_Wengen.png
+      - assets/images/Race_Wengen_Piste.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

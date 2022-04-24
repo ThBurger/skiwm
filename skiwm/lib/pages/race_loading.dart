@@ -47,6 +47,9 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
       if (widget.raceId == '8816a988-7815-41da-b9f1-71fa78f7e977') {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/trainig_soelden', ModalRoute.withName('/race'));
+      } else if (widget.raceId == '4cfdc5e0-2bbc-46c5-93c3-473e6cbcda2a') {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/race_wengen', ModalRoute.withName('/race'));
       } else if (widget.title == 'Bormio') {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/trainig_easy', ModalRoute.withName('/race'));
