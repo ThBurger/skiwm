@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skiwm/utils/value_notifiers.dart';
 import 'consumable_store.dart';
 
 const bool _kAutoConsume = true;
@@ -20,6 +23,8 @@ const List<String> _kProductIds = <String>[
   _kSilverSubscriptionId,
   _kGoldSubscriptionId,
 ];
+const String testDevice = 'YOUR_DEVICE_ID';
+const int maxFailedLoadAttempts = 3;
 
 class ShopPage extends StatefulWidget {
   const ShopPage({Key? key}) : super(key: key);
@@ -29,6 +34,12 @@ class ShopPage extends StatefulWidget {
 }
 
 class _ShopPageState extends State<ShopPage> {
+  static const AdRequest request = AdRequest(
+    keywords: <String>['foo', 'bar'],
+    contentUrl: 'http://foo.com/bar.html',
+    nonPersonalizedAds: true,
+  );
+
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
   List<String> _notFoundIds = [];
@@ -40,8 +51,12 @@ class _ShopPageState extends State<ShopPage> {
   bool _loading = true;
   String? _queryProductError;
 
+  RewardedAd? _rewardedAd;
+  int _numRewardedLoadAttempts = 0;
+
   @override
   void initState() {
+    _createRewardedAd();
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         _inAppPurchase.purchaseStream;
     _subscription = purchaseUpdated.listen((purchaseDetailsList) {
@@ -53,6 +68,65 @@ class _ShopPageState extends State<ShopPage> {
     });
     initStoreInfo();
     super.initState();
+  }
+
+  void _createRewardedAd() {
+    RewardedAd.load(
+        adUnitId: Platform.isAndroid
+            ? 'ca-app-pub-6361973725136033/4570100517'
+            : 'ca-app-pub-3940256099942544/1712485313', //TODO
+        request: request,
+        rewardedAdLoadCallback: RewardedAdLoadCallback(
+          onAdLoaded: (RewardedAd ad) {
+            print('$ad loaded.');
+            _rewardedAd = ad;
+            _numRewardedLoadAttempts = 0;
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('RewardedAd failed to load: $error');
+            _rewardedAd = null;
+            _numRewardedLoadAttempts += 1;
+            if (_numRewardedLoadAttempts < maxFailedLoadAttempts) {
+              _createRewardedAd();
+            }
+          },
+        ));
+  }
+
+  void _showRewardedAd() {
+    if (_rewardedAd == null) {
+      print('Warning: attempt to show rewarded before loaded.');
+      return;
+    }
+    _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (RewardedAd ad) =>
+          print('ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (RewardedAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _createRewardedAd();
+      },
+      onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _createRewardedAd();
+      },
+    );
+
+    _rewardedAd!.setImmersiveMode(true);
+    _rewardedAd!.show(
+        onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
+      print('$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
+      _addCredits(reward.amount.toInt());
+    });
+    _rewardedAd = null;
+  }
+
+  Future<void> _addCredits(int amount) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int credits = (prefs.getInt('credits') ?? 0) + amount;
+    creditsValueNotifier.value = credits;
+    prefs.setInt('credits', credits);
   }
 
   Future<void> initStoreInfo() async {
@@ -125,7 +199,17 @@ class _ShopPageState extends State<ShopPage> {
       iosPlatformAddition.setDelegate(null);
     }
     _subscription.cancel();
+    _rewardedAd?.dispose();
     super.dispose();
+  }
+
+  void showSnackBar(String content) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(content),
+        duration: Duration(milliseconds: 1500),
+      ),
+    );
   }
 
   @override
@@ -135,6 +219,16 @@ class _ShopPageState extends State<ShopPage> {
       stack.add(
         ListView(
           children: [
+            const SizedBox(height: 50.0),
+            TextButton(
+              onPressed: () {
+                _showRewardedAd();
+              },
+              child: Text(
+                'Show Reward',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
             _buildConnectionCheckTile(),
             _buildProductList(),
             _buildConsumableBox(),
@@ -165,14 +259,31 @@ class _ShopPageState extends State<ShopPage> {
 
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('IAP Example'),
-        ),
-        body: Stack(
-          children: stack,
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/background.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Stack(
+              children: stack,
+            ),
+          ),
         ),
       ),
     );
+  }
+
+  String? getRewardBasedVideoAdUnitId() {
+    if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/1712485313'; // TODO
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-6361973725136033/4570100517';
+    }
+    return null;
   }
 
   Card _buildConnectionCheckTile() {

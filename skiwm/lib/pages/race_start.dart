@@ -19,7 +19,7 @@ class RaceStartPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: SkiWmColors.primary),
           onPressed: () => Navigator.of(context).pop(),
         ),
         backgroundColor: Colors.transparent,
@@ -27,6 +27,7 @@ class RaceStartPage extends StatelessWidget {
         centerTitle: true,
         title: Text(
           args.racename!,
+          style: TextStyle(color: SkiWmColors.primary),
         ),
       ),
       body: Container(
@@ -38,9 +39,7 @@ class RaceStartPage extends StatelessWidget {
         ),
         child: Stack(
           children: <Widget>[
-            Container(
-                foregroundDecoration:
-                    const BoxDecoration(color: Colors.black26),
+            SizedBox(
                 height: 330, // TODO
                 child: Image.asset(args.img!, fit: BoxFit.cover)),
             SingleChildScrollView(
@@ -157,7 +156,7 @@ class RaceStartPage extends StatelessWidget {
                   context.showErrorSnackBar(message: 'Not yet started');
                 },
                 child: Text(
-                  'Start racing -' + credits.toString(),
+                  'Start racing (-' + credits.toString() + ' Credits)',
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
@@ -180,7 +179,7 @@ class RaceStartPage extends StatelessWidget {
                   context.showErrorSnackBar(message: 'not enough credits');
                 },
                 child: Text(
-                  'Start racing -' + credits.toString(),
+                  'Start racing (-' + credits.toString() + ' Credits)',
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
@@ -202,7 +201,7 @@ class RaceStartPage extends StatelessWidget {
                 Get.to(LoadingPage(title, raceId));
               },
               child: Text(
-                'Start racing -' + credits.toString(),
+                'Start racing (-' + credits.toString() + ' Credits)',
               ),
             ),
           ),

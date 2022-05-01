@@ -21,7 +21,7 @@ class RaceWengenGame extends FlameGame with HasCollidables, KeyboardEvents {
     addWorldCollision();
     addWorldFinish();
 
-    _player.position = Vector2(300, 200); // TODO mitte
+    _player.position = Vector2(500, 200); // TODO
     camera.followComponent(_player,
         worldBounds: Rect.fromLTRB(0, 0, _world.size.x, _world.size.y));
   }

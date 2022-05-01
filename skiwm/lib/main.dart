@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:skiwm/pages/account.dart';
 import 'package:skiwm/pages/race_after.dart';
 import 'package:skiwm/pages/login.dart';
@@ -16,6 +19,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await Supabase.initialize(
     url: 'https://xakuozmtkrvgebyvriiq.supabase.co',
     anonKey:
