@@ -1,6 +1,7 @@
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:skiwm/components/race_wengen.dart';
+import 'package:skiwm/components/world_finish.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'components/player.dart';
@@ -13,36 +14,44 @@ class RaceWengenGame extends FlameGame with HasCollidables, KeyboardEvents {
   late final Player _player = Player();
   final RaceWengenWorld _world = RaceWengenWorld();
 
+  List<WorldCollidable> activeCollidable = List.empty(growable: true);
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
     await add(_world);
     add(_player);
-    addWorldCollision();
     addWorldFinish();
+    // super.debugMode = true; TODO debug MODUS!
 
-    _player.position = Vector2(500, 200); // TODO
+    _player.position = Vector2(1300, 200); // TODO
     camera.followComponent(_player,
         worldBounds: Rect.fromLTRB(0, 0, _world.size.x, _world.size.y));
   }
 
-  void addWorldCollision() async => (await MapLoader.readCollisionMap(
-              'assets/Sölden_Training_Collisions.json'))
-          .forEach((rect) {
-        // TODO!!
-        //add(WorldCollidable()
-        //  ..position = Vector2(rect.left, rect.top)
-        //  ..width = rect.width
-        //  ..height = rect.height);
-      });
+  void addWorldCollisionFromPlayer() {
+    for (var c in activeCollidable) {
+      remove(c);
+    }
+    activeCollidable.clear();
+
+    // filter which to Add
+    var toAdd = collidableGates.where((element) =>
+        element.position.y >= _player.position.y - 50 &&
+        element.position.y <= _player.position.y + 250);
+    activeCollidable.addAll(toAdd);
+
+    debugPrint("added " + toAdd.length.toString() + " collidables");
+    addAll(activeCollidable);
+  }
 
   void addWorldFinish() async =>
-      (await MapLoader.readCollisionMap('assets/Sölden_Training_Finish.json'))
+      (await MapLoader.readCollisionMap('assets/Wengen_Race_Finish.json'))
           .forEach((rect) {
-        // add(WorldFinish()
-        //  ..position = Vector2(rect.left, rect.top)
-        //   ..width = rect.width
-        //   ..height = rect.height);
+        add(WorldFinish()
+          ..position = Vector2(rect.left, rect.top)
+          ..width = rect.width
+          ..height = rect.height);
       });
 
   void onGameStateChanged() {
@@ -58,6 +67,7 @@ class RaceWengenGame extends FlameGame with HasCollidables, KeyboardEvents {
   }
 
   void playerLeft() {
+    addWorldCollisionFromPlayer();
     switch (_player.direction) {
       case Direction.lleft:
         _player.direction = Direction.lleft;
@@ -81,6 +91,7 @@ class RaceWengenGame extends FlameGame with HasCollidables, KeyboardEvents {
   }
 
   void playerRight() {
+    addWorldCollisionFromPlayer();
     switch (_player.direction) {
       case Direction.lleft:
         _player.direction = Direction.left;
@@ -104,25 +115,7 @@ class RaceWengenGame extends FlameGame with HasCollidables, KeyboardEvents {
   }
 
   void playerStart() {
+    addWorldCollisionFromPlayer();
     _player.direction = Direction.down;
   }
-
-  WorldCollidable createWorldCollidable(Rect rect) {
-    final collidable = WorldCollidable();
-    collidable.position = Vector2(rect.left, rect.top);
-    collidable.width = rect.width;
-    collidable.height = rect.height;
-    return collidable;
-  }
-
-  //@override
-  //KeyEventResult onKeyEvent(
-  //    RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-  //  final isKeyDown = event is RawKeyDownEvent;
-  //
-  //  print(isKeyDown);
-  //  print(event);
-  //
-  // return super.onKeyEvent(event, keysPressed);
-  //}
 }

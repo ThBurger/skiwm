@@ -31,4 +31,12 @@ class SharedPreferencesService {
     creditsValueNotifier.value = newCredits;
     prefs.setInt('credits', newCredits);
   }
+
+  Future<void> increaseCredits(int increaseBy) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int credits = prefs.getInt('credits') ?? 0;
+    int newCredits = credits + increaseBy;
+    creditsValueNotifier.value = newCredits;
+    prefs.setInt('credits', newCredits);
+  }
 }

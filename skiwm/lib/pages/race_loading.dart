@@ -1,4 +1,7 @@
+import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:skiwm/components/world_collidable.dart';
+import 'package:skiwm/helpers/map_loader.dart';
 import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/highscore_service.dart';
@@ -27,7 +30,22 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
     SharedPreferencesService().increaseScore(PROFILE_RACES, 1);
     TaskService().increaseCurrentTaskScore(DAILY_RACE_STARTED);
     _loadCurrentHighscore();
+    _loadCollidables();
     super.initState();
+  }
+
+  Future<void> _loadCollidables() async {
+    if (widget.raceId == '4cfdc5e0-2bbc-46c5-93c3-473e6cbcda2a') {
+      List<Rect> list = (await MapLoader.readCollisionMap(
+          'assets/Wengen_Race_Collisions.json'));
+      for (var rect in list) {
+        collidableGates.add(WorldCollidable()
+          ..position = Vector2(rect.left + 25,
+              rect.top + 36) // TODO nachbesern, auch anders handy?
+          ..width = rect.width
+          ..height = rect.height);
+      }
+    }
   }
 
   Future<void> _loadCurrentHighscore() async {

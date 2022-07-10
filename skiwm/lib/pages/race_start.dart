@@ -27,7 +27,7 @@ class RaceStartPage extends StatelessWidget {
         centerTitle: true,
         title: Text(
           args.racename!,
-          style: TextStyle(color: SkiWmColors.primary),
+          style: const TextStyle(color: SkiWmColors.primary),
         ),
       ),
       body: Container(

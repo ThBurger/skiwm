@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:skiwm/pages/shop.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 

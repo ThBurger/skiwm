@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/components/dialog_crashed.dart';
 import 'package:skiwm/components/dialog_finished.dart';
@@ -33,10 +34,10 @@ class Player extends SpriteAnimationComponent
 
   Player()
       : super(
-          size: Vector2.all(35.0),
+          size: Vector2.all(32.0),
         ) {
-    // TODO smaller hitbox?
-    addHitbox(HitboxRectangle());
+    addHitbox(HitboxRectangle()); // normal
+    //addHitbox(HitboxRectanglePlayer()); // better
   }
 
   @override
@@ -57,6 +58,17 @@ class Player extends SpriteAnimationComponent
 
     if (other is WorldCollidable) {
       if (!_hasCollided) {
+        debugPrint("COLLIDABLE");
+        debugPrint("OTHER: " +
+            other.x.toString() +
+            " | " +
+            other.y.toString() +
+            " | " +
+            other.height.toString() +
+            " | " +
+            other.width.toString());
+        debugPrint(
+            "PLAYER: " + position.x.toString() + " | " + position.y.toString());
         stopwatch.currentState?.stop();
         gameState = GameState.gameOver;
         _hasCollided = true;
@@ -70,6 +82,10 @@ class Player extends SpriteAnimationComponent
     }
     if (other is WorldFinish) {
       if (!_hasFinished) {
+        debugPrint("FINISHED");
+        debugPrint("OTHER: " + other.x.toString() + " | " + other.y.toString());
+        debugPrint(
+            "PLAYER: " + position.x.toString() + " | " + position.y.toString());
         stopwatch.currentState?.stop();
         gameState = GameState.inFinish;
         _hasFinished = true;

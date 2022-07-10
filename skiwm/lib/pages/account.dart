@@ -139,6 +139,10 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
     await SharedPreferencesService().deleteAllSharedPreference();
   }
 
+  void addCredits() async {
+    await SharedPreferencesService().increaseCredits(50);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_unAuthenticated) {
@@ -208,6 +212,8 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                 ElevatedButton(
                     onPressed: deleteSharedPrefs,
                     child: const Text('Delete Shared Prefs')),
+                ElevatedButton(
+                    onPressed: addCredits, child: const Text('Add Credits')),
               ],
             ),
           ),
