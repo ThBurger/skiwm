@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:skiwm/components/world_collidable.dart';
+import 'package:skiwm/components/world_finish.dart';
 import 'package:skiwm/helpers/map_loader.dart';
 import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
@@ -35,16 +36,33 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
   }
 
   Future<void> _loadCollidables() async {
+    List<Rect> listGates = List.empty(growable: true);
+    List<Rect> listFinish = List.empty(growable: true);
     if (widget.raceId == '4cfdc5e0-2bbc-46c5-93c3-473e6cbcda2a') {
-      List<Rect> list = (await MapLoader.readCollisionMap(
+      listGates = (await MapLoader.readCollisionMap(
           'assets/Wengen_Race_Collisions.json'));
-      for (var rect in list) {
-        collidableGates.add(WorldCollidable()
-          ..position = Vector2(rect.left + 25,
-              rect.top + 36) // TODO nachbesern, auch anders handy?
-          ..width = rect.width
-          ..height = rect.height);
-      }
+      listFinish = (await MapLoader.readCollisionMap(
+          'assets/Wengen_Race_Collisions.json'));
+    } else if (widget.raceId == '9df070b2-5fb0-43aa-a888-2e8ae5744047') {
+      listGates = (await MapLoader.readCollisionMap(
+          'assets/Training_1_Collisions.json'));
+      listFinish =
+          (await MapLoader.readCollisionMap('assets/Training_1_Finish.json'));
+    }
+    for (var rect in listGates) {
+      collidableGates.add(WorldCollidable()
+        //..position = Vector2(rect.left + 25 , rect.top + 36 ) // TODO nachbesern, auch anders handy?
+        ..position =
+            Vector2(rect.left, rect.top) // TODO nachbesern, auch anders handy?
+        ..width = rect.width
+        ..height = rect.height);
+    }
+    for (var rect in listFinish) {
+      collidableFinish.add(WorldFinish()
+        ..position =
+            Vector2(rect.left, rect.top) // TODO nachbesern, auch anders handy?
+        ..width = rect.width
+        ..height = rect.height);
     }
   }
 
@@ -65,6 +83,9 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
       if (widget.raceId == '8816a988-7815-41da-b9f1-71fa78f7e977') {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/trainig_soelden', ModalRoute.withName('/race'));
+      } else if (widget.raceId == '9df070b2-5fb0-43aa-a888-2e8ae5744047') {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            '/race_game', ModalRoute.withName('/race'));
       } else if (widget.raceId == '4cfdc5e0-2bbc-46c5-93c3-473e6cbcda2a') {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/race_wengen', ModalRoute.withName('/race'));

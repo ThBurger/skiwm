@@ -1,9 +1,12 @@
 import 'package:flame/components.dart';
 
-class RaceWengenWorld extends SpriteComponent with HasGameRef {
+class RaceWorld extends SpriteComponent with HasGameRef {
+  String mapPic;
+  RaceWorld(this.mapPic);
+
   @override
   Future<void>? onLoad() async {
-    sprite = await gameRef.loadSprite('Race_Wengen.png');
+    sprite = await gameRef.loadSprite(mapPic);
     size = sprite!.originalSize;
     return super.onLoad();
   }

@@ -53,7 +53,10 @@ class _AfterRaceState extends State<AfterRacePage> {
     setState(() {
       _loading = true;
     });
-    final userId = supabase.auth.currentUser!.id;
+    String userId = '7e4f7c5b-504d-4851-b25c-1553cb4d4dfc';
+    if (supabase.auth.currentUser != null) {
+      userId = supabase.auth.currentUser!.id; // TODO
+    }
     final raceId = selectedRace;
     var _id = '';
     final _leaderboardId = userLeaderboardEntries.where((element) =>

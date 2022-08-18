@@ -47,7 +47,7 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                           topRight: Radius.circular(10.0),
                         ),
                         child: Image.asset(
-                          widget.raceItem.img!,
+                          'assets/images/snow_race.jpg',
                           fit: BoxFit.cover,
                         ),
                       ),

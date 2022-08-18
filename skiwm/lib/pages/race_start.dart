@@ -41,7 +41,8 @@ class RaceStartPage extends StatelessWidget {
           children: <Widget>[
             SizedBox(
                 height: 330, // TODO
-                child: Image.asset(args.img!, fit: BoxFit.cover)),
+                child: Image.asset('assets/images/snow_race.jpg',
+                    fit: BoxFit.cover)),
             SingleChildScrollView(
               padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
               child: Column(
