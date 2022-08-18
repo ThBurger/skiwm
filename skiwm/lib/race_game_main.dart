@@ -8,18 +8,27 @@ import 'package:skiwm/utils/constants.dart';
 import 'components/dialog_pause.dart';
 
 class RaceGamePage extends StatefulWidget {
-  const RaceGamePage({Key? key}) : super(key: key);
+  final String mapPic;
+  final double playerX;
+  final double playerY;
+  const RaceGamePage({
+    Key? key,
+    required this.mapPic,
+    required this.playerX,
+    required this.playerY,
+  }) : super(key: key);
 
   @override
   RaceGameState createState() => RaceGameState();
 }
 
 class RaceGameState extends State<RaceGamePage> {
-  RaceGame game = RaceGame('Training_1.png');
+  late RaceGame game;
 
   @override
   void initState() {
     super.initState();
+    game = RaceGame(widget.mapPic, widget.playerX, widget.playerY);
     gameState = GameState.init;
     WidgetsBinding.instance?.addPostFrameCallback((_) async {
       await showDialog(

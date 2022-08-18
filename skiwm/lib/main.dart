@@ -63,7 +63,11 @@ class App extends StatelessWidget {
         '/trainig_easy': (_) => const TrainingEasyPage(),
         '/trainig_soelden': (_) => const TrainingSoeldenPage(),
         '/race_wengen': (_) => const RaceWengenPage(),
-        '/race_game': (_) => const RaceGamePage(),
+        '/race_game': (_) => const RaceGamePage(
+              mapPic: '',
+              playerX: 0,
+              playerY: 0,
+            ),
         '/afterrace': (_) => const AfterRacePage(
               timeRace: 0,
             ),

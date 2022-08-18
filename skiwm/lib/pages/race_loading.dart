@@ -1,8 +1,10 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skiwm/components/world_collidable.dart';
 import 'package:skiwm/components/world_finish.dart';
 import 'package:skiwm/helpers/map_loader.dart';
+import 'package:skiwm/race_game_main.dart';
 import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/highscore_service.dart';
@@ -84,8 +86,12 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/trainig_soelden', ModalRoute.withName('/race'));
       } else if (widget.raceId == '9df070b2-5fb0-43aa-a888-2e8ae5744047') {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/race_game', ModalRoute.withName('/race'));
+        Navigator.of(context).popUntil(ModalRoute.withName('/race'));
+        Get.to(const RaceGamePage(
+          mapPic: 'Training_1.png',
+          playerX: 300,
+          playerY: 150,
+        ));
       } else if (widget.raceId == '4cfdc5e0-2bbc-46c5-93c3-473e6cbcda2a') {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/race_wengen', ModalRoute.withName('/race'));

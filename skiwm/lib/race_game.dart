@@ -10,12 +10,14 @@ import 'package:flutter/material.dart';
 
 class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
   final String mapPic;
+  final double playerX;
+  final double playerY;
   late final Player _player = Player();
-  late final RaceWorld _world; // TODO übergeben
+  late final RaceWorld _world;
 
   List<WorldCollidable> activeCollidable = List.empty(growable: true);
 
-  RaceGame(this.mapPic);
+  RaceGame(this.mapPic, this.playerX, this.playerY);
 
   @override
   Future<void> onLoad() async {
@@ -26,7 +28,7 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
     addWorldFinish();
     super.debugMode = true; // TODO debug MODUS!
 
-    _player.position = Vector2(300, 150); // TODO übergeben
+    _player.position = Vector2(playerX, playerY);
     camera.followComponent(_player,
         worldBounds: Rect.fromLTRB(0, 0, _world.size.x, _world.size.y));
   }
