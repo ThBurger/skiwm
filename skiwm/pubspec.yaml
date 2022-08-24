@@ -79,29 +79,21 @@ flutter:
 
   assets:
       - assets/images/
-      - assets/images/Training_1.png
       - assets/images/podium.png
       - assets/images/user.png
       - assets/images/shop.png
       - assets/images/skier.png
+      - assets/images/snow_race.jpg
       - assets/images/placeholder.png
-      - assets/rayworld_collision_map.json
-      - assets/images/Training_Easy.png
-      - assets/Training_Easy_Finish.json
-      - assets/Training_Easy_Collisions.json
-      - assets/images/Training_Soelden.png
-      - assets/Sölden_Training_Finish.json
-      - assets/Sölden_Training_Collisions.json
       - assets/images/Race_Wengen.png
       - assets/images/Training_1.png
       - assets/images/Training_2.png
       - assets/Wengen_Race_Finish.json
       - assets/Wengen_Race_Collisions.json
-      - assets/images/snow_race.jpg
-      - assets/Race_Wengen.json
       - assets/Training_1_Collisions.json
       - assets/Training_1_Finish.json
-      - assets/Training_2.json
+      - assets/Training_2_Collisions.json
+      - assets/Training_2_Finish.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

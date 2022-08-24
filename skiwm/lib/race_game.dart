@@ -35,7 +35,7 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
 
   void addWorldCollisionFromPlayer() {
     for (var c in activeCollidable) {
-      remove(c);
+      remove(c); // ggf remove bei crash & exit?
     }
     activeCollidable.clear();
 

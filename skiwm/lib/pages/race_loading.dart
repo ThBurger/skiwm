@@ -40,29 +40,33 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
   Future<void> _loadCollidables() async {
     List<Rect> listGates = List.empty(growable: true);
     List<Rect> listFinish = List.empty(growable: true);
-    if (widget.raceId == '4cfdc5e0-2bbc-46c5-93c3-473e6cbcda2a') {
+    collidableGates = List.empty(growable: true);
+    collidableFinish = List.empty(growable: true);
+    if (widget.raceId == RACE_WENGEN) {
       listGates = (await MapLoader.readCollisionMap(
           'assets/Wengen_Race_Collisions.json'));
-      listFinish = (await MapLoader.readCollisionMap(
-          'assets/Wengen_Race_Collisions.json'));
-    } else if (widget.raceId == '9df070b2-5fb0-43aa-a888-2e8ae5744047') {
+      listFinish =
+          (await MapLoader.readCollisionMap('assets/Wengen_Race_Finish.json'));
+    } else if (widget.raceId == TRAINING_1) {
       listGates = (await MapLoader.readCollisionMap(
           'assets/Training_1_Collisions.json'));
       listFinish =
           (await MapLoader.readCollisionMap('assets/Training_1_Finish.json'));
+    } else if (widget.raceId == TRAINING_2) {
+      listGates = (await MapLoader.readCollisionMap(
+          'assets/Training_2_Collisions.json'));
+      listFinish =
+          (await MapLoader.readCollisionMap('assets/Training_2_Finish.json'));
     }
     for (var rect in listGates) {
       collidableGates.add(WorldCollidable()
-        //..position = Vector2(rect.left + 25 , rect.top + 36 ) // TODO nachbesern, auch anders handy?
-        ..position =
-            Vector2(rect.left, rect.top) // TODO nachbesern, auch anders handy?
+        ..position = Vector2(rect.left, rect.top)
         ..width = rect.width
         ..height = rect.height);
     }
     for (var rect in listFinish) {
       collidableFinish.add(WorldFinish()
-        ..position =
-            Vector2(rect.left, rect.top) // TODO nachbesern, auch anders handy?
+        ..position = Vector2(rect.left, rect.top)
         ..width = rect.width
         ..height = rect.height);
     }
@@ -82,25 +86,35 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      if (widget.raceId == '8816a988-7815-41da-b9f1-71fa78f7e977') {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/trainig_soelden', ModalRoute.withName('/race'));
-      } else if (widget.raceId == '9df070b2-5fb0-43aa-a888-2e8ae5744047') {
+      if (widget.raceId == TRAINING_2) {
+        Navigator.of(context).popUntil(ModalRoute.withName('/race'));
+        Get.to(const RaceGamePage(
+          mapPic: 'Training_2.png',
+          playerX: 300,
+          playerY: 150,
+        ));
+      } else if (widget.raceId == TRAINING_1) {
         Navigator.of(context).popUntil(ModalRoute.withName('/race'));
         Get.to(const RaceGamePage(
           mapPic: 'Training_1.png',
           playerX: 300,
           playerY: 150,
         ));
-      } else if (widget.raceId == '4cfdc5e0-2bbc-46c5-93c3-473e6cbcda2a') {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/race_wengen', ModalRoute.withName('/race'));
-      } else if (widget.title == 'Bormio') {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/trainig_easy', ModalRoute.withName('/race'));
+      } else if (widget.raceId == RACE_WENGEN) {
+        Navigator.of(context).popUntil(ModalRoute.withName('/race'));
+        Get.to(const RaceGamePage(
+          mapPic: 'Race_Wengen.png',
+          playerX: 1600,
+          playerY: 350,
+        ));
       } else {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/trainig_easy', ModalRoute.withName('/race'));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('cant load race - contact the admin'),
+            duration: Duration(milliseconds: 1500),
+          ),
+        );
+        Navigator.pop(context);
       }
     });
 

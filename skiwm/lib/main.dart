@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:skiwm/pages/account.dart';
-import 'package:skiwm/pages/race.dart';
 import 'package:skiwm/pages/race_after.dart';
 import 'package:skiwm/pages/login.dart';
 import 'package:skiwm/pages/menu.dart';
@@ -11,9 +10,6 @@ import 'package:skiwm/pages/race_start.dart';
 import 'package:skiwm/pages/settings.dart';
 import 'package:skiwm/pages/splash.dart';
 import 'package:skiwm/race_game_main.dart';
-import 'package:skiwm/race_wengen_main.dart';
-import 'package:skiwm/training_easy_main.dart';
-import 'package:skiwm/training_soelden_main.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -60,9 +56,6 @@ class App extends StatelessWidget {
         '/setting': (_) => const SettingsPage(),
         '/login': (_) => const LoginPage(),
         '/account': (_) => const AccountPage(),
-        '/trainig_easy': (_) => const TrainingEasyPage(),
-        '/trainig_soelden': (_) => const TrainingSoeldenPage(),
-        '/race_wengen': (_) => const RaceWengenPage(),
         '/race_game': (_) => const RaceGamePage(
               mapPic: '',
               playerX: 0,
