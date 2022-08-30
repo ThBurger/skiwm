@@ -9,6 +9,7 @@ class LeaderboardEntry {
   final String? raceId;
   final int? finishedTime;
   final String? username;
+  final String? country;
 
   const LeaderboardEntry({
     this.id,
@@ -17,11 +18,12 @@ class LeaderboardEntry {
     this.raceId,
     this.finishedTime,
     this.username,
+    this.country,
   });
 
   @override
   String toString() {
-    return 'LeaderboardEntry(id: $id, updatedAt: $updatedAt, userId: $userId, raceId: $raceId, finishedTime: $finishedTime, username: $username)';
+    return 'LeaderboardEntry(id: $id, updatedAt: $updatedAt, userId: $userId, raceId: $raceId, finishedTime: $finishedTime, username: $username, country: $country)';
   }
 
   factory LeaderboardEntry.fromMap(Map<String, dynamic> data) =>
@@ -36,6 +38,9 @@ class LeaderboardEntry {
         username: data['profiles'] == null
             ? ''
             : data['profiles']['username'] as String,
+        country: data['profiles'] == null
+            ? ''
+            : data['profiles']['country'] as String,
       );
 
   Map<String, dynamic> toMap() => {

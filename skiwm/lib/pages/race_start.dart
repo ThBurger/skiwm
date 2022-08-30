@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/models/race.dart';
@@ -22,13 +24,9 @@ class RaceStartPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: SkiWmColors.primary),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: const [CreditChip(), SizedBox(width: 15)],
         backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
-        title: Text(
-          args.racename!,
-          style: const TextStyle(color: SkiWmColors.primary),
-        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -66,50 +64,6 @@ class RaceStartPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    children: const <Widget>[
-                                      Icon(
-                                        Icons.star,
-                                        color: Colors.purple,
-                                      ),
-                                      Icon(
-                                        Icons.star_border,
-                                        color: Colors.purple,
-                                      ),
-                                      Icon(
-                                        Icons.star_border,
-                                        color: Colors.purple,
-                                      ),
-                                      Icon(
-                                        Icons.star_border,
-                                        color: Colors.purple,
-                                      ),
-                                      Icon(
-                                        Icons.star_border,
-                                        color: Colors.purple,
-                                      ),
-                                    ],
-                                  ),
-                                  const Text.rich(
-                                    TextSpan(children: [
-                                      TextSpan(text: "Difficulty")
-                                    ]),
-                                    style: TextStyle(
-                                        color: SkiWmColors.white,
-                                        fontSize: 12.0),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const CreditChip(),
-                          ],
-                        ),
                         const SizedBox(height: 15.0),
                         Text(
                           "Leaderboard".toUpperCase(),

@@ -54,6 +54,7 @@ dependencies:
   flutter_countdown_timer: ^4.1.0
   animated_text_kit: ^4.2.1
   convex_bottom_bar: ^3.0.0
+  flag: ^6.0.0
 
 dev_dependencies:
   flutter_test:

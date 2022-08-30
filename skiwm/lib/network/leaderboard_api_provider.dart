@@ -13,7 +13,8 @@ class LeaderboardApiProvider {
           race_id,
           finished_time,
           profiles (
-            username
+            username,
+            country
           )
           ''').eq('race_id', id).execute();
       final error = response.error;

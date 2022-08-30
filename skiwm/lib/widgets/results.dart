@@ -1,3 +1,5 @@
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:skiwm/models/leadboard_entry_response.dart';
 import 'package:skiwm/models/leaderboard_entry.dart';
@@ -92,40 +94,43 @@ class _ResultPageState extends State<ResultPage> {
     bool _isUsers = userLeaderboardEntries
         .where((element) => element.id == entry.id)
         .isNotEmpty;
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(
-            color: _isUsers ? SkiWmColors.success : SkiWmColors.white,
-            width: _isUsers ? 3.0 : 1.0,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12.0),
+      child: Row(
+        children: <Widget>[
+          Text(index.toString() + ".",
+              style: TextStyle(
+                  color: _isUsers ? SkiWmColors.success : SkiWmColors.white)),
+          const SizedBox(
+            width: 15,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(20))),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5.0),
-        child: Row(
-          children: <Widget>[
-            Padding(
-                padding: const EdgeInsets.fromLTRB(0.0, 6.0, 6.0, 0.0),
-                child:
-                    CircleAvatar(radius: 18.0, child: Text(index.toString()))),
-            Expanded(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Text(
-                    entry.username!,
-                    style: const TextStyle(color: SkiWmColors.white),
-                  ),
-                  const SizedBox(width: 6.0),
-                ],
-              ),
+          Expanded(
+            child: Row(
+              children: <Widget>[
+                Flag.fromString(
+                  entry.country!,
+                  height: 25,
+                  width: 25,
+                ),
+                const SizedBox(width: 12.0),
+                Text(
+                  entry.username!,
+                  style: TextStyle(
+                      color:
+                          _isUsers ? SkiWmColors.success : SkiWmColors.white),
+                ),
+              ],
             ),
-            SizedBox(
-              width: 100.0,
-              child: Text(StopWatchTimer.getDisplayTime(entry.finishedTime!),
-                  style: const TextStyle(color: SkiWmColors.white)),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            width: 75.0,
+            child: Text(
+                StopWatchTimer.getDisplayTime(entry.finishedTime!,
+                    hours: false),
+                style: TextStyle(
+                    color: _isUsers ? SkiWmColors.success : SkiWmColors.white)),
+          ),
+        ],
       ),
     );
   }

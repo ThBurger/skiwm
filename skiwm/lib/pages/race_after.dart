@@ -73,11 +73,13 @@ class _AfterRaceState extends State<AfterRacePage> {
       'race_id': raceId,
       'finished_time': widget.timeRace,
     };
-    debugPrint("update race time!!");
-    debugPrint(updates.toString());
     final response = await supabase.from('results').upsert(updates).execute();
     final error = response.error; // TODO erroR?
     debugPrint(error.toString());
+    if (error != null && response.status != 406) {
+      context.showErrorSnackBar(message: error.message);
+    }
+
     setState(() {
       _loading = false;
     });

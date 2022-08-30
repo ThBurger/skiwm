@@ -62,10 +62,6 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
     }
   }
 
-  void onJoypadDirectionChanged(Direction direction) {
-    _player.direction = direction;
-  }
-
   void playerLeft() {
     addWorldCollisionFromPlayer();
     switch (_player.direction) {

@@ -27,12 +27,11 @@ class MenuState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: const <Widget>[
-          CreditChip(),
-        ]);
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      actions: const [CreditChip(), SizedBox(width: 15)],
+    );
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: appBar,
