@@ -55,6 +55,7 @@ dependencies:
   animated_text_kit: ^4.2.1
   convex_bottom_bar: ^3.0.0
   flag: ^6.0.0
+  just_audio: ^0.9.28
 
 dev_dependencies:
   flutter_test:
@@ -79,22 +80,23 @@ flutter:
   uses-material-design: true
 
   assets:
-      - assets/images/
-      - assets/images/podium.png
-      - assets/images/user.png
-      - assets/images/shop.png
-      - assets/images/skier.png
-      - assets/images/snow_race.jpg
-      - assets/images/placeholder.png
-      - assets/images/Race_Wengen.png
-      - assets/images/Training_1.png
-      - assets/images/Training_2.png
-      - assets/Wengen_Race_Finish.json
-      - assets/Wengen_Race_Collisions.json
-      - assets/Training_1_Collisions.json
-      - assets/Training_1_Finish.json
-      - assets/Training_2_Collisions.json
-      - assets/Training_2_Finish.json
+    - assets/audio/
+    - assets/images/
+    - assets/images/podium.png
+    - assets/images/user.png
+    - assets/images/shop.png
+    - assets/images/skier.png
+    - assets/images/snow_race.jpg
+    - assets/images/placeholder.png
+    - assets/images/Race_Wengen.png
+    - assets/images/Training_1.png
+    - assets/images/Training_2.png
+    - assets/Wengen_Race_Finish.json
+    - assets/Wengen_Race_Collisions.json
+    - assets/Training_1_Collisions.json
+    - assets/Training_1_Finish.json
+    - assets/Training_2_Collisions.json
+    - assets/Training_2_Finish.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/resources/globals.dart';
 
 class PauseDialog extends StatelessWidget {
   const PauseDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    audioPlayer.pause();
     return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         child: Stack(

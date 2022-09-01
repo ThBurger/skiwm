@@ -9,6 +9,7 @@ class FinishedDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    audioPlayer.stop();
     return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         child: Stack(

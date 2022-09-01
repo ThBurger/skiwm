@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/resources/globals.dart';
 
 class CrashedDialog extends StatelessWidget {
   const CrashedDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    audioPlayer.stop();
     return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
         child: Stack(

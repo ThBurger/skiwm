@@ -18,4 +18,11 @@ class SkiWmColors {
   static const Color inputError = Color.fromRGBO(252, 179, 164, 1.0);
   static const Color muted = Color.fromRGBO(136, 152, 170, 1.0);
   static const Color text = Color.fromRGBO(50, 50, 93, 1.0);
+
+  // new colors? https://nordvpn.com/
+  static const Color text_new = Color.fromRGBO(56, 60, 67, 1.0);
+  static const Color background_new = Color.fromRGBO(248, 248, 248, 1.0);
+  static const Color primary_new = Color.fromRGBO(70, 135, 255, 1.0);
+  static const Color success_new = Color.fromRGBO(39, 190, 86, 1.0);
+  static const Color warning_new = Color.fromRGBO(250, 149, 162, 1.0);
 }

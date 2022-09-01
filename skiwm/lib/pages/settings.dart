@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/theme.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
+
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  Future<bool> saveSwitchState(String name, bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(name, value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +32,6 @@ class SettingsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 50.0),
-              const Text("GAME", style: TextStyle(color: Colors.white)),
               Card(
                 margin: const EdgeInsets.symmetric(
                   vertical: 8.0,
@@ -30,16 +41,26 @@ class SettingsPage extends StatelessWidget {
                   children: <Widget>[
                     SwitchListTile(
                       activeColor: SkiWmColors.primary,
-                      value: true,
-                      title: const Text("Music On/Off"),
-                      onChanged: (val) {},
+                      value: isMusic,
+                      title: const Text("Music"),
+                      onChanged: (bool value) {
+                        setState(() {
+                          isMusic = value;
+                          saveSwitchState('music', value);
+                        });
+                      },
                     ),
                     _buildDivider(),
                     SwitchListTile(
                       activeColor: SkiWmColors.primary,
-                      value: false,
-                      title: const Text("Receive Notification"),
-                      onChanged: (val) {},
+                      value: isSoundFx,
+                      title: const Text("Sound FX"),
+                      onChanged: (bool value) {
+                        setState(() {
+                          isSoundFx = value;
+                          saveSwitchState('soundfx', value);
+                        });
+                      },
                     ),
                   ],
                 ),

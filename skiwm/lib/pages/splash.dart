@@ -41,6 +41,7 @@ class _SplashPageState extends AuthState<SplashPage>
         });
     _loadCredits();
     _loadDailyTasks();
+    _loadOptions();
     super.initState();
   }
 
@@ -76,6 +77,12 @@ class _SplashPageState extends AuthState<SplashPage>
         await TaskService().getCurrentTaskScore(DAILY_RACE_STARTED);
     dailyTaskFinishedValueNotifier.value =
         await TaskService().getCurrentTaskScore(DAILY_RACE_FINISHED);
+  }
+
+  Future<void> _loadOptions() async {
+    final SharedPreferences prefs = await _prefs;
+    isMusic = (prefs.getBool('music') ?? false);
+    isSoundFx = (prefs.getBool('soundfx') ?? false);
   }
 
   @override

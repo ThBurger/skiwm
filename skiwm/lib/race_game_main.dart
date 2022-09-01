@@ -1,4 +1,6 @@
+import 'package:audio_session/audio_session.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:skiwm/components/dialog_start.dart';
 import 'package:skiwm/components/stopwatch.dart';
@@ -6,6 +8,7 @@ import 'package:skiwm/race_game.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'components/dialog_pause.dart';
+import 'package:just_audio/just_audio.dart';
 
 class RaceGamePage extends StatefulWidget {
   final String mapPic;
@@ -38,6 +41,29 @@ class RaceGameState extends State<RaceGamePage> {
             return const StartDialog();
           });
     });
+    _initAudio();
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
+  Future<void> _initAudio() async {
+    audioPlayer = AudioPlayer();
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.music());
+    audioPlayer.playbackEventStream.listen((event) {},
+        onError: (Object e, StackTrace stackTrace) {
+      debugPrint('A stream error occurred: $e');
+    });
+    try {
+      await audioPlayer.setAsset('assets/audio/racing.mp3');
+    } catch (e) {
+      debugPrint("Error loading audio source: $e");
+    }
+    audioPlayer.play();
   }
 
   void onTapDown(BuildContext context, TapDownDetails details) {
@@ -85,6 +111,7 @@ class RaceGameState extends State<RaceGamePage> {
                             {
                               gameState = GameState.playing,
                               game.onGameStateChanged(),
+                              audioPlayer.play(),
                               stopwatch.currentState?.start()
                             }
                         });
@@ -92,24 +119,6 @@ class RaceGameState extends State<RaceGamePage> {
                 ),
               ),
             ),
-            // Align(
-            //   alignment: Alignment.bottomLeft,
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(32.0),
-            //     child: IconButton(
-            //       icon: const Icon(Icons.exit_to_app),
-            //       highlightColor: Colors.pink,
-            //       onPressed: () {
-            //         gameState = GameState.finish;
-            //         game.onGameStateChanged();
-            //         stopwatch.currentState?.stop();
-            //         Get.to(AfterRacePage(
-            //           timeRace: stopwatch.currentState!.getTime(),
-            //         ));
-            //       },
-            //     ),
-            //   ),
-            // ),
             Align(
               alignment: Alignment.topCenter,
               child: Padding(

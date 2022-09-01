@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/widgets/daily_credits.dart';
 import 'package:skiwm/widgets/daily_task_finished.dart';
 import 'package:skiwm/widgets/daily_task_started.dart';
@@ -23,13 +24,14 @@ class RacePage extends StatelessWidget {
           padding: const EdgeInsets.only(right: 12, left: 12),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 50),
                 const Text(
                   "Credits",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 23,
+                    color: SkiWmColors.white,
+                    fontSize: 22,
                   ),
                 ),
                 const DailyCredit(),
@@ -37,8 +39,8 @@ class RacePage extends StatelessWidget {
                 const Text(
                   "Races",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 23,
+                    color: SkiWmColors.white,
+                    fontSize: 22,
                   ),
                 ),
                 buildRaceList(context, racesPlayable),
@@ -46,16 +48,17 @@ class RacePage extends StatelessWidget {
                 const Text(
                   "Trainings",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 23,
+                    color: SkiWmColors.white,
+                    fontSize: 22,
                   ),
                 ),
-                buildRaceList(context, trainings), const SizedBox(height: 8.0),
+                buildRaceList(context, trainings),
+                const SizedBox(height: 8.0),
                 const Text(
                   "Daily Tasks",
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 23,
+                    color: SkiWmColors.white,
+                    fontSize: 22,
                   ),
                 ),
                 Row(
@@ -66,12 +69,6 @@ class RacePage extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20.0),
-                // const SizedBox(height: 10.0),
-                // const Text(
-                //   "Made with ❤ by Toburg Labs.",
-                //   textAlign: TextAlign.center,
-                // ),
-                // const SizedBox(height: 10.0),
               ],
             ),
           ),

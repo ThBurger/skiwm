@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:skiwm/components/stopwatch.dart';
 import 'package:skiwm/components/world_collidable.dart';
 import 'package:skiwm/components/world_finish.dart';
@@ -27,8 +28,8 @@ String selectedRace = '';
 int selectedRaceCurrentHighscore = maxTimeResult;
 
 GameState gameState = GameState.init;
-
 GlobalKey<StopWatchState> stopwatch = GlobalKey();
+AudioPlayer audioPlayer = AudioPlayer();
 
 // Gates
 List<WorldCollidable> collidableGates = List.empty(growable: true);
@@ -36,3 +37,6 @@ List<WorldCollidable> collidableGates = List.empty(growable: true);
 List<WorldFinish> collidableFinish = List.empty(growable: true);
 // slow Snow TODO not used yet
 List<Rect> collidableSlow = List.empty(growable: true);
+
+bool isMusic = false;
+bool isSoundFx = false;
