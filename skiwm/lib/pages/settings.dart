@@ -52,6 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     _buildDivider(),
                     SwitchListTile(
+                      // TODO
                       activeColor: SkiWmColors.primary,
                       value: isSoundFx,
                       title: const Text("Sound FX"),
@@ -59,6 +60,19 @@ class _SettingsPageState extends State<SettingsPage> {
                         setState(() {
                           isSoundFx = value;
                           saveSwitchState('soundfx', value);
+                        });
+                      },
+                    ),
+                    _buildDivider(),
+                    SwitchListTile(
+                      // TODO
+                      activeColor: SkiWmColors.primary,
+                      value: isDarkMode,
+                      title: const Text("Dark Mode"),
+                      onChanged: (bool value) {
+                        setState(() {
+                          isDarkMode = value;
+                          saveSwitchState('darkmode', value);
                         });
                       },
                     ),

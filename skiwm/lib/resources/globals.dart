@@ -40,3 +40,4 @@ List<Rect> collidableSlow = List.empty(growable: true);
 
 bool isMusic = false;
 bool isSoundFx = false;
+bool isDarkMode = false;

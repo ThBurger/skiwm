@@ -83,6 +83,7 @@ class _SplashPageState extends AuthState<SplashPage>
     final SharedPreferences prefs = await _prefs;
     isMusic = (prefs.getBool('music') ?? false);
     isSoundFx = (prefs.getBool('soundfx') ?? false);
+    isDarkMode = (prefs.getBool('darkmode') ?? false);
   }
 
   @override

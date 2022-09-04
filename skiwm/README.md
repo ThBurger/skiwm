@@ -1,12 +1,16 @@
-# skiwm
+# Getting Started
+flutter pub get
+flutter run
 
-A new Flutter project.
+# Main Pages  
+splash.dart --> some initalizations (user, race data, etc...)
+menu.dart --> Overview within app with bottom navigation bar
+race.dart --> races & trainings that are available
+leaderboard.dart --> leaderbords per race
+shop.dart --> refill your credits (buy or watch videos)
+account.dart --> user profile and if not authorized login via e-mail magic link
+settings.dart --> some settings like music or dark mode
 
-## Getting Started
-
-## Packages 
-I want to integrate
-- Animations (https://pub.dev/packages/animations)
-- flutter_launcher_icons (https://pub.dev/packages/flutter_launcher_icons)
-- hooks_riverpod (https://pub.dev/packages/hooks_riverpod)
-- mockito (https://pub.dev/packages/mockito)
+# Trello
+ToDo's see:
+https://trello.com/b/QHTcJOOS/ski-wm-10
