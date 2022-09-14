@@ -1,6 +1,6 @@
 # Getting Started
-flutter pub get
-flutter run
+- flutter pub get
+- flutter run
 
 # Main Pages  
 - splash.dart --> some initalizations (user, race data, etc...)

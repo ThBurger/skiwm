@@ -45,10 +45,11 @@ class DailyTaskStartedComponent extends StatelessWidget {
                 ),
               ),
               Container(
-                  alignment: Alignment.topCenter,
-                  child: LinearProgressIndicator(
-                    value: counterValue / 5,
-                  ))
+                alignment: Alignment.topCenter,
+                child: LinearProgressIndicator(
+                  value: counterValue / 5,
+                ),
+              )
             ],
           ),
         );

@@ -1,12 +1,10 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:skiwm/components/dialog_start.dart';
 import 'package:skiwm/components/stopwatch.dart';
 import 'package:skiwm/race_game.dart';
 import 'package:skiwm/resources/globals.dart';
-import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'components/dialog_pause.dart';
 import 'package:just_audio/just_audio.dart';

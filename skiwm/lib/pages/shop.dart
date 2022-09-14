@@ -78,12 +78,12 @@ class _ShopPageState extends State<ShopPage> {
         request: request,
         rewardedAdLoadCallback: RewardedAdLoadCallback(
           onAdLoaded: (RewardedAd ad) {
-            print('$ad loaded.');
+            debugPrint('$ad loaded.');
             _rewardedAd = ad;
             _numRewardedLoadAttempts = 0;
           },
           onAdFailedToLoad: (LoadAdError error) {
-            print('RewardedAd failed to load: $error');
+            debugPrint('RewardedAd failed to load: $error');
             _rewardedAd = null;
             _numRewardedLoadAttempts += 1;
             if (_numRewardedLoadAttempts < maxFailedLoadAttempts) {
@@ -95,19 +95,19 @@ class _ShopPageState extends State<ShopPage> {
 
   void _showRewardedAd() {
     if (_rewardedAd == null) {
-      print('Warning: attempt to show rewarded before loaded.');
+      debugPrint('Warning: attempt to show rewarded before loaded.');
       return;
     }
     _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (RewardedAd ad) =>
-          print('ad onAdShowedFullScreenContent.'),
+          debugPrint('ad onAdShowedFullScreenContent.'),
       onAdDismissedFullScreenContent: (RewardedAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
+        debugPrint('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
         _createRewardedAd();
       },
       onAdFailedToShowFullScreenContent: (RewardedAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
+        debugPrint('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
         _createRewardedAd();
       },
@@ -116,7 +116,8 @@ class _ShopPageState extends State<ShopPage> {
     _rewardedAd!.setImmersiveMode(true);
     _rewardedAd!.show(
         onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
-      print('$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
+      debugPrint(
+          '$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
       _addCredits(reward.amount.toInt());
     });
     _rewardedAd = null;
@@ -203,15 +204,6 @@ class _ShopPageState extends State<ShopPage> {
     super.dispose();
   }
 
-  void showSnackBar(String content) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(content),
-        duration: Duration(milliseconds: 1500),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     List<Widget> stack = [];
@@ -220,15 +212,7 @@ class _ShopPageState extends State<ShopPage> {
         ListView(
           children: [
             const SizedBox(height: 50.0),
-            TextButton(
-              onPressed: () {
-                _showRewardedAd();
-              },
-              child: Text(
-                'Show Reward',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            _buildVideoAdTile(),
             _buildConnectionCheckTile(),
             _buildProductList(),
             _buildConsumableBox(),
@@ -284,6 +268,19 @@ class _ShopPageState extends State<ShopPage> {
       return 'ca-app-pub-6361973725136033/4570100517';
     }
     return null;
+  }
+
+  Card _buildVideoAdTile() {
+    if (_rewardedAd == null) {
+      return const Card(child: ListTile(title: Text('Video Ad is loading...')));
+    }
+    final Widget storeHeader = ListTile(
+      leading: Icon(_isAvailable ? Icons.check : Icons.block,
+          color: _isAvailable ? Colors.green : ThemeData.light().errorColor),
+      title: const Text('Show Video Ad '),
+    );
+    final List<Widget> children = <Widget>[storeHeader];
+    return Card(child: Column(children: children));
   }
 
   Card _buildConnectionCheckTile() {

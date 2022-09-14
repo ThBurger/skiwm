@@ -17,7 +17,6 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends AuthRequiredState<AccountPage>
     with TickerProviderStateMixin {
   final _usernameController = TextEditingController();
-  final _websiteController = TextEditingController();
   final _countryController = TextEditingController();
   var _loading = false;
   var _unAuthenticated = false;
@@ -44,7 +43,6 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
     final data = response.data;
     if (data != null) {
       _usernameController.text = (data['username'] ?? '') as String;
-      _websiteController.text = (data['website'] ?? '') as String;
       _countryController.text = (data['country'] ?? '') as String;
     }
     setState(() {
@@ -57,14 +55,12 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
       _loading = true;
     });
     final userName = _usernameController.text;
-    final website = _websiteController.text;
     final country = _countryController.text;
     final user = supabase.auth.currentUser;
     final updates = {
       'id': user!.id,
       'username': userName,
       'country': country,
-      'website': website,
       'updated_at': DateTime.now().toIso8601String(),
     };
     final response = await supabase.from('profiles').upsert(updates).execute();
@@ -116,7 +112,6 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
   @override
   void dispose() {
     _usernameController.dispose();
-    _websiteController.dispose();
     animationController.dispose();
     super.dispose();
   }
@@ -161,7 +156,7 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
           ),
         ),
         child: Container(
-          padding: const EdgeInsets.only(right: 12, left: 12),
+          padding: const EdgeInsets.only(right: 24, left: 24),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -169,11 +164,6 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                 TextFormField(
                   controller: _usernameController,
                   decoration: const InputDecoration(labelText: 'User Name'),
-                ),
-                const SizedBox(height: 18),
-                TextFormField(
-                  controller: _websiteController,
-                  decoration: const InputDecoration(labelText: 'Website'),
                 ),
                 const SizedBox(height: 18),
                 const Text('Select Country'),
@@ -186,8 +176,12 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                 ),
                 const SizedBox(height: 10),
                 Padding(
+                    padding: const EdgeInsets.all(8), child: getRank(_races)),
+                Padding(
                   padding: const EdgeInsets.all(8),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       getTimeBoxUI(_races.toString(), 'Race started'),
                       getTimeBoxTime(_time, 'Time racing'),
@@ -197,6 +191,8 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       getTimeBoxUI(_finished.toString(), 'Race finished'),
                       getTimeBoxUI(_crashed.toString(), 'Crashed'),
@@ -353,6 +349,83 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
               ),
               Text(
                 txt2,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w200,
+                  fontSize: 14,
+                  letterSpacing: 0.27,
+                  color: SkiWmColors.black,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getRank(int races) {
+    int maxRaces = 100;
+    String rank = "";
+    if (races <= 100) {
+      maxRaces = 100;
+      rank = "Rookie";
+    } else if (races > 100 && races <= 500) {
+      maxRaces = 500;
+      rank = "Pro";
+    } else if (races > 100 && races <= 2000) {
+      maxRaces = 2000;
+      rank = "Elite";
+    } else if (races > 100 && races <= 5000) {
+      maxRaces = 5000;
+      rank = "Master";
+    } else if (races > 100 && races <= 10000) {
+      maxRaces = 10000;
+      rank = "Grandmaster";
+    } else {
+      maxRaces = 50000;
+      rank = "Legend";
+    }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: SkiWmColors.white,
+          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: SkiWmColors.primary,
+                offset: Offset(1.1, 1.1),
+                blurRadius: 8.0),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+              left: 18.0, right: 18.0, top: 12.0, bottom: 12.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width * 0.60,
+                padding: const EdgeInsets.all(5),
+                alignment: Alignment.topCenter,
+                child: LinearProgressIndicator(
+                  value: races / maxRaces,
+                ),
+              ),
+              Text(
+                races.toString() + "/" + maxRaces.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  letterSpacing: 0.27,
+                  color: SkiWmColors.black,
+                ),
+              ),
+              Text(
+                rank,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.w200,

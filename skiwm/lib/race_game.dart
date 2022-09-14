@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:skiwm/components/race_world.dart';
@@ -14,6 +16,7 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
   final double playerY;
   late final Player _player = Player();
   late final RaceWorld _world;
+  Timer? timer;
 
   List<WorldCollidable> activeCollidable = List.empty(growable: true);
 
@@ -26,14 +29,23 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
     await add(_world);
     add(_player);
     addWorldFinish();
-    super.debugMode = true; // TODO debug MODUS!
+    super.debugMode = true; // TODO debug MODUS! beste
 
     _player.position = Vector2(playerX, playerY);
     camera.followComponent(_player,
         worldBounds: Rect.fromLTRB(0, 0, _world.size.x, _world.size.y));
+    timer = Timer.periodic(const Duration(milliseconds: 300),
+        (Timer t) => addWorldCollisionFromPlayer());
+  }
+
+  @override
+  void onRemove() {
+    timer?.cancel();
+    super.onRemove();
   }
 
   void addWorldCollisionFromPlayer() {
+    debugPrint("addWorldCollisionFromPlayer");
     for (var c in activeCollidable) {
       remove(c); // ggf remove bei crash & exit?
     }
@@ -63,7 +75,6 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
   }
 
   void playerLeft() {
-    addWorldCollisionFromPlayer();
     switch (_player.direction) {
       case Direction.lleft:
         _player.direction = Direction.lleft;
@@ -87,7 +98,6 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
   }
 
   void playerRight() {
-    addWorldCollisionFromPlayer();
     switch (_player.direction) {
       case Direction.lleft:
         _player.direction = Direction.left;
@@ -111,7 +121,6 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
   }
 
   void playerStart() {
-    addWorldCollisionFromPlayer();
     _player.direction = Direction.down;
   }
 }
