@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/theme.dart';
+import 'package:skiwm/widgets/credit.dart';
+import 'package:skiwm/widgets/drawer.dart';
 import 'package:skiwm/widgets/results.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
@@ -12,11 +14,27 @@ class LeaderboardPage extends StatefulWidget {
 }
 
 class _LeaderboardPageState extends State<LeaderboardPage> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   String _chosenRaceId = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
+      extendBodyBehindAppBar: true,
+      drawer: buildDrawer(),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            _key.currentState!.openDrawer();
+          },
+        ),
+        actions: const [CreditChip(), SizedBox(width: 15)],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

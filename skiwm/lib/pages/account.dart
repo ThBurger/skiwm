@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/theme.dart';
+import 'package:skiwm/widgets/credit.dart';
+import 'package:skiwm/widgets/drawer.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:supabase/supabase.dart';
 import 'package:skiwm/components/auth_required_state.dart';
@@ -16,6 +18,7 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends AuthRequiredState<AccountPage>
     with TickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final _usernameController = TextEditingController();
   final _countryController = TextEditingController();
   var _loading = false;
@@ -134,10 +137,6 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
     await SharedPreferencesService().deleteAllSharedPreference();
   }
 
-  void addCredits() async {
-    await SharedPreferencesService().increaseCredits(50);
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_unAuthenticated) {
@@ -148,6 +147,21 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
     }
 
     return Scaffold(
+      key: _key,
+      extendBodyBehindAppBar: true,
+      drawer: buildDrawer(),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            _key.currentState!.openDrawer();
+          },
+        ),
+        actions: const [CreditChip(), SizedBox(width: 15)],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -208,8 +222,6 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                 ElevatedButton(
                     onPressed: deleteSharedPrefs,
                     child: const Text('Delete Shared Prefs')),
-                ElevatedButton(
-                    onPressed: addCredits, child: const Text('Add Credits')),
               ],
             ),
           ),
@@ -220,6 +232,21 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
 
   Widget _unAuthenticatedWidget() {
     return Scaffold(
+      key: _key,
+      extendBodyBehindAppBar: true,
+      drawer: buildDrawer(),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            _key.currentState!.openDrawer();
+          },
+        ),
+        actions: const [CreditChip(), SizedBox(width: 15)],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

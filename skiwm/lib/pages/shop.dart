@@ -8,7 +8,10 @@ import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
+import 'package:skiwm/widgets/credit.dart';
+import 'package:skiwm/widgets/drawer.dart';
 import 'consumable_store.dart';
 
 const bool _kAutoConsume = true;
@@ -34,6 +37,8 @@ class ShopPage extends StatefulWidget {
 }
 
 class _ShopPageState extends State<ShopPage> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
+
   static const AdRequest request = AdRequest(
     keywords: <String>['foo', 'bar'],
     contentUrl: 'http://foo.com/bar.html',
@@ -214,9 +219,11 @@ class _ShopPageState extends State<ShopPage> {
             const SizedBox(height: 50.0),
             _buildVideoAdTile(),
             _buildConnectionCheckTile(),
-            _buildProductList(),
-            _buildConsumableBox(),
-            _buildRestoreButton(),
+            _buildNotYetAvailableTile(),
+            _buildAddCreditsInAlphaTile(),
+            //_buildProductList(),
+            //_buildConsumableBox(),
+            //_buildRestoreButton(),
           ],
         ),
       );
@@ -243,6 +250,21 @@ class _ShopPageState extends State<ShopPage> {
 
     return MaterialApp(
       home: Scaffold(
+        key: _key,
+        extendBodyBehindAppBar: true,
+        drawer: buildDrawer(),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              _key.currentState!.openDrawer();
+            },
+          ),
+          actions: const [CreditChip(), SizedBox(width: 15)],
+        ),
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -281,6 +303,31 @@ class _ShopPageState extends State<ShopPage> {
     );
     final List<Widget> children = <Widget>[storeHeader];
     return Card(child: Column(children: children));
+  }
+
+  Card _buildNotYetAvailableTile() {
+    final Widget storeHeader = ListTile(
+      leading: Icon(Icons.watch_later, color: ThemeData.light().errorColor),
+      title: const Text('Shop not yet available in Alpha version'),
+    );
+    final List<Widget> children = <Widget>[storeHeader];
+    return Card(child: Column(children: children));
+  }
+
+  Card _buildAddCreditsInAlphaTile() {
+    const Widget storeHeader = ListTile(
+      leading: Icon(Icons.money, color: Colors.green),
+      title: Text('Add +50 Credits '),
+    );
+    final List<Widget> children = <Widget>[storeHeader];
+    return Card(
+      child: InkWell(
+        onTap: () {
+          SharedPreferencesService().increaseCredits(50);
+        },
+        child: Column(children: children),
+      ),
+    );
   }
 
   Card _buildConnectionCheckTile() {

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:skiwm/utils/theme.dart';
+import 'package:skiwm/widgets/drawer.dart';
 import 'package:supabase/supabase.dart';
 import 'package:skiwm/components/auth_state.dart';
 import 'package:skiwm/utils/constants.dart';
@@ -13,6 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends AuthState<LoginPage> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   bool _isLoading = false;
   late final TextEditingController _emailController;
 
@@ -54,18 +56,20 @@ class _LoginPageState extends AuthState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: SkiWmColors.white),
-          onPressed: () =>
-              Navigator.of(context).popUntil(ModalRoute.withName('/menu')),
-        ),
-        elevation: 0.0,
-        centerTitle: true,
-        title: const Text('Sign In'),
-        backgroundColor: Colors.transparent,
-      ),
+      key: _key,
       extendBodyBehindAppBar: true,
+      drawer: buildDrawer(),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            _key.currentState!.openDrawer();
+          },
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -96,7 +100,7 @@ class _LoginPageState extends AuthState<LoginPage> {
             const SizedBox(height: 18),
             ElevatedButton(
               onPressed: _isLoading ? null : _signIn,
-              child: Text(_isLoading ? 'Loading' : 'Send E.Mail Link'),
+              child: Text(_isLoading ? 'Loading' : 'Send Link'),
             ),
           ],
         ),

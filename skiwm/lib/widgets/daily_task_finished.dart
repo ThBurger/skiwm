@@ -45,10 +45,22 @@ class DailyTaskFinishedComponent extends StatelessWidget {
                 ),
               ),
               Container(
-                  alignment: Alignment.topCenter,
-                  child: LinearProgressIndicator(
-                    value: counterValue / 3,
-                  ))
+                alignment: Alignment.topCenter,
+                child: LinearProgressIndicator(
+                  value: counterValue / 3,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  ' + 30 Credits',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ),
             ],
           ),
         );

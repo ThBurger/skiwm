@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/theme.dart';
+import 'package:skiwm/widgets/credit.dart';
+import 'package:skiwm/widgets/drawer.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   Future<bool> saveSwitchState(String name, bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setBool(name, value);
@@ -19,6 +22,21 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
+      extendBodyBehindAppBar: true,
+      drawer: buildDrawer(),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            _key.currentState!.openDrawer();
+          },
+        ),
+        actions: const [CreditChip(), SizedBox(width: 15)],
+      ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(

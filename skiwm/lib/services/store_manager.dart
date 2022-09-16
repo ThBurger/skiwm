@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// TODO not used yet, but maybe refactor to this
 class StorageManager {
   static void saveData(String key, dynamic value) async {
     final prefs = await SharedPreferences.getInstance();
