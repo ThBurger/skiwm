@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/pages/race_loading.dart';
 import 'package:skiwm/resources/credits_service.dart';
-import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:skiwm/widgets/credit.dart';
@@ -37,9 +36,13 @@ class RaceStartPage extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             SizedBox(
-                height: 330, // TODO
+              height: MediaQuery.of(context).size.height * 0.3, // TODO
+              child: Hero(
+                tag: args.id!,
                 child: Image.asset('assets/images/snow_race.jpg',
-                    fit: BoxFit.cover)),
+                    fit: BoxFit.cover),
+              ),
+            ),
             SingleChildScrollView(
               padding: const EdgeInsets.only(top: 16.0, bottom: 20.0),
               child: Column(
@@ -55,6 +58,11 @@ class RaceStartPage extends StatelessWidget {
                           fontSize: 28.0,
                           fontWeight: FontWeight.bold),
                     ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: _buildStartButton(context, args.fromDate!,
+                        args.racename!, args.credits!, args.id!),
                   ),
                   const SizedBox(height: 16.0),
                   Container(
@@ -83,9 +91,10 @@ class RaceStartPage extends StatelessWidget {
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                _buildStartButton(context, args.fromDate!, args.racename!,
-                    args.credits!, args.id!),
+              children: const <Widget>[
+                SizedBox(
+                  height: 1,
+                ),
               ],
             )
           ],

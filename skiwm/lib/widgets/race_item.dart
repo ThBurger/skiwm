@@ -41,14 +41,22 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 3.7,
                       width: MediaQuery.of(context).size.width,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0),
-                        ),
-                        child: Image.asset(
-                          'assets/images/snow_race.jpg',
-                          fit: BoxFit.cover,
+                      child: Hero(
+                        tag: widget.raceItem.id!,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0),
+                              ),
+                              child: Image.asset(
+                                'assets/images/snow_race.jpg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
