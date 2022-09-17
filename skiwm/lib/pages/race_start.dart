@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/pages/race_loading.dart';
+import 'package:skiwm/resources/credits_service.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
@@ -150,7 +151,7 @@ class RaceStartPage extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
             child: ElevatedButton(
               onPressed: () {
-                SharedPreferencesService().decreaseCredits(credits);
+                CreditsService.addCredits(credits * -1);
                 Get.to(LoadingPage(title, raceId));
               },
               child: Text(

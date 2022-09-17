@@ -31,15 +31,14 @@ class _SplashPageState extends AuthState<SplashPage>
     animationController =
         AnimationController(duration: const Duration(seconds: 4), vsync: this);
     animationController.repeat();
+    _loadDailyTasks();
+    _loadOptions();
     _checkInternet().then((value) => {
           if (_hasInternet)
             {
               _loadRaceData().then((value) => {recoverSupabaseSession()})
             }
         });
-    _loadCredits();
-    _loadDailyTasks();
-    _loadOptions();
     super.initState();
   }
 
@@ -62,12 +61,6 @@ class _SplashPageState extends AuthState<SplashPage>
     setState(() {
       _hasInternet = __hasInternet;
     });
-  }
-
-  Future<void> _loadCredits() async {
-    final SharedPreferences prefs = await _prefs;
-    final int credits = (prefs.getInt('credits') ?? 0);
-    creditsValueNotifier.value = credits;
   }
 
   Future<void> _loadDailyTasks() async {

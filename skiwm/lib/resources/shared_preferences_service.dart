@@ -18,25 +18,4 @@ class SharedPreferencesService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
   }
-
-  Future<int> getCredits() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('credits') ?? 0;
-  }
-
-  Future<void> decreaseCredits(int decreaseBy) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int credits = prefs.getInt('credits') ?? 0;
-    int newCredits = credits - decreaseBy;
-    creditsValueNotifier.value = newCredits;
-    prefs.setInt('credits', newCredits);
-  }
-
-  Future<void> increaseCredits(int increaseBy) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int credits = prefs.getInt('credits') ?? 0;
-    int newCredits = credits + increaseBy;
-    creditsValueNotifier.value = newCredits;
-    prefs.setInt('credits', newCredits);
-  }
 }

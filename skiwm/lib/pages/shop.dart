@@ -8,6 +8,7 @@ import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skiwm/resources/credits_service.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:skiwm/widgets/credit.dart';
@@ -123,16 +124,9 @@ class _ShopPageState extends State<ShopPage> {
         onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
       debugPrint(
           '$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
-      _addCredits(reward.amount.toInt());
+      CreditsService.addCredits(reward.amount.toInt());
     });
     _rewardedAd = null;
-  }
-
-  Future<void> _addCredits(int amount) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int credits = (prefs.getInt('credits') ?? 0) + amount;
-    creditsValueNotifier.value = credits;
-    prefs.setInt('credits', credits);
   }
 
   Future<void> initStoreInfo() async {
@@ -323,7 +317,7 @@ class _ShopPageState extends State<ShopPage> {
     return Card(
       child: InkWell(
         onTap: () {
-          SharedPreferencesService().increaseCredits(50);
+          CreditsService.addCredits(50);
         },
         child: Column(children: children),
       ),

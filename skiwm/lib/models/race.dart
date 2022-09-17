@@ -49,7 +49,7 @@ class Race {
         img: data['img'] == null
             ? 'assets/images/Training_Easy.png'
             : data['img'] as String,
-        credits: data['credits'] == null ? 20 : data['credits'] as int,
+        credits: data['credits'] == null ? 0 : data['credits'] as int,
         winners: data['winners'] == null ? 50 : data['winners'] as int,
       );
 

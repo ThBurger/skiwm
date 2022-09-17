@@ -24,9 +24,7 @@ class Profile {
         id: data['id'] as String?,
         username: data['username'] as String?,
         country: data['country'] as String?,
-        credits: data['credits'] == null
-            ? 20
-            : data['credits'] as int, // TODO default credits
+        credits: data['credits'] == null ? 0 : data['credits'] as int,
       );
 
   Map<String, dynamic> toMap() => {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skiwm/resources/credits_service.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
@@ -18,11 +19,10 @@ class _DailyCreditState extends State<DailyCredit> {
 
   Future<void> _getCredits() async {
     final SharedPreferences prefs = await _prefs;
-    final int credits = (prefs.getInt('credits') ?? 0) + 25;
+    int credits = CreditsService.getCredits();
     creditsValueNotifier.value = credits;
     _nextCredits = DateTime.now().add(const Duration(hours: 6));
     setState(() {
-      prefs.setInt('credits', credits);
       prefs.setInt('credits_next', _nextCredits.millisecondsSinceEpoch);
       _redeemed = true;
     });

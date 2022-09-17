@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skiwm/models/profile.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/constants.dart';
+import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
@@ -15,11 +16,10 @@ class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
 
   @override
   void onAuthenticated(Session session) {
-    debugPrint("on AUthenticatd in AuthState");
-    debugPrint("mounted: " + mounted.toString());
     if (mounted) {
       _getProfile(supabase.auth.user()!.id).then((value) => {
             userProfile = value,
+            creditsValueNotifier.value = userProfile.credits!,
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/menu', (route) => false)
           });

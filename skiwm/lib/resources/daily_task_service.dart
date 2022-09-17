@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skiwm/resources/credits_service.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 
@@ -24,9 +25,7 @@ class TaskService {
       }
       if (_currentScore == 3) {
         //daily task completed
-        int credits = (prefs.getInt('credits') ?? 0) + 30;
-        creditsValueNotifier.value = credits;
-        prefs.setInt('credits', credits);
+        CreditsService.addCredits(30);
       }
     } else if (task == DAILY_RACE_STARTED) {
       if (_currentScore == 5) {
@@ -38,9 +37,7 @@ class TaskService {
       }
       if (_currentScore == 5) {
         //daily task completed
-        int credits = (prefs.getInt('credits') ?? 0) + 30;
-        creditsValueNotifier.value = credits;
-        prefs.setInt('credits', credits);
+        CreditsService.addCredits(30);
       }
     }
     return prefs.setInt('task_' + date.toString() + '_' + task, _currentScore);
