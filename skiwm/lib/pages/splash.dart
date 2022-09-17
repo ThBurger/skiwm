@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/components/auth_state.dart';
-import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
@@ -35,7 +34,6 @@ class _SplashPageState extends AuthState<SplashPage>
     _checkInternet().then((value) => {
           if (_hasInternet)
             {
-              _loadLeaderboardData(),
               _loadRaceData().then((value) => {recoverSupabaseSession()})
             }
         });
@@ -173,28 +171,6 @@ class _SplashPageState extends AuthState<SplashPage>
       }
     }
     await Future.delayed(const Duration(seconds: 2));
-  }
-
-  Future<void> _loadLeaderboardData() async {
-    if (!_hasInternet || supabase.auth.currentUser == null) {
-      return;
-    }
-    //String userId = '7e4f7c5b-504d-4851-b25c-1553cb4d4dfc';
-    String userId = supabase.auth.currentUser!.id;
-
-    final response =
-        await supabase.from('results').select().eq('user_id', userId).execute();
-    final error = response.error;
-    if (error != null && response.status != 406) {
-      context.showErrorSnackBar(message: error.message);
-    }
-    final data = response.data;
-    if (data != null) {
-      for (var entry in data) {
-        LeaderboardEntry r = LeaderboardEntry.fromMap(entry);
-        userLeaderboardEntries.add(r);
-      }
-    }
   }
 
   Widget _noInternetWidget() {

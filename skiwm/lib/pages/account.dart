@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/models/profile.dart';
+import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/widgets/credit.dart';
@@ -29,25 +31,12 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
   int _time = 0;
   late AnimationController animationController;
 
-  Future<void> _getProfile(String userId) async {
+  Future<void> _getProfile() async {
     setState(() {
       _loading = true;
     });
-    final response = await supabase
-        .from('profiles')
-        .select()
-        .eq('id', userId)
-        .single()
-        .execute();
-    final error = response.error;
-    if (error != null && response.status != 406) {
-      context.showErrorSnackBar(message: error.message);
-    }
-    final data = response.data;
-    if (data != null) {
-      _usernameController.text = (data['username'] ?? '') as String;
-      _countryController.text = (data['country'] ?? '') as String;
-    }
+    _usernameController.text = userProfile.username!;
+    _countryController.text = userProfile.country!;
     setState(() {
       _loading = false;
     });
@@ -73,6 +62,11 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
     } else {
       context.showSnackBar(message: 'Successfully updated profile!');
     }
+    userProfile = Profile(
+        id: user.id,
+        username: userName,
+        country: country,
+        credits: userProfile.credits);
     setState(() {
       _loading = false;
     });
@@ -84,15 +78,17 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
     if (error != null) {
       context.showErrorSnackBar(message: error.message);
     }
+    userProfile = const Profile();
   }
 
   @override
   void onAuthenticated(Session session) {
     loadCounter();
-    final user = session.user;
-    if (user != null) {
-      _getProfile(user.id);
-    }
+    _getProfile();
+    //final user = session.user;
+    //if (user != null) {
+    //  _getProfile(user.id);
+    //}
   }
 
   @override

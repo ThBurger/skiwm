@@ -1,9 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/highscore_service.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
+import 'package:skiwm/utils/utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:uuid/uuid.dart';
 
@@ -43,7 +45,7 @@ class _AfterRaceState extends State<AfterRacePage> {
     setState(() {
       _gotNewhighscore = widget.timeRace < selectedRaceCurrentHighscore;
     });
-    if (_gotNewhighscore) {
+    if (_gotNewhighscore && Utility.isUser()) {
       _updateHighscore();
       HighscoreService().setCurrentHighscore(selectedRace, widget.timeRace);
     }
@@ -53,18 +55,28 @@ class _AfterRaceState extends State<AfterRacePage> {
     setState(() {
       _loading = true;
     });
-    String userId = '7e4f7c5b-504d-4851-b25c-1553cb4d4dfc';
-    if (supabase.auth.currentUser != null) {
-      userId = supabase.auth.currentUser!.id; // TODO
-    }
+    String userId = supabase.auth.currentUser!.id;
     final raceId = selectedRace;
+    final response = await supabase
+        .from('results')
+        .select()
+        .eq('user_id', userId)
+        .eq('race_id', raceId)
+        .execute();
+
     var _id = '';
-    final _leaderboardId = userLeaderboardEntries.where((element) =>
-        element.raceId == selectedRace && element.userId == userId);
-    if (_leaderboardId.isEmpty) {
+    final error = response.error;
+    if (error != null && response.status != 406) {
+      context.showErrorSnackBar(message: error.message);
+    }
+    final data = response.data;
+    if (data != null) {
+      for (var entry in data) {
+        _id = LeaderboardEntry.fromMap(entry).id!;
+      }
+    }
+    if (_id.isEmpty) {
       _id = const Uuid().v4();
-    } else {
-      _id = _leaderboardId.first.id!;
     }
     final updates = {
       'id': _id,
@@ -73,11 +85,12 @@ class _AfterRaceState extends State<AfterRacePage> {
       'race_id': raceId,
       'finished_time': widget.timeRace,
     };
-    final response = await supabase.from('results').upsert(updates).execute();
-    final error = response.error; // TODO erroR?
-    debugPrint(error.toString());
-    if (error != null && response.status != 406) {
-      context.showErrorSnackBar(message: error.message);
+
+    final responseUpsert =
+        await supabase.from('results').upsert(updates).execute();
+    final errorUpsert = responseUpsert.error;
+    if (errorUpsert != null && response.status != 406) {
+      context.showErrorSnackBar(message: errorUpsert.message);
     }
 
     setState(() {

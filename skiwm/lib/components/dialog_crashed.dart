@@ -33,14 +33,7 @@ class CrashedDialog extends StatelessWidget {
                         Navigator.of(context)
                             .popUntil(ModalRoute.withName('/race'));
                       },
-                      child: const Text('Retry'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .popUntil(ModalRoute.withName('/menu'));
-                      },
-                      child: const Text('Exit'),
+                      child: const Text('Ok'),
                     ),
                   ],
                 ),

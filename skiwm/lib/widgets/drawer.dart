@@ -6,6 +6,7 @@ import 'package:skiwm/pages/leaderboard.dart';
 import 'package:skiwm/pages/menu.dart';
 import 'package:skiwm/pages/settings.dart';
 import 'package:skiwm/pages/shop.dart';
+import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/theme.dart';
 
 Drawer buildDrawer() {
@@ -32,16 +33,17 @@ Drawer buildDrawer() {
                           colors: [Colors.orange, Colors.deepOrange])),
                   child: const Icon(FontAwesomeIcons.portrait)),
               const SizedBox(height: 5.0),
-              const Text(
-                "Username",
-                style: TextStyle(
+              Text(
+                userProfile.username ?? "Anonymous",
+                style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18.0,
                     fontWeight: FontWeight.w600),
               ),
-              const Text(
-                "Flagge?",
-                style: TextStyle(color: SkiWmColors.border, fontSize: 16.0),
+              Text(
+                userProfile.country ?? "",
+                style:
+                    const TextStyle(color: SkiWmColors.border, fontSize: 16.0),
               ),
               const SizedBox(height: 30.0),
               _buildRow(Icons.home, "Home", MenuPage()),

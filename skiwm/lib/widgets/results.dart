@@ -90,9 +90,8 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget createTile(int index, LeaderboardEntry entry) {
-    bool _isUsers = userLeaderboardEntries
-        .where((element) => element.id == entry.id)
-        .isNotEmpty;
+    String userId = userProfile.id ?? '';
+    bool _isUsers = userId == entry.userId;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12.0),
       child: Row(

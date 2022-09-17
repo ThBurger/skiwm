@@ -111,6 +111,19 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                   ),
                 ),
                 const SizedBox(height: 10.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Text(
+                      "Winners: " + widget.raceItem.winners!.toString(),
+                      style: const TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

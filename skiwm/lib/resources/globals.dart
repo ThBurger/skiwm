@@ -3,7 +3,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:skiwm/components/stopwatch.dart';
 import 'package:skiwm/components/world_collidable.dart';
 import 'package:skiwm/components/world_finish.dart';
-import 'package:skiwm/models/leaderboard_entry.dart';
+import 'package:skiwm/models/profile.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/utils/constants.dart';
 
@@ -18,8 +18,6 @@ List<Race> races = List.empty(growable: true);
 List<Race> racesPlayable = List.empty(growable: true);
 //playable trainings for menu
 List<Race> trainings = List.empty(growable: true);
-//Leaderboard entries for upsert data afer race and highlight leaderboard
-List<LeaderboardEntry> userLeaderboardEntries = List.empty(growable: true);
 
 // race id which is played
 String selectedRace = '';
@@ -30,6 +28,7 @@ int selectedRaceCurrentHighscore = maxTimeResult;
 GameState gameState = GameState.init;
 GlobalKey<StopWatchState> stopwatch = GlobalKey();
 AudioPlayer audioPlayer = AudioPlayer();
+Profile userProfile = const Profile();
 
 // Gates
 List<WorldCollidable> collidableGates = List.empty(growable: true);

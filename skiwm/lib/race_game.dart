@@ -29,7 +29,7 @@ class RaceGame extends FlameGame with HasCollidables, KeyboardEvents {
     await add(_world);
     add(_player);
     addWorldFinish();
-    super.debugMode = true; // TODO debug MODUS! beste
+    super.debugMode = false; // TODO debug MODUS! beste
 
     _player.position = Vector2(playerX, playerY);
     camera.followComponent(_player,

@@ -12,6 +12,7 @@ class Race {
   final DateTime? tillDate;
   final String? img;
   final int? credits;
+  final int? winners;
 
   const Race({
     this.id,
@@ -23,11 +24,12 @@ class Race {
     this.tillDate,
     this.img,
     this.credits,
+    this.winners,
   });
 
   @override
   String toString() {
-    return 'Race(id: $id, updatedAt: $updatedAt, racename: $racename, difficulty: $difficulty, training: $training, fromDate: $fromDate, tillDate: $tillDate, img: $img, credits: $credits)';
+    return 'Race(id: $id, updatedAt: $updatedAt, racename: $racename, difficulty: $difficulty, training: $training, fromDate: $fromDate, tillDate: $tillDate, img: $img, credits: $credits, winners: $winners)';
   }
 
   factory Race.fromMap(Map<String, dynamic> data) => Race(
@@ -47,9 +49,8 @@ class Race {
         img: data['img'] == null
             ? 'assets/images/Training_Easy.png'
             : data['img'] as String,
-        credits: data['credits'] == null
-            ? 20
-            : data['credits'] as int, // TODO default credits
+        credits: data['credits'] == null ? 20 : data['credits'] as int,
+        winners: data['winners'] == null ? 50 : data['winners'] as int,
       );
 
   Map<String, dynamic> toMap() => {
@@ -60,6 +61,7 @@ class Race {
         'training': training,
         'from_date': fromDate?.toIso8601String(),
         'till_date': tillDate?.toIso8601String(),
+        'winners': winners,
       };
 
   factory Race.fromJson(String data) {
