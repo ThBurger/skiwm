@@ -67,6 +67,7 @@ class _DebugPageState extends State<DebugPage> {
                   ],
                 ),
               ),
+              SizedBox(width: MediaQuery.of(context).size.width),
               const SizedBox(height: 60.0),
             ],
           ),
