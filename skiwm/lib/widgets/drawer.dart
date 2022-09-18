@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/pages/account.dart';
+import 'package:skiwm/pages/debug.dart';
 import 'package:skiwm/pages/leaderboard.dart';
 import 'package:skiwm/pages/menu.dart';
 import 'package:skiwm/pages/settings.dart';
@@ -56,9 +58,11 @@ Drawer buildDrawer() {
               _buildRow(Icons.settings, "Settings", const SettingsPage()),
               _buildDivider(),
               _buildRow(Icons.shopping_cart, "Shop", const ShopPage()),
+              _buildDivider(),
+              if (kDebugMode)
+                _buildRow(Icons.dangerous, "Debug!", const DebugPage()),
               //_buildDivider(),
               //_buildRow(Icons.email, "Contact us"),
-              _buildDivider(),
             ],
           ),
         ),

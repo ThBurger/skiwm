@@ -6,6 +6,7 @@ import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/network/leaderboard_bloc.dart';
 import 'package:collection/collection.dart';
+import 'package:skiwm/utils/utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class ResultPage extends StatefulWidget {
@@ -92,13 +93,16 @@ class _ResultPageState extends State<ResultPage> {
   Widget createTile(int index, LeaderboardEntry entry) {
     String userId = userProfile.id ?? '';
     bool _isUsers = userId == entry.userId;
+    String rewardCredits = Utility.rewardedCretids(index);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: Row(
         children: <Widget>[
-          Text(index.toString() + ".",
-              style: TextStyle(
-                  color: _isUsers ? SkiWmColors.success : SkiWmColors.white)),
+          Text(
+            index.toString() + ".",
+            style: TextStyle(
+                color: _isUsers ? SkiWmColors.success : SkiWmColors.white),
+          ),
           const SizedBox(
             width: 15,
           ),
@@ -107,8 +111,8 @@ class _ResultPageState extends State<ResultPage> {
               children: <Widget>[
                 Flag.fromString(
                   entry.country!,
-                  height: 25,
-                  width: 25,
+                  height: 30,
+                  width: 30,
                 ),
                 const SizedBox(width: 12.0),
                 Text(
@@ -120,6 +124,21 @@ class _ResultPageState extends State<ResultPage> {
               ],
             ),
           ),
+          Chip(
+            labelPadding: const EdgeInsets.all(3.0),
+            avatar: const CircleAvatar(
+              child: Text("C"),
+            ),
+            label: Text(
+              rewardCredits,
+              style: const TextStyle(
+                color: SkiWmColors.primary,
+              ),
+            ),
+            elevation: 6.0,
+            shadowColor: Colors.grey[60],
+          ),
+          const SizedBox(width: 18.0),
           SizedBox(
             width: 75.0,
             child: Text(

@@ -5,6 +5,7 @@ import 'package:skiwm/pages/race_loading.dart';
 import 'package:skiwm/resources/credits_service.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
+import 'package:skiwm/widgets/button.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';
 import 'package:skiwm/utils/constants.dart';
@@ -158,18 +159,18 @@ class RaceStartPage extends StatelessWidget {
             color: Colors.transparent,
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            child: ElevatedButton(
-              onPressed: () {
-                CreditsService.addCredits(credits * -1);
-                Get.to(LoadingPage(title, raceId));
-              },
-              child: Text(
-                'Start racing (-' + credits.toString() + ' Credits)',
-              ),
+            child: MyButton(
+              onPressed: () => _onPressed(credits, title, raceId),
+              child: Text('Start racing (-' + credits.toString() + ' Credits)'),
             ),
           ),
         ),
       ],
     );
+  }
+
+  void _onPressed(int credits, String title, String raceId) {
+    CreditsService.addCredits(credits * -1);
+    Get.to(LoadingPage(title, raceId));
   }
 }

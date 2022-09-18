@@ -1,8 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/widgets/button.dart';
 
 class CrashedDialog extends StatelessWidget {
   const CrashedDialog({Key? key}) : super(key: key);
+
+  void _onPressed(BuildContext context) {
+    if (kDebugMode) {
+      Navigator.pop(context);
+    } else {
+      Navigator.of(context).popUntil(ModalRoute.withName('/race'));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +38,9 @@ class CrashedDialog extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .popUntil(ModalRoute.withName('/race'));
-                    },
-                    child: const Text('Ok'),
+                  MyButton(
+                    onPressed: () => _onPressed(context),
+                    child: const Text('OK'),
                   ),
                 ],
               ),
