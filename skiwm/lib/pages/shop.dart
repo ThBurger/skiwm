@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -7,12 +8,12 @@ import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:in_app_purchase_storekit/in_app_purchase_storekit.dart';
 import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/resources/credits_service.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
-import 'package:skiwm/utils/value_notifiers.dart';
+import 'package:skiwm/utils/utils.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/drawer.dart';
+
 import 'consumable_store.dart';
 
 const bool _kAutoConsume = true;
@@ -124,7 +125,11 @@ class _ShopPageState extends State<ShopPage> {
         onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
       debugPrint(
           '$ad with reward $RewardItem(${reward.amount}, ${reward.type})');
-      CreditsService.addCredits(reward.amount.toInt());
+      if (Utility.isUser()) {
+        CreditsService.addCredits(reward.amount.toInt());
+      } else {
+        SharedPreferencesService().increaseCredits(reward.amount.toInt());
+      }
     });
     _rewardedAd = null;
   }
@@ -317,7 +322,11 @@ class _ShopPageState extends State<ShopPage> {
     return Card(
       child: InkWell(
         onTap: () {
-          CreditsService.addCredits(50);
+          if (Utility.isUser()) {
+            CreditsService.addCredits(50);
+          } else {
+            SharedPreferencesService().increaseCredits(50);
+          }
         },
         child: Column(children: children),
       ),

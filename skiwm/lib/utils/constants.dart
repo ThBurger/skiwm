@@ -6,12 +6,12 @@ final supabase = Supabase.instance.client;
 
 const maxTimeResult = 9999999999999;
 
-const DAILY_RACE_STARTED = 'dailyRaceStarted';
-const DAILY_RACE_FINISHED = 'dailyRaceFinished';
-const PROFILE_RACES = 'races';
-const PROFILE_CRASHED = 'crashed';
-const PROFILE_FINISHED = 'finished';
-const PROFILE_TIME = 'time';
+const dailyRaceStarted = 'dailyRaceStarted';
+const dailyRaceFinished = 'dailyRaceFinished';
+const profileRaces = 'races';
+const profileCrashed = 'crashed';
+const profileFinished = 'finished';
+const profileTime = 'time';
 
 enum GameState {
   init,

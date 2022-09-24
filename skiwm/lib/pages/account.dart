@@ -116,11 +116,10 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
   }
 
   void loadCounter() async {
-    int __races = await SharedPreferencesService().getScore(PROFILE_RACES);
-    int __finished =
-        await SharedPreferencesService().getScore(PROFILE_FINISHED);
-    int __crashed = await SharedPreferencesService().getScore(PROFILE_CRASHED);
-    int __time = await SharedPreferencesService().getScore(PROFILE_TIME);
+    int __races = await SharedPreferencesService().getScore(profileRaces);
+    int __finished = await SharedPreferencesService().getScore(profileFinished);
+    int __crashed = await SharedPreferencesService().getScore(profileCrashed);
+    int __time = await SharedPreferencesService().getScore(profileTime);
     setState(() {
       _races = __races;
       _finished = __finished;
@@ -159,6 +158,8 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
         actions: const [CreditChip(), SizedBox(width: 15)],
       ),
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/background.png"),
@@ -171,13 +172,23 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
             child: Column(
               children: [
                 const SizedBox(height: 50),
+                const SizedBox(height: 18),
                 TextFormField(
+                  style: const TextStyle(color: Colors.white),
                   controller: _usernameController,
-                  decoration: const InputDecoration(labelText: 'User Name'),
+                  decoration: const InputDecoration(
+                    labelText: 'User Name',
+                    labelStyle: TextStyle(color: Colors.white),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 18),
-                const Text('Select Country'),
+                const Text('Select Country',
+                    style: TextStyle(color: Colors.white)),
                 CountryCodePicker(
+                  textStyle: const TextStyle(color: Colors.white),
                   onChanged: (value) => {_countryController.text = value.code!},
                   initialSelection: _countryController.text,
                   showCountryOnly: true,
@@ -190,7 +201,7 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       getTimeBoxUI(_races.toString(), 'Race started'),
@@ -201,7 +212,7 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       getTimeBoxUI(_finished.toString(), 'Race finished'),
@@ -209,15 +220,44 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                     ],
                   ),
                 ),
-                ElevatedButton(
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: SkiWmStyle.buttonHeight,
+                  decoration: BoxDecoration(
+                    gradient: SkiWmStyle.gradient,
+                    borderRadius: SkiWmStyle.borderRadius,
+                  ),
+                  child: ElevatedButton(
                     onPressed: _updateProfile,
-                    child: Text(_loading ? 'Saving...' : 'Update')),
+                    child: Text(_loading ? 'Saving...' : 'Update'),
+                  ),
+                ),
                 const SizedBox(height: 18),
-                ElevatedButton(
-                    onPressed: _signOut, child: const Text('Sign Out')),
-                ElevatedButton(
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: SkiWmStyle.buttonHeight,
+                  decoration: BoxDecoration(
+                    gradient: SkiWmStyle.gradient,
+                    borderRadius: SkiWmStyle.borderRadius,
+                  ),
+                  child: ElevatedButton(
+                    onPressed: _signOut,
+                    child: const Text('Sign Out'),
+                  ),
+                ),
+                const SizedBox(height: 18),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: SkiWmStyle.buttonHeight,
+                  decoration: BoxDecoration(
+                    gradient: SkiWmStyle.gradient,
+                    borderRadius: SkiWmStyle.borderRadius,
+                  ),
+                  child: ElevatedButton(
                     onPressed: deleteSharedPrefs,
-                    child: const Text('Delete Shared Prefs')),
+                    child: const Text('Delete Shared Prefs'),
+                  ),
+                ),
               ],
             ),
           ),

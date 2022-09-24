@@ -1,4 +1,13 @@
-import 'dart:ui' show Color;
+import 'package:flutter/material.dart';
+
+class SkiWmStyle {
+  static const buttonHeight = 44.0;
+  static BorderRadius borderRadius = BorderRadius.circular(8);
+  static LinearGradient gradient =
+      const LinearGradient(colors: [Colors.cyan, Colors.indigo]);
+  static LinearGradient gradientGrey =
+      const LinearGradient(colors: [Colors.grey, Colors.grey]);
+}
 
 class SkiWmColors {
   static const Color black = Color(0xFF000000);

@@ -23,7 +23,7 @@ class _LoginPageState extends AuthState<LoginPage> {
       _isLoading = true;
     });
     final response = await supabase.auth.signIn(
-        email: _emailController.text,
+        email: _emailController.text.trim(),
         options: AuthOptions(
             redirectTo: kIsWeb
                 ? null
@@ -98,9 +98,17 @@ class _LoginPageState extends AuthState<LoginPage> {
               style: const TextStyle(color: SkiWmColors.white),
             ),
             const SizedBox(height: 18),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _signIn,
-              child: Text(_isLoading ? 'Loading' : 'Send Link'),
+            Container(
+              height: SkiWmStyle.buttonHeight,
+              decoration: BoxDecoration(
+                gradient:
+                    _isLoading ? SkiWmStyle.gradientGrey : SkiWmStyle.gradient,
+                borderRadius: SkiWmStyle.borderRadius,
+              ),
+              child: ElevatedButton(
+                onPressed: _isLoading ? null : _signIn,
+                child: Text(_isLoading ? 'Loading' : 'Send Link'),
+              ),
             ),
           ],
         ),

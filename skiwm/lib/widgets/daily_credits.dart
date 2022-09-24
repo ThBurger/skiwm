@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/resources/credits_service.dart';
+import 'package:skiwm/resources/shared_preferences_service.dart';
+import 'package:skiwm/utils/theme.dart';
+import 'package:skiwm/utils/utils.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
@@ -19,7 +22,9 @@ class _DailyCreditState extends State<DailyCredit> {
 
   Future<void> _getCredits() async {
     final SharedPreferences prefs = await _prefs;
-    int credits = CreditsService.getCredits();
+    int credits = Utility.isUser()
+        ? CreditsService.getCredits()
+        : await SharedPreferencesService().getCredits();
     creditsValueNotifier.value = credits;
     _nextCredits = DateTime.now().add(const Duration(hours: 6));
     setState(() {
@@ -48,18 +53,26 @@ class _DailyCreditState extends State<DailyCredit> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: _redeemed ? null : _getCredits,
-      child: _redeemed
-          ? Row(
-              children: [
-                const Text('Next Credits in '),
-                CountdownTimer(
-                  endTime: _nextCredits.millisecondsSinceEpoch,
-                ),
-              ],
-            )
-          : const Text('Get 25 Credits'),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: SkiWmStyle.buttonHeight,
+      decoration: BoxDecoration(
+        gradient: _redeemed ? SkiWmStyle.gradientGrey : SkiWmStyle.gradient,
+        borderRadius: SkiWmStyle.borderRadius,
+      ),
+      child: ElevatedButton(
+        onPressed: _redeemed ? null : _getCredits,
+        child: _redeemed
+            ? Row(
+                children: [
+                  const Text('Next Credits in '),
+                  CountdownTimer(
+                    endTime: _nextCredits.millisecondsSinceEpoch,
+                  ),
+                ],
+              )
+            : const Text('Get 25 Credits'),
+      ),
     );
   }
 }

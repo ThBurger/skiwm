@@ -43,8 +43,10 @@ class App extends StatelessWidget {
         primaryColor: Colors.green,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            onPrimary: SkiWmColors.info,
-            primary: SkiWmColors.primary,
+            primary: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape:
+                RoundedRectangleBorder(borderRadius: SkiWmStyle.borderRadius),
           ),
         ),
       ),

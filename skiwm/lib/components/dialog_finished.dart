@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/pages/race_after.dart';
 import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class FinishedDialog extends StatelessWidget {
@@ -43,13 +44,19 @@ class FinishedDialog extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.to(AfterRacePage(
-                          timeRace: stopwatch.currentState!.getTime(),
-                        ));
-                      },
-                      child: const Text('Continue'),
+                    Container(
+                      height: SkiWmStyle.buttonHeight,
+                      decoration: BoxDecoration(
+                        gradient: SkiWmStyle.gradient,
+                        borderRadius: SkiWmStyle.borderRadius,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.to(AfterRacePage(
+                              timeRace: stopwatch.currentState!.getTime()));
+                        },
+                        child: const Text('Continue'),
+                      ),
                     ),
                   ],
                 ),

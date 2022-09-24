@@ -18,4 +18,17 @@ class SharedPreferencesService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
   }
+
+  Future<int> getCredits() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('credits') ?? 0;
+  }
+
+  Future<void> increaseCredits(int increaseBy) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int credits = prefs.getInt('credits') ?? 0;
+    int newCredits = credits + increaseBy;
+    creditsValueNotifier.value = newCredits;
+    prefs.setInt('credits', newCredits);
+  }
 }

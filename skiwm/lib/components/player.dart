@@ -1,17 +1,18 @@
 import 'package:flame/components.dart';
-import 'package:flame/geometry.dart';
+import 'package:flame/sprite.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/components/dialog_crashed.dart';
 import 'package:skiwm/components/dialog_finished.dart';
+import 'package:skiwm/components/hitbox.dart';
 import 'package:skiwm/components/world_collidable.dart';
 import 'package:skiwm/components/world_finish.dart';
 import 'package:skiwm/resources/daily_task_service.dart';
 import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
+
 import '../helpers/direction.dart';
-import 'package:flame/sprite.dart';
 
 class Player extends SpriteAnimationComponent
     with HasGameRef, Hitbox, Collidable {
@@ -36,8 +37,8 @@ class Player extends SpriteAnimationComponent
       : super(
           size: Vector2.all(32.0),
         ) {
-    addHitbox(HitboxRectangle()); // normal
-    //addHitbox(HitboxRectanglePlayer()); // better
+    //addHitbox(HitboxRectangle()); // normal --> vector 1. also genauso große hitbox wie rect
+    addHitbox(HitboxRectanglePlayer(relation: Vector2(0.8, 0.8))); // better
   }
 
   @override
@@ -59,20 +60,11 @@ class Player extends SpriteAnimationComponent
     if (other is WorldCollidable) {
       if (!_hasCollided) {
         debugPrint("COLLIDABLE");
-        debugPrint("OTHER: " +
-            other.x.toString() +
-            " | " +
-            other.y.toString() +
-            " | " +
-            other.height.toString() +
-            " | " +
-            other.width.toString());
-        debugPrint(
-            "PLAYER: " + position.x.toString() + " | " + position.y.toString());
         stopwatch.currentState?.stop();
         gameState = GameState.gameOver;
+        isSkiing = false;
         _hasCollided = true;
-        SharedPreferencesService().increaseScore(PROFILE_CRASHED, 1);
+        SharedPreferencesService().increaseScore(profileCrashed, 1);
         _collisionDirection = direction;
         Get.dialog(
           const CrashedDialog(),
@@ -83,14 +75,12 @@ class Player extends SpriteAnimationComponent
     if (other is WorldFinish) {
       if (!_hasFinished) {
         debugPrint("FINISHED");
-        debugPrint("OTHER: " + other.x.toString() + " | " + other.y.toString());
-        debugPrint(
-            "PLAYER: " + position.x.toString() + " | " + position.y.toString());
         stopwatch.currentState?.stop();
         gameState = GameState.inFinish;
+        isSkiing = false;
         _hasFinished = true;
-        SharedPreferencesService().increaseScore(PROFILE_FINISHED, 1);
-        TaskService().increaseCurrentTaskScore(DAILY_RACE_FINISHED);
+        SharedPreferencesService().increaseScore(profileFinished, 1);
+        TaskService().increaseCurrentTaskScore(dailyRaceFinished);
         Get.dialog(
           const FinishedDialog(),
           barrierDismissible: false,

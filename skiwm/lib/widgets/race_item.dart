@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:get/get.dart';
 import 'package:skiwm/models/race.dart';
 
 class RaceItemComponent extends StatefulWidget {
@@ -190,12 +191,13 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                   ),
                 ),
                 CountdownTimer(
-                    endTime: (widget.raceItem.tillDate!.millisecondsSinceEpoch),
-                    textStyle: const TextStyle(
-                      fontSize: 10.0,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    )),
+                  endTime: (widget.raceItem.tillDate!.millisecondsSinceEpoch),
+                  textStyle: const TextStyle(
+                    fontSize: 10.0,
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           ),

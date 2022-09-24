@@ -23,7 +23,7 @@ class _SplashPageState extends AuthState<SplashPage>
     with TickerProviderStateMixin {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  bool _hasInternet = false;
+  bool _hasInternet = true;
   late AnimationController animationController;
 
   @override
@@ -65,9 +65,9 @@ class _SplashPageState extends AuthState<SplashPage>
 
   Future<void> _loadDailyTasks() async {
     dailyTaskStartedValueNotifier.value =
-        await TaskService().getCurrentTaskScore(DAILY_RACE_STARTED);
+        await TaskService().getCurrentTaskScore(dailyRaceStarted);
     dailyTaskFinishedValueNotifier.value =
-        await TaskService().getCurrentTaskScore(DAILY_RACE_FINISHED);
+        await TaskService().getCurrentTaskScore(dailyRaceFinished);
   }
 
   Future<void> _loadOptions() async {
@@ -153,6 +153,7 @@ class _SplashPageState extends AuthState<SplashPage>
     if (data != null) {
       for (var race in data) {
         Race r = Race.fromMap(race);
+        racesAndTrainings.add(r);
         if (r.training!) {
           trainings.add(r);
         } else {
@@ -222,19 +223,22 @@ class _SplashPageState extends AuthState<SplashPage>
                 children: <Widget>[
                   Expanded(
                     child: Container(
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (Platform.isAndroid) {
-                              SystemNavigator.pop();
-                            } else if (Platform.isIOS) {
-                              exit(0);
-                            }
-                          },
-                          child: const Text('Exit App'),
-                        )),
+                      height: SkiWmStyle.buttonHeight,
+                      decoration: BoxDecoration(
+                        gradient: SkiWmStyle.gradient,
+                        borderRadius: SkiWmStyle.borderRadius,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (Platform.isAndroid) {
+                            SystemNavigator.pop();
+                          } else if (Platform.isIOS) {
+                            exit(0);
+                          }
+                        },
+                        child: const Text('Exit App'),
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -52,8 +52,9 @@ class MenuPage extends StatelessWidget {
                     fontSize: 22,
                   ),
                 ),
+                const SizedBox(height: 8),
                 const DailyCredit(),
-                const SizedBox(height: 18),
+                const SizedBox(height: 8),
                 const Text(
                   "Races",
                   style: TextStyle(
@@ -79,6 +80,7 @@ class MenuPage extends StatelessWidget {
                     fontSize: 22,
                   ),
                 ),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [

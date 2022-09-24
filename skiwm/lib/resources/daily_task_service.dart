@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/resources/credits_service.dart';
+import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
+import 'package:skiwm/utils/utils.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 
 class TaskService {
@@ -15,7 +17,7 @@ class TaskService {
     DateTime date = getDate();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    if (task == DAILY_RACE_FINISHED) {
+    if (task == dailyRaceFinished) {
       if (_currentScore == 3) {
         return true;
       }
@@ -25,9 +27,13 @@ class TaskService {
       }
       if (_currentScore == 3) {
         //daily task completed
-        CreditsService.addCredits(30);
+        if (Utility.isUser()) {
+          CreditsService.addCredits(30);
+        } else {
+          SharedPreferencesService().increaseCredits(30);
+        }
       }
-    } else if (task == DAILY_RACE_STARTED) {
+    } else if (task == dailyRaceStarted) {
       if (_currentScore == 5) {
         return true;
       }
@@ -37,7 +43,11 @@ class TaskService {
       }
       if (_currentScore == 5) {
         //daily task completed
-        CreditsService.addCredits(30);
+        if (Utility.isUser()) {
+          CreditsService.addCredits(30);
+        } else {
+          SharedPreferencesService().increaseCredits(30);
+        }
       }
     }
     return prefs.setInt('task_' + date.toString() + '_' + task, _currentScore);

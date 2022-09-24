@@ -63,7 +63,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             BorderSide(color: SkiWmColors.white)), // TODO white
                   ),
                   mode: Mode.BOTTOM_SHEET,
-                  items: races,
+                  items: racesAndTrainings,
                   itemAsString: (Race? r) => r!.racename!,
                   onChanged: (Race? data) => {
                         setState(() {

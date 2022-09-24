@@ -5,6 +5,7 @@ import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/resources/highscore_service.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
+import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/utils/utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:uuid/uuid.dart';
@@ -37,7 +38,7 @@ class _AfterRaceState extends State<AfterRacePage> {
   @override
   void initState() {
     super.initState();
-    SharedPreferencesService().increaseScore(PROFILE_TIME, widget.timeRace);
+    SharedPreferencesService().increaseScore(profileTime, widget.timeRace);
     getCurrentHighscore();
   }
 
@@ -108,70 +109,94 @@ class _AfterRaceState extends State<AfterRacePage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 80,
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  "Current Highscore: ",
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontFamily: 'Helvetica',
-                      fontWeight: FontWeight.bold),
+        child: Container(
+          padding: const EdgeInsets.only(right: 24, left: 24),
+          child: Center(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 80,
                 ),
-              ),
-              getSavedHighscoreTime(),
-              const Padding(
-                padding: EdgeInsets.all(8),
-                child: Text(
-                  "Your Time: ",
-                  style: TextStyle(
-                      fontSize: 40,
-                      fontFamily: 'Helvetica',
-                      fontWeight: FontWeight.bold),
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    "Current Highscore: ",
+                    style: TextStyle(
+                        fontSize: 40,
+                        fontFamily: 'Helvetica',
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              getRaceTime(),
-              _gotNewhighscore
-                  ? const Expanded(
-                      flex: 6,
-                      child: Align(
-                        child: Text("congrats new best time 🚀"),
+                getSavedHighscoreTime(),
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    "Your Time: ",
+                    style: TextStyle(
+                        fontSize: 40,
+                        fontFamily: 'Helvetica',
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                getRaceTime(),
+                Utility.isUser()
+                    ? const SizedBox(
+                        height: 1,
+                      )
+                    : const Text(
+                        "Highscore will not be saved, because you aren't logged in",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
                       ),
-                    )
-                  : const Expanded(
-                      flex: 6,
-                      child: Align(
-                        child: Text("c'mon you can do better ⛷️ "),
+                _gotNewhighscore
+                    ? const Expanded(
+                        flex: 6,
+                        child: Align(
+                          child: Text("congrats new best time 🚀"),
+                        ),
+                      )
+                    : const Expanded(
+                        flex: 6,
+                        child: Align(
+                          child: Text("c'mon you can do better ⛷️ "),
+                        ),
                       ),
-                    ),
-              _gotNewhighscore
-                  ? Text(_loading ? 'Saving Highscore' : 'Highscore saved!')
-                  : const SizedBox(
-                      height: 18.0,
-                    ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                        color: Colors.transparent,
+                _gotNewhighscore && Utility.isUser()
+                    ? Text(_loading ? 'Saving Highscore' : 'Highscore saved!')
+                    : const SizedBox(
+                        height: 1,
+                      ),
+                const SizedBox(
+                  height: 18.0,
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
+                        height: SkiWmStyle.buttonHeight,
+                        decoration: BoxDecoration(
+                          gradient: SkiWmStyle.gradient,
+                          borderRadius: SkiWmStyle.borderRadius,
+                        ),
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context)
                                 .popUntil(ModalRoute.withName('/race'));
                           },
                           child: const Text('Continue'),
-                        )),
-                  ),
-                ],
-              ),
-            ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 18.0,
+                ),
+              ],
+            ),
           ),
         ),
       ),

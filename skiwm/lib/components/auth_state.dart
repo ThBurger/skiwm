@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/models/profile.dart';
 import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -8,7 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
   @override
   void onUnauthenticated() {
-    debugPrint("on UNauthenticatd in AuthState");
+    getCreditsNotLoggedIn();
     if (mounted) {
       Navigator.of(context).pushNamedAndRemoveUntil('/menu', (route) => false);
     }
@@ -24,6 +25,10 @@ class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
                 .pushNamedAndRemoveUntil('/menu', (route) => false)
           });
     }
+  }
+
+  Future<void> getCreditsNotLoggedIn() async {
+    creditsValueNotifier.value = await SharedPreferencesService().getCredits();
   }
 
   Future<Profile> _getProfile(String userId) async {
@@ -49,6 +54,6 @@ class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
 
   @override
   void onErrorAuthenticating(String message) {
-    //context.showErrorSnackBar(message: message);
+    context.showErrorSnackBar(message: message);
   }
 }

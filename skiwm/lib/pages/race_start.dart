@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import 'package:skiwm/models/race.dart';
 import 'package:skiwm/pages/race_loading.dart';
 import 'package:skiwm/resources/credits_service.dart';
+import 'package:skiwm/resources/shared_preferences_service.dart';
+import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/utils/theme.dart';
+import 'package:skiwm/utils/utils.dart';
 import 'package:skiwm/utils/value_notifiers.dart';
-import 'package:skiwm/widgets/button.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';
-import 'package:skiwm/utils/constants.dart';
 
 class RaceStartPage extends StatelessWidget {
   const RaceStartPage({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class RaceStartPage extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3, // TODO
+              height: MediaQuery.of(context).size.height * 0.3,
               child: Hero(
                 tag: args.id!,
                 child: Image.asset('assets/images/snow_race.jpg',
@@ -106,62 +107,35 @@ class RaceStartPage extends StatelessWidget {
 
   Widget _buildStartButton(BuildContext context, DateTime from, String title,
       int credits, String raceId) {
+    bool notActive =
+        DateTime.now().isBefore(from) || creditsValueNotifier.value < credits;
+
+    String message = '';
     if (DateTime.now().isBefore(from)) {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              color: Colors.transparent,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.red[600]),
-                onPressed: () {
-                  context.showErrorSnackBar(message: 'Not yet started');
-                },
-                child: Text(
-                  'Start racing (-' + credits.toString() + ' Credits)',
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-    if (creditsValueNotifier.value < credits) {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              color: Colors.transparent,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.red[600]),
-                onPressed: () {
-                  context.showErrorSnackBar(message: 'not enough credits');
-                },
-                child: Text(
-                  'Start racing (-' + credits.toString() + ' Credits)',
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
+      message = 'Not yet started';
+    } else if (creditsValueNotifier.value < credits) {
+      message = 'not enough credits';
     }
     return Row(
       children: <Widget>[
         Expanded(
           child: Container(
-            color: Colors.transparent,
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            child: MyButton(
-              onPressed: () => _onPressed(credits, title, raceId),
-              child: Text('Start racing (-' + credits.toString() + ' Credits)'),
+            child: Container(
+              height: SkiWmStyle.buttonHeight,
+              decoration: BoxDecoration(
+                gradient:
+                    notActive ? SkiWmStyle.gradientGrey : SkiWmStyle.gradient,
+                borderRadius: SkiWmStyle.borderRadius,
+              ),
+              child: ElevatedButton(
+                onPressed: () => notActive
+                    ? context.showErrorSnackBar(message: message)
+                    : _onPressed(credits, title, raceId),
+                child:
+                    Text('Start racing (-' + credits.toString() + ' Credits)'),
+              ),
             ),
           ),
         ),
@@ -170,7 +144,11 @@ class RaceStartPage extends StatelessWidget {
   }
 
   void _onPressed(int credits, String title, String raceId) {
-    CreditsService.addCredits(credits * -1);
+    if (Utility.isUser()) {
+      CreditsService.addCredits(credits * -1);
+    } else {
+      SharedPreferencesService().increaseCredits(credits * -1);
+    }
     Get.to(LoadingPage(title, raceId));
   }
 }

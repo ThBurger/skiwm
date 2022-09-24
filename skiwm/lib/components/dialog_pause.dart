@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skiwm/resources/globals.dart';
+import 'package:skiwm/utils/theme.dart';
 
 class PauseDialog extends StatelessWidget {
   const PauseDialog({Key? key}) : super(key: key);
@@ -28,18 +29,35 @@ class PauseDialog extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop('continue');
-                      },
-                      child: const Text('Continue'),
+                    Container(
+                      height: SkiWmStyle.buttonHeight,
+                      decoration: BoxDecoration(
+                        gradient: SkiWmStyle.gradient,
+                        borderRadius: SkiWmStyle.borderRadius,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop('continue');
+                        },
+                        child: const Text('Continue'),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .popUntil(ModalRoute.withName('/race'));
-                      },
-                      child: const Text('Exit'),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Container(
+                      height: SkiWmStyle.buttonHeight,
+                      decoration: BoxDecoration(
+                        gradient: SkiWmStyle.gradient,
+                        borderRadius: SkiWmStyle.borderRadius,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName('/race'));
+                        },
+                        child: const Text('Exit'),
+                      ),
                     ),
                   ],
                 ),

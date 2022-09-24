@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skiwm/components/dialog_crashed.dart';
-import 'package:skiwm/resources/globals.dart';
 import 'package:skiwm/utils/theme.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/drawer.dart';
@@ -55,14 +53,21 @@ class _DebugPageState extends State<DebugPage> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.dialog(
-                          const CrashedDialog(),
-                          barrierDismissible: false,
-                        );
-                      },
-                      child: const Text("Show Crashed Dialog"),
+                    Container(
+                      height: SkiWmStyle.buttonHeight,
+                      decoration: BoxDecoration(
+                        gradient: SkiWmStyle.gradient,
+                        borderRadius: SkiWmStyle.borderRadius,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.dialog(
+                            const CrashedDialog(),
+                            barrierDismissible: false,
+                          );
+                        },
+                        child: const Text("Show Crashed Dialog"),
+                      ),
                     ),
                   ],
                 ),

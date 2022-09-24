@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skiwm/utils/theme.dart';
 
 class StartDialog extends StatelessWidget {
   const StartDialog({Key? key}) : super(key: key);
@@ -26,11 +27,18 @@ class StartDialog extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop('start');
-                      },
-                      child: const Text('Start'),
+                    Container(
+                      height: SkiWmStyle.buttonHeight,
+                      decoration: BoxDecoration(
+                        gradient: SkiWmStyle.gradient,
+                        borderRadius: SkiWmStyle.borderRadius,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop('start');
+                        },
+                        child: const Text('Start'),
+                      ),
                     ),
                   ],
                 ),

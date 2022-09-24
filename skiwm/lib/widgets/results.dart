@@ -40,7 +40,10 @@ class _ResultPageState extends State<ResultPage> {
           if (snapshot.data!.error.isNotEmpty) {
             return _buildErrorWidget(snapshot.data!.error);
           } else if (snapshot.data!.results.isEmpty) {
-            return const Text("No results available yet");
+            return const Text(
+              "No results available yet",
+              style: TextStyle(color: SkiWmColors.white),
+            );
           }
           return _buildUserWidget(snapshot.data!);
         } else if (snapshot.hasError) {
@@ -49,7 +52,10 @@ class _ResultPageState extends State<ResultPage> {
           if (widget.raceId != '') {
             return _buildLoadingWidget();
           } else {
-            return const Text("Choose Race Id before Results were loaded");
+            return const Text(
+              "choose a race before results were loaded",
+              style: TextStyle(color: SkiWmColors.white),
+            );
           }
         }
       },
@@ -58,23 +64,25 @@ class _ResultPageState extends State<ResultPage> {
 
   Widget _buildLoadingWidget() {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Text("Loading data from API..."),
-        CircularProgressIndicator()
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text("Loading data from API..."),
+          CircularProgressIndicator()
+        ],
+      ),
+    );
   }
 
   Widget _buildErrorWidget(String error) {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Error occured: $error"),
-      ],
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Error occured: $error"),
+        ],
+      ),
+    );
   }
 
   Widget _buildUserWidget(LeaderboardEntryResponse data) {

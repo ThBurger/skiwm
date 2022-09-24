@@ -11,6 +11,7 @@ import 'package:skiwm/resources/highscore_service.dart';
 import 'package:skiwm/resources/shared_preferences_service.dart';
 import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/utils/theme.dart';
+import 'package:skiwm/utils/utils.dart';
 
 class LoadingPage extends StatefulWidget {
   final String title;
@@ -30,8 +31,8 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
     animationController =
         AnimationController(duration: const Duration(seconds: 4), vsync: this);
     animationController.repeat();
-    SharedPreferencesService().increaseScore(PROFILE_RACES, 1);
-    TaskService().increaseCurrentTaskScore(DAILY_RACE_STARTED);
+    SharedPreferencesService().increaseScore(profileRaces, 1);
+    TaskService().increaseCurrentTaskScore(dailyRaceStarted);
     _loadCurrentHighscore();
     _loadCollidables();
     super.initState();
@@ -42,17 +43,17 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
     List<Rect> listFinish = List.empty(growable: true);
     collidableGates = List.empty(growable: true);
     collidableFinish = List.empty(growable: true);
-    if (widget.raceId == RACE_WENGEN) {
+    if (widget.raceId == uuidRaceWengen) {
       listGates = (await MapLoader.readCollisionMap(
           'assets/Wengen_Race_Collisions.json'));
       listFinish =
           (await MapLoader.readCollisionMap('assets/Wengen_Race_Finish.json'));
-    } else if (widget.raceId == TRAINING_1) {
+    } else if (widget.raceId == uuidTraining1) {
       listGates = (await MapLoader.readCollisionMap(
           'assets/Training_1_Collisions.json'));
       listFinish =
           (await MapLoader.readCollisionMap('assets/Training_1_Finish.json'));
-    } else if (widget.raceId == TRAINING_2) {
+    } else if (widget.raceId == uuidTraining2) {
       listGates = (await MapLoader.readCollisionMap(
           'assets/Training_2_Collisions.json'));
       listFinish =
@@ -86,21 +87,21 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      if (widget.raceId == TRAINING_2) {
+      if (widget.raceId == uuidTraining2) {
         Navigator.of(context).popUntil(ModalRoute.withName('/race'));
         Get.to(const RaceGamePage(
           mapPic: 'Training_2.png',
           playerX: 300,
           playerY: 150,
         ));
-      } else if (widget.raceId == TRAINING_1) {
+      } else if (widget.raceId == uuidTraining1) {
         Navigator.of(context).popUntil(ModalRoute.withName('/race'));
         Get.to(const RaceGamePage(
           mapPic: 'Training_1.png',
           playerX: 300,
           playerY: 150,
         ));
-      } else if (widget.raceId == RACE_WENGEN) {
+      } else if (widget.raceId == uuidRaceWengen) {
         Navigator.of(context).popUntil(ModalRoute.withName('/race'));
         Get.to(const RaceGamePage(
           mapPic: 'Race_Wengen.png',
@@ -145,6 +146,21 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
+              Utility.isUser()
+                  ? const SizedBox(
+                      height: 1,
+                    )
+                  : const Expanded(
+                      flex: 6,
+                      child: Align(
+                        child: Text(
+                          "Highscore will not be saved, because you aren't logged in",
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
               const Expanded(
                 flex: 6,
                 child: Align(
