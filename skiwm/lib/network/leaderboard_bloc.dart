@@ -7,9 +7,9 @@ class LeaderboardBloc {
   final BehaviorSubject<LeaderboardEntryResponse> _subject =
       BehaviorSubject<LeaderboardEntryResponse>();
 
-  getResults(String id) async {
+  getResults(String id, int maxResults) async {
     LeaderboardEntryResponse response =
-        await _repository.getLeaderboardEntries(id);
+        await _repository.getLeaderboardEntries(id, maxResults);
 
     _subject.sink.add(response);
   }

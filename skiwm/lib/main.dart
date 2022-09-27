@@ -6,6 +6,7 @@ import 'package:skiwm/pages/account.dart';
 import 'package:skiwm/pages/race_after.dart';
 import 'package:skiwm/pages/login.dart';
 import 'package:skiwm/pages/menu.dart';
+import 'package:skiwm/pages/race_leaderboard.dart';
 import 'package:skiwm/pages/race_start.dart';
 import 'package:skiwm/pages/settings.dart';
 import 'package:skiwm/pages/splash.dart';
@@ -55,6 +56,7 @@ class App extends StatelessWidget {
         '/': (_) => const SplashPage(),
         '/menu': (_) => MenuPage(),
         '/race': (_) => const RaceStartPage(),
+        '/race_leaderboard': (_) => const RaceLeaderboardPage(),
         '/setting': (_) => const SettingsPage(),
         '/login': (_) => const LoginPage(),
         '/account': (_) => const AccountPage(),

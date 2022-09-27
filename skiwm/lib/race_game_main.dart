@@ -32,7 +32,7 @@ class RaceGameState extends State<RaceGamePage> {
     super.initState();
     game = RaceGame(widget.mapPic, widget.playerX, widget.playerY);
     gameState = GameState.init;
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await showDialog(
           barrierDismissible: false,
           context: context,

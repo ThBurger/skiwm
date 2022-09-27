@@ -11,7 +11,9 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class ResultPage extends StatefulWidget {
   final String raceId;
-  const ResultPage({Key? key, required this.raceId}) : super(key: key);
+  final int maxResults;
+  const ResultPage({Key? key, required this.raceId, required this.maxResults})
+      : super(key: key);
   @override
   _ResultPageState createState() => _ResultPageState();
 }
@@ -20,15 +22,10 @@ class _ResultPageState extends State<ResultPage> {
   @override
   void initState() {
     super.initState();
-    if (widget.raceId != '') {
-      leaderboardBloc.getResults(widget.raceId);
-    }
-  }
-
-  @override
-  void dispose() {
     leaderboardBloc.emptyResult();
-    super.dispose();
+    if (widget.raceId != '') {
+      leaderboardBloc.getResults(widget.raceId, widget.maxResults);
+    }
   }
 
   @override
@@ -103,13 +100,14 @@ class _ResultPageState extends State<ResultPage> {
     bool _isUsers = userId == entry.userId;
     String rewardCredits = Utility.rewardedCretids(index);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: Row(
         children: <Widget>[
           Text(
             index.toString() + ".",
             style: TextStyle(
-                color: _isUsers ? SkiWmColors.success : SkiWmColors.white),
+                color: _isUsers ? SkiWmColors.success : SkiWmColors.white,
+                fontSize: 16),
           ),
           const SizedBox(
             width: 15,
@@ -126,8 +124,8 @@ class _ResultPageState extends State<ResultPage> {
                 Text(
                   entry.username!,
                   style: TextStyle(
-                      color:
-                          _isUsers ? SkiWmColors.success : SkiWmColors.white),
+                      color: _isUsers ? SkiWmColors.success : SkiWmColors.white,
+                      fontSize: 16),
                 ),
               ],
             ),
@@ -153,7 +151,8 @@ class _ResultPageState extends State<ResultPage> {
                 StopWatchTimer.getDisplayTime(entry.finishedTime!,
                     hours: false),
                 style: TextStyle(
-                    color: _isUsers ? SkiWmColors.success : SkiWmColors.white)),
+                    color: _isUsers ? SkiWmColors.success : SkiWmColors.white,
+                    fontSize: 16)),
           ),
         ],
       ),

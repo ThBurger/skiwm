@@ -4,7 +4,8 @@ import 'package:skiwm/models/leaderboard_entry.dart';
 import 'package:skiwm/utils/constants.dart';
 
 class LeaderboardApiProvider {
-  Future<LeaderboardEntryResponse> getLeaderboardEntries(String id) async {
+  Future<LeaderboardEntryResponse> getLeaderboardEntries(
+      String id, int maxResults) async {
     try {
       final response = await supabase.from('results').select('''
           id,
@@ -16,7 +17,7 @@ class LeaderboardApiProvider {
             username,
             country
           )
-          ''').eq('race_id', id).execute();
+          ''').eq('race_id', id).limit(maxResults).execute();
       final error = response.error;
       if (error != null && response.status != 406) {
         debugPrint("Exception occured: $error");

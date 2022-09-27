@@ -66,26 +66,46 @@ class RaceStartPage extends StatelessWidget {
                     child: _buildStartButton(context, args.fromDate!,
                         args.racename!, args.credits!, args.id!),
                   ),
-                  const SizedBox(height: 16.0),
                   Container(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        const SizedBox(height: 15.0),
                         Text(
-                          "Leaderboard".toUpperCase(),
+                          'Leaderboard'.toUpperCase(),
                           style: const TextStyle(
                               color: SkiWmColors.white,
                               fontWeight: FontWeight.w600,
-                              fontSize: 14.0),
+                              fontSize: 16.0),
                         ),
                       ],
                     ),
                   ),
                   ResultPage(
                     raceId: args.id!,
+                    maxResults: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: SkiWmStyle.buttonHeight,
+                      decoration: BoxDecoration(
+                        gradient: SkiWmStyle.gradient,
+                        borderRadius: SkiWmStyle.borderRadius,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/race_leaderboard',
+                            arguments: args,
+                          );
+                        },
+                        child: Text('load more results'),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 35.0),
                 ],

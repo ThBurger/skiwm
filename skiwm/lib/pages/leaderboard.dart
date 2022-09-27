@@ -73,7 +73,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
               const Divider(),
               const SizedBox(height: 8.0),
               ResultPage(
-                  key: ValueKey<String>(_chosenRaceId), raceId: _chosenRaceId),
+                key: ValueKey<String>(_chosenRaceId),
+                raceId: _chosenRaceId,
+                maxResults: 300,
+              ),
               const SizedBox(height: 20.0),
             ],
           ),
