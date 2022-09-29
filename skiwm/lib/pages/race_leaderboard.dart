@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:skiwm/models/race.dart';
-import 'package:skiwm/pages/race_loading.dart';
-import 'package:skiwm/resources/credits_service.dart';
-import 'package:skiwm/resources/shared_preferences_service.dart';
-import 'package:skiwm/utils/constants.dart';
 import 'package:skiwm/utils/theme.dart';
-import 'package:skiwm/utils/utils.dart';
-import 'package:skiwm/utils/value_notifiers.dart';
 import 'package:skiwm/widgets/credit.dart';
 import 'package:skiwm/widgets/results.dart';
 

@@ -11,6 +11,8 @@ const uuidTraining1 = '9df070b2-5fb0-43aa-a888-2e8ae5744047';
 const uuidTraining2 = '8816a988-7815-41da-b9f1-71fa78f7e977';
 const uuidRaceWengen = '4cfdc5e0-2bbc-46c5-93c3-473e6cbcda2a';
 
+bool showOnboarding = true;
+
 double screenWidth = 0;
 //all races for leaderboard
 List<Race> races = List.empty(growable: true);

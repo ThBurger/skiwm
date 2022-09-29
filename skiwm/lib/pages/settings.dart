@@ -97,6 +97,31 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
               ),
+              const SizedBox(height: 18.0),
+              Card(
+                margin: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 0,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: SkiWmStyle.buttonHeight,
+                      decoration: BoxDecoration(
+                        gradient: SkiWmStyle.gradient,
+                        borderRadius: SkiWmStyle.borderRadius,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/onboarding');
+                        },
+                        child: const Text('Show Tutorial'),
+                      ),
+                    ),
+                    _buildDivider(),
+                  ],
+                ),
+              ),
               const SizedBox(height: 60.0),
             ],
           ),

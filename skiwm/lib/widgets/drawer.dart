@@ -1,6 +1,6 @@
+import 'package:flag/flag.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:skiwm/pages/account.dart';
 import 'package:skiwm/pages/debug.dart';
@@ -27,13 +27,15 @@ Drawer buildDrawer() {
                 height: 60,
               ),
               Container(
-                  height: 90,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                          colors: [Colors.orange, Colors.deepOrange])),
-                  child: const Icon(FontAwesomeIcons.portrait)),
+                height: 90,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: const Image(
+                  image: AssetImage("assets/images/skier.png"),
+                ),
+              ),
               const SizedBox(height: 5.0),
               Text(
                 userProfile.username ?? "Anonymous",
@@ -42,10 +44,10 @@ Drawer buildDrawer() {
                     fontSize: 18.0,
                     fontWeight: FontWeight.w600),
               ),
-              Text(
+              Flag.fromString(
                 userProfile.country ?? "",
-                style:
-                    const TextStyle(color: SkiWmColors.border, fontSize: 16.0),
+                height: 30,
+                width: 30,
               ),
               const SizedBox(height: 30.0),
               _buildRow(Icons.home, "Home", MenuPage()),

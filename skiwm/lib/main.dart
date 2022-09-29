@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:skiwm/pages/account.dart';
+import 'package:skiwm/pages/onboarding.dart';
 import 'package:skiwm/pages/race_after.dart';
 import 'package:skiwm/pages/login.dart';
 import 'package:skiwm/pages/menu.dart';
@@ -44,7 +45,7 @@ class App extends StatelessWidget {
         primaryColor: Colors.green,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            primary: Colors.transparent,
+            backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             shape:
                 RoundedRectangleBorder(borderRadius: SkiWmStyle.borderRadius),
@@ -54,6 +55,7 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (_) => const SplashPage(),
+        '/onboarding': (_) => const OnBoardingPage(),
         '/menu': (_) => MenuPage(),
         '/race': (_) => const RaceStartPage(),
         '/race_leaderboard': (_) => const RaceLeaderboardPage(),

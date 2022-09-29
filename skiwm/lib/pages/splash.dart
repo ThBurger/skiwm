@@ -72,6 +72,7 @@ class _SplashPageState extends AuthState<SplashPage>
 
   Future<void> _loadOptions() async {
     final SharedPreferences prefs = await _prefs;
+    showOnboarding = !(prefs.getBool('onboardingDone') ?? false);
     isMusic = (prefs.getBool('music') ?? false);
     isSoundFx = (prefs.getBool('soundfx') ?? false);
     isDarkMode = (prefs.getBool('darkmode') ?? false);
@@ -157,7 +158,8 @@ class _SplashPageState extends AuthState<SplashPage>
         if (r.training!) {
           trainings.add(r);
         } else {
-          if (DateTime.now().isBefore(r.tillDate!)) {
+          if (DateTime.now().isBefore(r.tillDate!) &&
+              racesPlayable.length <= 5) {
             racesPlayable.add(r);
           }
           races.add(r);

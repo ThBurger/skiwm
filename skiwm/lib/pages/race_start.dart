@@ -103,7 +103,7 @@ class RaceStartPage extends StatelessWidget {
                             arguments: args,
                           );
                         },
-                        child: Text('load more results'),
+                        child: const Text('load more results'),
                       ),
                     ),
                   ),

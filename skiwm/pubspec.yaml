@@ -57,7 +57,8 @@ dependencies:
   flag: ^6.0.0
   just_audio: ^0.9.28
   flutter_native_splash: ^2.2.10+1
-  flutter_launcher_icons: "^0.10.0"
+  flutter_launcher_icons: ^0.10.0
+  introduction_screen: ^3.0.1
 
 dev_dependencies:
   flutter_test:

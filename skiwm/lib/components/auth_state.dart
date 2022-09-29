@@ -11,18 +11,21 @@ class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
   void onUnauthenticated() {
     getCreditsNotLoggedIn();
     if (mounted) {
-      Navigator.of(context).pushNamedAndRemoveUntil('/menu', (route) => false);
+      String nextRoute = showOnboarding ? '/onboarding' : '/menu';
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(nextRoute, (route) => false);
     }
   }
 
   @override
   void onAuthenticated(Session session) {
     if (mounted) {
+      String nextRoute = showOnboarding ? '/onboarding' : '/menu';
       _getProfile(supabase.auth.user()!.id).then((value) => {
             userProfile = value,
             creditsValueNotifier.value = userProfile.credits!,
             Navigator.of(context)
-                .pushNamedAndRemoveUntil('/menu', (route) => false)
+                .pushNamedAndRemoveUntil(nextRoute, (route) => false)
           });
     }
   }
