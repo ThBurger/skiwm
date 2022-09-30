@@ -36,15 +36,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
-      bodyPadding: EdgeInsets.fromLTRB(16.0, 50.0, 16.0, 16.0),
-      pageColor: Colors.white,
-      imagePadding: EdgeInsets.zero,
+      bodyPadding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+      pageColor: SkiWmColors.backgroundNew,
+      imagePadding: EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
     );
 
     return IntroductionScreen(
       isTopSafeArea: true,
       key: introKey,
-      globalBackgroundColor: Colors.white,
+      globalBackgroundColor: SkiWmColors.backgroundNew,
       pages: [
         PageViewModel(
           title: "Welcome to Ski WM",

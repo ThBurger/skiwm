@@ -20,8 +20,7 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
     return Padding(
       padding: const EdgeInsets.only(top: 5.0, bottom: 5.0),
       child: SizedBox(
-        height: 250,
-        width: MediaQuery.of(context).size.width / 1.3,
+        width: MediaQuery.of(context).size.width * 0.7,
         child: GestureDetector(
           onTap: () {
             Navigator.pushNamed(
@@ -39,7 +38,7 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                 Stack(
                   children: <Widget>[
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 3.7,
+                      height: MediaQuery.of(context).size.height * 0.25,
                       width: MediaQuery.of(context).size.width,
                       child: Hero(
                         tag: widget.raceItem.id!,

@@ -99,7 +99,7 @@ class MenuPage extends StatelessWidget {
 
   buildRaceList(BuildContext context, List<Race> races) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height / 2.4,
+      height: MediaQuery.of(context).size.height * 0.4,
       width: MediaQuery.of(context).size.width,
       child: ListView.builder(
         primary: false,

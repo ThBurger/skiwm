@@ -98,31 +98,20 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               const SizedBox(height: 18.0),
-              Card(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 8.0,
-                  horizontal: 0,
+              Container(
+                height: SkiWmStyle.buttonHeight,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  gradient: SkiWmStyle.gradient,
+                  borderRadius: SkiWmStyle.borderRadius,
                 ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: SkiWmStyle.buttonHeight,
-                      decoration: BoxDecoration(
-                        gradient: SkiWmStyle.gradient,
-                        borderRadius: SkiWmStyle.borderRadius,
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/onboarding');
-                        },
-                        child: const Text('Show Tutorial'),
-                      ),
-                    ),
-                    _buildDivider(),
-                  ],
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/onboarding');
+                  },
+                  child: const Text('Show Tutorial'),
                 ),
               ),
-              const SizedBox(height: 60.0),
             ],
           ),
         ),

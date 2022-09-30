@@ -165,6 +165,7 @@ class _SplashPageState extends AuthState<SplashPage>
           races.add(r);
         }
       }
+      racesPlayable.sort((a, b) => a.fromDate!.compareTo(b.fromDate!));
     }
     await Future.delayed(const Duration(seconds: 2));
   }
