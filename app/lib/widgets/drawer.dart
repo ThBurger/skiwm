@@ -6,6 +6,7 @@ import 'package:retroskiing/pages/account.dart';
 import 'package:retroskiing/pages/debug.dart';
 import 'package:retroskiing/pages/leaderboard.dart';
 import 'package:retroskiing/pages/menu.dart';
+import 'package:retroskiing/pages/news.dart';
 import 'package:retroskiing/pages/settings.dart';
 import 'package:retroskiing/pages/shop.dart';
 import 'package:retroskiing/resources/globals.dart';
@@ -54,6 +55,8 @@ Drawer buildDrawer() {
               _buildDivider(),
               _buildRow(
                   Icons.leaderboard, "Leaderboard", const LeaderboardPage()),
+              _buildDivider(),
+              _buildRow(Icons.newspaper, "News", const NewsPage()),
               _buildDivider(),
               _buildRow(Icons.person_pin, "My profile", const AccountPage()),
               _buildDivider(),

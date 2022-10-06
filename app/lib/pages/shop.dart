@@ -219,7 +219,7 @@ class _ShopPageState extends State<ShopPage> {
             _buildVideoAdTile(),
             //_buildConnectionCheckTile(),
             _buildNotYetAvailableTile(),
-            _buildAddCreditsInAlphaTile(),
+            //_buildAddCreditsInAlphaTile(),
             //_buildProductList(),
             //_buildConsumableBox(),
             //_buildRestoreButton(),
@@ -299,7 +299,14 @@ class _ShopPageState extends State<ShopPage> {
       title: const Text('Show Video Ad (+30 Credits)'),
     );
     final List<Widget> children = <Widget>[storeHeader];
-    return Card(child: Column(children: children));
+    return Card(
+      child: InkWell(
+        onTap: () {
+          _showRewardedAd;
+        },
+        child: Column(children: children),
+      ),
+    );
   }
 
   Card _buildNotYetAvailableTile() {

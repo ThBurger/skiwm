@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:retroskiing/resources/globals.dart';
+import 'package:retroskiing/utils/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:retroskiing/resources/credits_service.dart';
 import 'package:retroskiing/resources/shared_preferences_service.dart';
@@ -26,6 +30,13 @@ class TaskService {
         dailyTaskFinishedValueNotifier.value = _currentScore;
       }
       if (_currentScore == 3) {
+        ScaffoldMessenger.of(Get.context!).showSnackBar(
+          const SnackBar(
+            backgroundColor: RetroSkiingColors.primary,
+            content: Text('Daily Task finished +30 Credits'),
+            duration: Duration(milliseconds: 1500),
+          ),
+        );
         //daily task completed
         if (Utility.isUser()) {
           CreditsService.addCredits(30);
@@ -42,6 +53,13 @@ class TaskService {
         dailyTaskStartedValueNotifier.value = _currentScore;
       }
       if (_currentScore == 5) {
+        ScaffoldMessenger.of(Get.context!).showSnackBar(
+          const SnackBar(
+            backgroundColor: RetroSkiingColors.primary,
+            content: Text('Daily Task finished +30 Credits'),
+            duration: Duration(milliseconds: 1500),
+          ),
+        );
         //daily task completed
         if (Utility.isUser()) {
           CreditsService.addCredits(30);

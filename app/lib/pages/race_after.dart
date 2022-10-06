@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:retroskiing/components/dialog_pause.dart';
 import 'package:retroskiing/models/leaderboard_entry.dart';
 import 'package:retroskiing/resources/globals.dart';
 import 'package:retroskiing/resources/highscore_service.dart';

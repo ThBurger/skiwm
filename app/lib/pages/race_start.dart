@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
+import 'package:retroskiing/components/dialog_pause.dart';
 import 'package:retroskiing/models/race.dart';
 import 'package:retroskiing/pages/race_loading.dart';
 import 'package:retroskiing/resources/credits_service.dart';
+import 'package:retroskiing/resources/globals.dart';
 import 'package:retroskiing/resources/shared_preferences_service.dart';
 import 'package:retroskiing/utils/constants.dart';
 import 'package:retroskiing/utils/theme.dart';
