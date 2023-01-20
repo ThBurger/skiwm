@@ -23,4 +23,5 @@ more info -> go to ./app Folder
 ## TODO
 Trello Board: https://trello.com/b/QHTcJOOS/ski-wm-10
 
+If you like to contribute, open a PR and I will start the supabase db so you can run the app.
 Feel free to contribute.
