@@ -3,6 +3,8 @@
 An easy to learn, hard to master Ski racing game built with Flutter & Flame.
 Score the fastet time to clim up the ladder.
 
+![Tutorial Image](app/assets/images/tutorial.png)
+
 ## Getting Started
 ./maps
 Maps built with Tiled Map editor. 
@@ -17,3 +19,6 @@ Backend for Auth & Database
 https://app.supabase.com/project/xakuozmtkrvgebyvriiq
 
 more info -> go to ./app Folder
+
+## TODO
+Feel free to contribute.
