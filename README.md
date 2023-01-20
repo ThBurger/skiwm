@@ -21,4 +21,6 @@ https://app.supabase.com/project/xakuozmtkrvgebyvriiq
 more info -> go to ./app Folder
 
 ## TODO
+Trello Board: https://trello.com/b/QHTcJOOS/ski-wm-10
+
 Feel free to contribute.
