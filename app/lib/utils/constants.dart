@@ -45,13 +45,13 @@ final List<Race> racesList = [
       training: false,
       img: 'assets/images/Race_Wengen.png',
       raceType: 'Super-G'),
-  const Race(
-      id: 'c433aec7-56cb-409f-9e00-d135a54ac97b',
-      racename: 'Kitzbühel',
-      difficulty: 5,
-      training: false,
-      img: 'assets/images/Race_Kitzbühel.png',
-      raceType: 'Super-G'),
+  //const Race(
+  //    id: 'c433aec7-56cb-409f-9e00-d135a54ac97b',
+  //    racename: 'Kitzbühel',
+  //    difficulty: 5,
+  //    training: false,
+  //    img: 'assets/images/Race_Kitzbühel.png',
+  //    raceType: 'Super-G'),
   //const Race(
   //    id: '51022032-bfa4-408e-9979-89915f9b3983',
   //    racename: 'Bormio',
