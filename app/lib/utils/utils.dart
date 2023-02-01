@@ -1,11 +1,5 @@
-import 'package:retroskiing/resources/globals.dart';
-
 class Utility {
-  static bool isUser() {
-    return userProfile.id != null && userProfile.id!.isNotEmpty;
-  }
-
-  static String rewardedCretids(int rank) {
+  static String rewardedCredits(int rank) {
     if (rank > 300) {
       return '';
     } else if (rank > 200 && rank <= 300) {

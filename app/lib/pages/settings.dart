@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:retroskiing/resources/globals.dart';
 import 'package:retroskiing/utils/theme.dart';
-import 'package:retroskiing/widgets/credit.dart';
 import 'package:retroskiing/widgets/drawer.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -35,7 +34,6 @@ class _SettingsPageState extends State<SettingsPage> {
             _key.currentState!.openDrawer();
           },
         ),
-        actions: const [CreditChip(), SizedBox(width: 15)],
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -78,19 +76,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         setState(() {
                           isSoundFx = value;
                           saveSwitchState('soundfx', value);
-                        });
-                      },
-                    ),
-                    _buildDivider(),
-                    SwitchListTile(
-                      // TODO
-                      activeColor: RetroSkiingColors.primary,
-                      value: isDarkMode,
-                      title: const Text("Dark Mode"),
-                      onChanged: (bool value) {
-                        setState(() {
-                          isDarkMode = value;
-                          saveSwitchState('darkmode', value);
                         });
                       },
                     ),

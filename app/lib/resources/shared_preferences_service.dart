@@ -2,6 +2,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:retroskiing/utils/value_notifiers.dart';
 
 class SharedPreferencesService {
+  Future<String> getString(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(id) ?? '';
+  }
+
+  Future<void> setString(String id, String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(id, value);
+  }
+
   Future<int> getScore(String scoreId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt('score_' + scoreId) ?? 0;

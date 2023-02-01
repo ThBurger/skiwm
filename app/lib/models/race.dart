@@ -1,78 +1,27 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 
 @immutable
 class Race {
   final String? id;
-  final DateTime? updatedAt;
   final String? racename;
   final int? difficulty;
   final bool? training;
-  final DateTime? fromDate;
-  final DateTime? tillDate;
   final String? img;
-  final int? credits;
-  final int? winners;
-  final String? race_type;
+  final String? raceType;
 
   const Race({
     this.id,
-    this.updatedAt,
     this.racename,
     this.difficulty,
     this.training,
-    this.fromDate,
-    this.tillDate,
     this.img,
-    this.credits,
-    this.winners,
-    this.race_type,
+    this.raceType,
   });
 
   @override
   String toString() {
-    return 'Race(id: $id, updatedAt: $updatedAt, racename: $racename, difficulty: $difficulty, training: $training, fromDate: $fromDate, tillDate: $tillDate, img: $img, credits: $credits, winners: $winners, race_type: $race_type)';
+    return 'Race(id: $id, racename: $racename, difficulty: $difficulty, training: $training, img: $img, race_type: $raceType)';
   }
-
-  factory Race.fromMap(Map<String, dynamic> data) => Race(
-        id: data['id'] as String?,
-        updatedAt: data['updated_at'] == null
-            ? null
-            : DateTime.parse(data['updated_at'] as String),
-        racename: data['racename'] as String?,
-        difficulty: data['difficulty'] as int?,
-        training: data['training'] as bool?,
-        fromDate: data['from_date'] == null
-            ? null
-            : DateTime.parse(data['from_date'] as String),
-        tillDate: data['till_date'] == null
-            ? null
-            : DateTime.parse(data['till_date'] as String),
-        img: data['img'] == null
-            ? 'assets/images/Training_Easy.png'
-            : data['img'] as String,
-        credits: data['credits'] == null ? 0 : data['credits'] as int,
-        winners: data['winners'] == null ? 50 : data['winners'] as int,
-        race_type: data['race_type'] == null ? "" : data['race_type'] as String,
-      );
-
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'updated_at': updatedAt?.toIso8601String(),
-        'racename': racename,
-        'difficulty': difficulty,
-        'training': training,
-        'from_date': fromDate?.toIso8601String(),
-        'till_date': tillDate?.toIso8601String(),
-        'winners': winners,
-        'race_type': race_type,
-      };
-
-  factory Race.fromJson(String data) {
-    return Race.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
-
-  String toJson() => json.encode(toMap());
 
   isEqual(Race? s) {
     return id == s!.id;

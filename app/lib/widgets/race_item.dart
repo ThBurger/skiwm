@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:retroskiing/models/race.dart';
+import 'package:retroskiing/resources/highscore_service.dart';
+import 'package:retroskiing/utils/constants.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class RaceItemComponent extends StatefulWidget {
   final Race raceItem;
@@ -15,6 +17,27 @@ class RaceItemComponent extends StatefulWidget {
 }
 
 class _RaceItemComponentState extends State<RaceItemComponent> {
+  String _textHighScore = '--:--:--';
+
+  Future<void> _loadHighscore() async {
+    int selectedRaceCurrentHighscore =
+        await HighscoreService().getCurrentHighscore(widget.raceItem.id!);
+
+    if (selectedRaceCurrentHighscore != maxTimeResult) {
+      setState(() {
+        _textHighScore = StopWatchTimer.getDisplayTime(
+            selectedRaceCurrentHighscore,
+            hours: false);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _loadHighscore();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -68,7 +91,7 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                         child: Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Text(
-                            " ${widget.raceItem.race_type!} ",
+                            " ${widget.raceItem.raceType!} ",
                             style: const TextStyle(
                               fontSize: 10.0,
                             ),
@@ -76,8 +99,7 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                         ),
                       ),
                     ),
-                    buildOpenClosedWidget(
-                        widget.raceItem.fromDate!, widget.raceItem.tillDate!),
+                    buildRaceWidget(),
                   ],
                 ),
                 const SizedBox(height: 7.0),
@@ -101,8 +123,7 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
-                      "Credits entry costs: " +
-                          widget.raceItem.credits!.toString(),
+                      "Currently race time: " + _textHighScore,
                       style: const TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w300,
@@ -111,19 +132,6 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Text(
-                      "Winners: " + widget.raceItem.winners!.toString(),
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -132,37 +140,7 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
     );
   }
 
-  buildOpenClosedWidget(DateTime fromDate, DateTime tillDate) {
-    if (DateTime.now().isBefore(fromDate)) {
-      return Positioned(
-        top: 6.0,
-        left: 6.0,
-        child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.0)),
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              children: [
-                const Text(' CLOSED - Starts in ',
-                    style: TextStyle(
-                      fontSize: 10.0,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    )),
-                CountdownTimer(
-                    endTime: (fromDate.millisecondsSinceEpoch),
-                    textStyle: const TextStyle(
-                      fontSize: 10.0,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
+  buildRaceWidget() {
     return Positioned(
       top: 6.0,
       left: 6.0,
@@ -171,18 +149,10 @@ class _RaceItemComponentState extends State<RaceItemComponent> {
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Row(
-            children: [
-              const Text(
-                ' OPEN - Ends in ',
+            children: const [
+              Text(
+                ' OPEN',
                 style: TextStyle(
-                  fontSize: 10.0,
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              CountdownTimer(
-                endTime: (tillDate.millisecondsSinceEpoch),
-                textStyle: const TextStyle(
                   fontSize: 10.0,
                   color: Colors.green,
                   fontWeight: FontWeight.bold,

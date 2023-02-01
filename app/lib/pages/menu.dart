@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:retroskiing/models/race.dart';
 import 'package:retroskiing/resources/globals.dart';
 import 'package:retroskiing/utils/theme.dart';
-import 'package:retroskiing/widgets/credit.dart';
-import 'package:retroskiing/widgets/daily_credits.dart';
-import 'package:retroskiing/widgets/daily_task_finished.dart';
-import 'package:retroskiing/widgets/daily_task_started.dart';
 import 'package:retroskiing/widgets/drawer.dart';
 import 'package:retroskiing/widgets/race_item.dart';
 
@@ -29,7 +25,6 @@ class MenuPage extends StatelessWidget {
             _key.currentState!.openDrawer();
           },
         ),
-        actions: const [CreditChip(), SizedBox(width: 15)],
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -45,15 +40,6 @@ class MenuPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 50),
-                const Text(
-                  "Credits",
-                  style: TextStyle(
-                    color: RetroSkiingColors.white,
-                    fontSize: 22,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const DailyCredit(),
                 const SizedBox(height: 8),
                 const Text(
                   "Races",
@@ -72,23 +58,11 @@ class MenuPage extends StatelessWidget {
                   ),
                 ),
                 buildRaceList(context, trainings),
-                const SizedBox(height: 8.0),
-                const Text(
-                  "Daily Tasks",
-                  style: TextStyle(
-                    color: RetroSkiingColors.white,
-                    fontSize: 22,
-                  ),
-                ),
                 const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    DailyTaskStartedComponent(),
-                    DailyTaskFinishedComponent(),
-                  ],
-                ),
                 const SizedBox(height: 20.0),
+                const SizedBox(height: 50),
+                const SizedBox(height: 50),
+                const SizedBox(height: 50),
               ],
             ),
           ),

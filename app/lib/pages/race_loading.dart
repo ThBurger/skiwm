@@ -5,7 +5,6 @@ import 'package:retroskiing/components/world_collidable.dart';
 import 'package:retroskiing/components/world_finish.dart';
 import 'package:retroskiing/helpers/map_loader.dart';
 import 'package:retroskiing/race_game_main.dart';
-import 'package:retroskiing/resources/daily_task_service.dart';
 import 'package:retroskiing/resources/globals.dart';
 import 'package:retroskiing/resources/highscore_service.dart';
 import 'package:retroskiing/resources/shared_preferences_service.dart';
@@ -32,7 +31,6 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
         AnimationController(duration: const Duration(seconds: 4), vsync: this);
     animationController.repeat();
     SharedPreferencesService().increaseScore(profileRaces, 1);
-    TaskService().increaseCurrentTaskScore(dailyRaceStarted);
     _loadCurrentHighscore();
     _loadCollidables();
     super.initState();
@@ -146,21 +144,6 @@ class LoadingState extends State<LoadingPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              Utility.isUser()
-                  ? const SizedBox(
-                      height: 1,
-                    )
-                  : const Expanded(
-                      flex: 6,
-                      child: Align(
-                        child: Text(
-                          "Highscore will not be saved, because you aren't logged in",
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                    ),
               const Expanded(
                 flex: 6,
                 child: Align(

@@ -1,7 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:retroskiing/components/dialog_pause.dart';
-import 'package:retroskiing/models/leaderboard_entry.dart';
 import 'package:retroskiing/resources/globals.dart';
 import 'package:retroskiing/resources/highscore_service.dart';
 import 'package:retroskiing/resources/shared_preferences_service.dart';
@@ -9,7 +7,6 @@ import 'package:retroskiing/utils/constants.dart';
 import 'package:retroskiing/utils/theme.dart';
 import 'package:retroskiing/utils/utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:uuid/uuid.dart';
 
 class AfterRacePage extends StatefulWidget {
   final int timeRace;
@@ -24,8 +21,6 @@ class AfterRacePage extends StatefulWidget {
 
 class _AfterRaceState extends State<AfterRacePage> {
   bool _gotNewhighscore = false;
-  var _loading = false;
-
   final colorizeColors = [
     Colors.purple,
     Colors.blue,
@@ -47,57 +42,9 @@ class _AfterRaceState extends State<AfterRacePage> {
     setState(() {
       _gotNewhighscore = widget.timeRace < selectedRaceCurrentHighscore;
     });
-    if (_gotNewhighscore && Utility.isUser()) {
-      _updateHighscore();
+    if (_gotNewhighscore) {
       HighscoreService().setCurrentHighscore(selectedRace, widget.timeRace);
     }
-  }
-
-  Future<void> _updateHighscore() async {
-    setState(() {
-      _loading = true;
-    });
-    String userId = supabase.auth.currentUser!.id;
-    final raceId = selectedRace;
-    final response = await supabase
-        .from('results')
-        .select()
-        .eq('user_id', userId)
-        .eq('race_id', raceId)
-        .execute();
-
-    var _id = '';
-    final error = response.error;
-    if (error != null && response.status != 406) {
-      context.showErrorSnackBar(message: error.message);
-    }
-    final data = response.data;
-    if (data != null) {
-      for (var entry in data) {
-        _id = LeaderboardEntry.fromMap(entry).id!;
-      }
-    }
-    if (_id.isEmpty) {
-      _id = const Uuid().v4();
-    }
-    final updates = {
-      'id': _id,
-      'updated_at': DateTime.now().toIso8601String(),
-      'user_id': userId,
-      'race_id': raceId,
-      'finished_time': widget.timeRace,
-    };
-
-    final responseUpsert =
-        await supabase.from('results').upsert(updates).execute();
-    final errorUpsert = responseUpsert.error;
-    if (errorUpsert != null && response.status != 406) {
-      context.showErrorSnackBar(message: errorUpsert.message);
-    }
-
-    setState(() {
-      _loading = false;
-    });
   }
 
   @override
@@ -140,16 +87,6 @@ class _AfterRaceState extends State<AfterRacePage> {
                   ),
                 ),
                 getRaceTime(),
-                Utility.isUser()
-                    ? const SizedBox(
-                        height: 1,
-                      )
-                    : const Text(
-                        "Highscore will not be saved, because you aren't logged in",
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ),
                 _gotNewhighscore
                     ? const Expanded(
                         flex: 6,
@@ -163,8 +100,8 @@ class _AfterRaceState extends State<AfterRacePage> {
                           child: Text("c'mon you can do better ⛷️ "),
                         ),
                       ),
-                _gotNewhighscore && Utility.isUser()
-                    ? Text(_loading ? 'Saving Highscore' : 'Highscore saved!')
+                _gotNewhighscore
+                    ? const Text('Highscore saved!')
                     : const SizedBox(
                         height: 1,
                       ),

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:retroskiing/models/profile.dart';
 import 'package:retroskiing/resources/globals.dart';
 import 'package:retroskiing/resources/shared_preferences_service.dart';
 import 'package:retroskiing/utils/theme.dart';
-import 'package:retroskiing/widgets/credit.dart';
 import 'package:retroskiing/widgets/drawer.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:supabase/supabase.dart';
-import 'package:retroskiing/components/auth_required_state.dart';
 import 'package:retroskiing/utils/constants.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 
@@ -18,13 +14,13 @@ class AccountPage extends StatefulWidget {
   _AccountPageState createState() => _AccountPageState();
 }
 
-class _AccountPageState extends AuthRequiredState<AccountPage>
+class _AccountPageState extends State<AccountPage>
     with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final _usernameController = TextEditingController();
   final _countryController = TextEditingController();
   var _loading = false;
-  var _unAuthenticated = false;
+  var _saving = false;
   int _races = 0;
   int _finished = 0;
   int _crashed = 0;
@@ -35,8 +31,14 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
     setState(() {
       _loading = true;
     });
-    _usernameController.text = userProfile.username!;
-    _countryController.text = userProfile.country!;
+
+    await Future.delayed(const Duration(seconds: 2));
+    String __username =
+        await SharedPreferencesService().getString(profileUsername);
+    String __country =
+        await SharedPreferencesService().getString(profileCountry);
+    _usernameController.text = __username;
+    _countryController.text = __country;
     setState(() {
       _loading = false;
     });
@@ -44,64 +46,24 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
 
   Future<void> _updateProfile() async {
     setState(() {
-      _loading = true;
+      _saving = true;
     });
+    await Future.delayed(const Duration(seconds: 2));
     final userName = _usernameController.text;
     final country = _countryController.text;
-    final user = supabase.auth.currentUser;
-    final updates = {
-      'id': user!.id,
-      'username': userName,
-      'country': country,
-      'updated_at': DateTime.now().toIso8601String(),
-    };
-    final response = await supabase.from('profiles').upsert(updates).execute();
-    final error = response.error;
-    if (error != null) {
-      context.showErrorSnackBar(message: error.message);
-    } else {
-      context.showSnackBar(message: 'Successfully updated profile!');
-    }
-    userProfile = Profile(
-        id: user.id,
-        username: userName,
-        country: country,
-        credits: userProfile.credits);
+    await SharedPreferencesService().setString(profileUsername, userName);
+    await SharedPreferencesService().setString(profileCountry, country);
+    userNameGlobal = userName;
+    userCountryGlobal = country;
     setState(() {
-      _loading = false;
+      _saving = false;
     });
-  }
-
-  Future<void> _signOut() async {
-    final response = await supabase.auth.signOut();
-    final error = response.error;
-    if (error != null) {
-      context.showErrorSnackBar(message: error.message);
-    }
-    userProfile = const Profile();
-  }
-
-  @override
-  void onAuthenticated(Session session) {
-    loadCounter();
-    _getProfile();
-    //final user = session.user;
-    //if (user != null) {
-    //  _getProfile(user.id);
-    //}
-  }
-
-  @override
-  void onUnauthenticated() {
-    setState(() {
-      _unAuthenticated = true;
-    });
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/login', ModalRoute.withName('/menu'));
   }
 
   @override
   void initState() {
+    loadCounter();
+    _getProfile();
     animationController =
         AnimationController(duration: const Duration(seconds: 4), vsync: this);
     animationController.repeat();
@@ -111,6 +73,7 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
   @override
   void dispose() {
     _usernameController.dispose();
+    _countryController.dispose();
     animationController.dispose();
     super.dispose();
   }
@@ -128,15 +91,8 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
     });
   }
 
-  void deleteSharedPrefs() async {
-    await SharedPreferencesService().deleteAllSharedPreference();
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (_unAuthenticated) {
-      return _unAuthenticatedWidget();
-    }
     if (_loading) {
       return _loadingWidget();
     }
@@ -155,7 +111,6 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
             _key.currentState!.openDrawer();
           },
         ),
-        actions: const [CreditChip(), SizedBox(width: 15)],
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -229,103 +184,12 @@ class _AccountPageState extends AuthRequiredState<AccountPage>
                   ),
                   child: ElevatedButton(
                     onPressed: _updateProfile,
-                    child: Text(_loading ? 'Saving...' : 'Update'),
+                    child: Text(_saving ? 'Wird gespeichert...' : 'Speichern'),
                   ),
                 ),
                 const SizedBox(height: 18),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: RetroSkiingStyle.buttonHeight,
-                  decoration: BoxDecoration(
-                    gradient: RetroSkiingStyle.gradient,
-                    borderRadius: RetroSkiingStyle.borderRadius,
-                  ),
-                  child: ElevatedButton(
-                    onPressed: _signOut,
-                    child: const Text('Sign Out'),
-                  ),
-                ),
-                const SizedBox(height: 18),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: RetroSkiingStyle.buttonHeight,
-                  decoration: BoxDecoration(
-                    gradient: RetroSkiingStyle.gradient,
-                    borderRadius: RetroSkiingStyle.borderRadius,
-                  ),
-                  child: ElevatedButton(
-                    onPressed: deleteSharedPrefs,
-                    child: const Text('Delete Shared Prefs'),
-                  ),
-                ),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _unAuthenticatedWidget() {
-    return Scaffold(
-      key: _key,
-      extendBodyBehindAppBar: true,
-      drawer: buildDrawer(),
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            _key.currentState!.openDrawer();
-          },
-        ),
-        actions: const [CreditChip(), SizedBox(width: 15)],
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/background.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 80,
-              ),
-              const Expanded(
-                flex: 6,
-                child: Align(
-                  child: Text("you are not logged in ..."),
-                ),
-              ),
-              const Expanded(
-                flex: 6,
-                child: Align(
-                  child: Text("please login to see your stats"),
-                ),
-              ),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/login', ModalRoute.withName('/menu'));
-                          },
-                          child: const Text('Go to Login'),
-                        )),
-                  ),
-                ],
-              ),
-            ],
           ),
         ),
       ),

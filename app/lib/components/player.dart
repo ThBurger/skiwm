@@ -7,7 +7,6 @@ import 'package:retroskiing/components/dialog_finished.dart';
 import 'package:retroskiing/components/hitbox.dart';
 import 'package:retroskiing/components/world_collidable.dart';
 import 'package:retroskiing/components/world_finish.dart';
-import 'package:retroskiing/resources/daily_task_service.dart';
 import 'package:retroskiing/resources/globals.dart';
 import 'package:retroskiing/resources/shared_preferences_service.dart';
 import 'package:retroskiing/utils/constants.dart';
@@ -80,7 +79,6 @@ class Player extends SpriteAnimationComponent
         isSkiing = false;
         _hasFinished = true;
         SharedPreferencesService().increaseScore(profileFinished, 1);
-        TaskService().increaseCurrentTaskScore(dailyRaceFinished);
         Get.dialog(
           const FinishedDialog(),
           barrierDismissible: false,

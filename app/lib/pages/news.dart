@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:retroskiing/widgets/credit.dart';
 import 'package:retroskiing/widgets/drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -50,7 +49,6 @@ class _NewsPageState extends State<NewsPage> {
             _key.currentState!.openDrawer();
           },
         ),
-        actions: const [CreditChip(), SizedBox(width: 15)],
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -111,7 +109,7 @@ class _NewsPageState extends State<NewsPage> {
       const Divider(),
       const ListTile(
         subtitle: Text(
-            'Season 0 of Retro Skiing is here! play, have fun, get on top of the leaderboard and i would appreciate it if you send me your feedback!'),
+            'Alpha of Retro Skiing is here! play & have fun only offline support until now. I would appreciate it if you send me your feedback!'),
       ),
     ]);
     return Card(

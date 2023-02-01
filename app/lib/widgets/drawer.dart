@@ -1,10 +1,7 @@
 import 'package:flag/flag.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:retroskiing/pages/account.dart';
-import 'package:retroskiing/pages/debug.dart';
-import 'package:retroskiing/pages/leaderboard.dart';
 import 'package:retroskiing/pages/menu.dart';
 import 'package:retroskiing/pages/news.dart';
 import 'package:retroskiing/pages/settings.dart';
@@ -39,22 +36,19 @@ Drawer buildDrawer() {
               ),
               const SizedBox(height: 5.0),
               Text(
-                userProfile.username ?? "Anonymous",
+                userNameGlobal,
                 style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18.0,
                     fontWeight: FontWeight.w600),
               ),
               Flag.fromString(
-                userProfile.country ?? "XX",
+                userCountryGlobal,
                 height: 30,
                 width: 30,
               ),
               const SizedBox(height: 30.0),
               _buildRow(Icons.home, "Home", MenuPage()),
-              _buildDivider(),
-              _buildRow(
-                  Icons.leaderboard, "Leaderboard", const LeaderboardPage()),
               _buildDivider(),
               _buildRow(Icons.newspaper, "News", const NewsPage()),
               _buildDivider(),
@@ -63,11 +57,6 @@ Drawer buildDrawer() {
               _buildRow(Icons.settings, "Settings", const SettingsPage()),
               _buildDivider(),
               _buildRow(Icons.shopping_cart, "Shop", const ShopPage()),
-              _buildDivider(),
-              if (kDebugMode)
-                _buildRow(Icons.dangerous, "Debug!", const DebugPage()),
-              //_buildDivider(),
-              //_buildRow(Icons.email, "Contact us"),
             ],
           ),
         ),
